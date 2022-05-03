@@ -49,7 +49,7 @@ public class HttpUtils {
     }
 
     public static void main(String[] args) {
-        String url = "https://api.bilibili.com/x/web-interface/search/all/v2?__refresh__=true&_extra=&context=&page=1&page_size=42&order=&duration=&from_source=&from_spmid=333.337&platform=pc&highlight=1&single_column=0&keyword=asdasdsad&preload=true&com2co=true";
+        String url = "http://api.bilibili.com/x/web-interface/search/all/v2?__refresh__=true&_extra=&context=&page=1&page_size=42&order=&duration=&from_source=&from_spmid=333.337&platform=pc&highlight=1&single_column=0&keyword=asdasdsad&preload=true&com2co=true";
         String result = HttpUtils.httpRequest(url,"GET",null);
         System.out.println(result);
     }
