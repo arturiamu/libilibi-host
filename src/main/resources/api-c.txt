@@ -1,0 +1,24 @@
+
+获取视频在线人数_web端 get aid:num/bvid:str cid:num
+http://api.bilibili.com/x/player/online/total
+
+获取单视频推荐列表 get aid:num/bvid:str
+http://api.bilibili.com/x/web-interface/archive/related
+
+视频状态数 get aid:num/bvid:str
+http://api.bilibili.com/x/web-interface/archive/stat
+
+视频分区 video video_zone
+
+综合搜索 get keyword:str
+http://api.bilibili.com/x/web-interface/search/all/v2
+search search_request
+
+分区最新视频 get pn:num:1 ps:num:5 rid:num
+https://api.bilibili.com/x/web-interface/dynamic/region
+
+分区视频排行榜列表 get day:num:3 3/7 rid:num
+http://api.bilibili.com/x/web-interface/ranking/region
+
+获取全部直播间分区列表 get
+http://api.live.bilibili.com/room/v1/Area/getList
