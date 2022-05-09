@@ -22,9 +22,8 @@ public class GeneralVideo {
     private String title;
     private String tid;
     private String duration;  // 时长
-    private String desc;  // 时长
+    private String desc;
     private Stat stat = new Stat();
-
 
     @Data
     @NoArgsConstructor

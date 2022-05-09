@@ -17,6 +17,9 @@ search search_request
 分区最新视频 get pn:num:1 ps:num:5 rid:num
 https://api.bilibili.com/x/web-interface/dynamic/region
 
+获取视频详细信息 get aid:num/bvid:str
+http://api.bilibili.com/x/web-interface/view
+
 分区视频排行榜列表 get day:num:3 3/7 rid:num
 http://api.bilibili.com/x/web-interface/ranking/region
 

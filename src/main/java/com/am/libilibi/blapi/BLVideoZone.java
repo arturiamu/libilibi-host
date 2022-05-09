@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class BLVideoZone {
 
-    private static final String zoneLatest = "https://api.bilibili.com/x/web-interface/dynamic/region";
+    private static final String zoneLatest = "https://api.bilibili.com/x/web-interface/dynamic/region";// rid=
 
     public static String getZoneLatest(int rid, int ps, int pn) {
         return zoneLatest + "?rid=" + rid + "&ps=" + ps + "&pn=" + pn;

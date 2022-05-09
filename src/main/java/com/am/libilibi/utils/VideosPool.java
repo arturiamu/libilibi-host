@@ -3,7 +3,9 @@ package com.am.libilibi.utils;
 import com.am.libilibi.blapi.BLVideoZone;
 import com.am.libilibi.entity.GeneralVideo;
 import com.am.libilibi.entity.LBProxy;
+
 import java.util.*;
+
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -46,6 +48,7 @@ public class VideosPool {
 
     }
 
+
     static class VideoRunnable implements Runnable {
         @Override
         public void run() {
@@ -53,9 +56,10 @@ public class VideosPool {
                 String jsStr = null;
                 try {
                     jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][0], 50, 1), "GET", null, null);
-                    System.out.println(vNames[i]);
                     generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
+                    System.out.println(Arrays.toString(items[i]));
                 } catch (Exception e) {
+                    e.printStackTrace();
                     i -= 1;
                     System.out.println("http err...");
                     try {
@@ -67,35 +71,33 @@ public class VideosPool {
             }
             LBProxy proxy = ProxyPool.getRandomProxy();
             int cnt = 0;
-            while (true) {
-                System.out.println(1);
-                for (int i = 0; i < vNames.length; i++) {
-                    for (int j = 1; j < items[i].length; j++) {
-                        System.out.println(2);
-                        if (cnt == 8) {
-                            proxy = ProxyPool.getRandomProxy();
-                            cnt = 0;
-                        }
-                        System.out.println(proxy);
-                        System.setProperty("proxyHost", proxy.getHost());
-                        System.setProperty("proxyPort", proxy.getPort());
-                        String jsStr = null;
-                        try {
-                            jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
-                            cnt += 1;
-                        } catch (Exception e) {
-                            System.out.println("proxy timeout...");
-                            proxy = ProxyPool.getRandomProxy();
-                            j -= 1;
-                            cnt = 0;
-                            continue;
-                        }
-                        System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);
-                        try {
-                            generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
-                        } catch (Exception e) {
-                            j -= 1;
-                        }
+
+            for (int i = 0; i < vNames.length; i++) {
+                for (int j = 1; j < items[i].length; j++) {
+                    System.out.println(2);
+                    if (cnt == 8) {
+                        proxy = ProxyPool.getRandomProxy();
+                        cnt = 0;
+                    }
+                    System.out.println(proxy);
+                    System.setProperty("proxyHost", proxy.getHost());
+                    System.setProperty("proxyPort", proxy.getPort());
+                    String jsStr = null;
+                    try {
+                        jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
+                        cnt += 1;
+                    } catch (Exception e) {
+                        System.out.println("proxy timeout...");
+                        proxy = ProxyPool.getRandomProxy();
+                        j -= 1;
+                        cnt = 0;
+                        continue;
+                    }
+                    System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);
+                    try {
+                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
+                    } catch (Exception e) {
+                        j -= 1;
                     }
                 }
             }
