@@ -32,41 +32,51 @@ public class GeneralVideoApi {
 
     @RequestMapping("/general/{type}")
     public Result getGeneral(@PathVariable String type) {
+        Result result = new Result();
         List<GeneralVideo> data = videosPool.getGeneralVideoByType(type, 10);
         if (data.isEmpty()) {
-            return new Result("error", 400, null);
+            result.setResultFailed();
+            return result;
         }
-        return new Result("ok", 0, data);
+        result.setResultSuccess(data);
+        return result;
     }
 
     @RequestMapping("/recommend")
     public Result refresh() {
+        Result result = new Result();
         List<GeneralVideo> data = videosPool.getGeneralVideoByReco(11);
         if (data.isEmpty()) {
-            return new Result("error", 400, null);
+            result.setResultFailed();
+            return result;
         }
-        return new Result("ok", 0, data);
+        result.setResultSuccess(data);
+        return result;
     }
 
     @RequestMapping("/video/{bvid}")
     public Result getDetail(@PathVariable String bvid) {
         String baseUrl = "http://api.bilibili.com/x/web-interface/view?bvid=";
+        Result result = new Result();
         try {
             String resp = HttpUtils.httpRequest(baseUrl + bvid, "GET", null, null);
             JSONObject root = JSON.parseObject(resp).getJSONObject("data");
             GeneralVideo video = JSONObject.parseObject(root.toJSONString(), GeneralVideo.class);
             List<GeneralVideo> data = new ArrayList<>();
             data.add(video);
-            return new Result("ok", 0, data);
+            result.setResultSuccess(data);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Result("ok", 0, null);
+        result.setResultFailed();
+        return result;
     }
 
     @RequestMapping("/search/{keyword}")
     public Result search(@PathVariable String keyword) {
         String baseUrl = "http://api.bilibili.com/x/web-interface/search/all/v2?keyword=";
+        Result result = new Result();
         LBProxy proxy = ProxyPool.getRandomProxy();
         System.setProperty("proxyHost", proxy.getHost());
         System.setProperty("proxyPort", proxy.getPort());
@@ -76,14 +86,15 @@ public class GeneralVideoApi {
             JSONArray jsonArray = root.getJSONArray("result");
             JSONArray videos = jsonArray.getJSONObject(jsonArray.size() - 1).getJSONArray("data");
             List<GeneralVideo> data = new ArrayList<>(JSONObject.parseArray(videos.toJSONString(), GeneralVideo.class));
-            System.out.println(data);
-            return new Result("ok", 0, data);
+            result.setResultSuccess(data);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             System.clearProperty("proxyHost");
             System.clearProperty("proxyPort");
         }
-        return new Result("ok", 0, null);
+        result.setResultFailed();
+        return result;
     }
 }

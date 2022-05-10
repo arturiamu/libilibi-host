@@ -1,4 +1,4 @@
-package com.am.libilibi;
+package com.am.libilibi.config;
 
 /**
  * @Author : ArturiaMu KMUST-Stu

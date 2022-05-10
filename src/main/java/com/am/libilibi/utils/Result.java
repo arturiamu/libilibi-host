@@ -3,9 +3,6 @@ package com.am.libilibi.utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.am.libilibi.entity.GeneralVideo;
-
-import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -18,8 +15,36 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Result {
+public class Result<T> {
     private String message;
     private int status_code;
-    private List<GeneralVideo> data;
+    private T data;
+
+    public void setResultSuccess(T data) {
+        this.status_code = 0;
+        this.message = "SUCCESS";
+        this.data = data;
+    }
+
+    public void setResultSuccess(String message,T data) {
+        this.status_code = 0;
+        this.message = message;
+        this.data = data;
+    }
+
+    public void setResultFailed(String message) {
+        this.status_code = -1;
+        this.message = message;
+        this.data = null;
+    }
+
+    public void setResultFailed() {
+        this.status_code = -1;
+        this.message = "FAILED";
+        this.data = null;
+    }
+
+    public boolean isSuccess(){
+        return status_code == 0;
+    }
 }

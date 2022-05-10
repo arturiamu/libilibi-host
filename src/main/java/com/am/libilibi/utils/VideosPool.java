@@ -57,7 +57,7 @@ public class VideosPool {
                 try {
                     jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][0], 50, 1), "GET", null, null);
                     generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
-                    System.out.println(Arrays.toString(items[i]));
+                    System.out.println(vNames[i]);
                 } catch (Exception e) {
                     e.printStackTrace();
                     i -= 1;
@@ -71,10 +71,8 @@ public class VideosPool {
             }
             LBProxy proxy = ProxyPool.getRandomProxy();
             int cnt = 0;
-
             for (int i = 0; i < vNames.length; i++) {
                 for (int j = 1; j < items[i].length; j++) {
-                    System.out.println(2);
                     if (cnt == 8) {
                         proxy = ProxyPool.getRandomProxy();
                         cnt = 0;
