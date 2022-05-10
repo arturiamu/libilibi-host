@@ -48,7 +48,6 @@ public class VideosPool {
 
     }
 
-
     static class VideoRunnable implements Runnable {
         @Override
         public void run() {
@@ -77,9 +76,14 @@ public class VideosPool {
                         proxy = ProxyPool.getRandomProxy();
                         cnt = 0;
                     }
-                    System.out.println(proxy);
-                    System.setProperty("proxyHost", proxy.getHost());
-                    System.setProperty("proxyPort", proxy.getPort());
+                    try {
+                        Thread.sleep(1000 * 20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+//                    System.out.println(proxy);
+//                    System.setProperty("proxyHost", proxy.getHost());
+//                    System.setProperty("proxyPort", proxy.getPort());
                     String jsStr = null;
                     try {
                         jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);

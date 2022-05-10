@@ -23,5 +23,9 @@ http://api.bilibili.com/x/web-interface/view
 分区视频排行榜列表 get day:num:3 3/7 rid:num
 http://api.bilibili.com/x/web-interface/ranking/region
 
+
 获取全部直播间分区列表 get
 http://api.live.bilibili.com/room/v1/Area/getList
+获取推荐直播  12  roomid ==> src.cid
+https://api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web
+src https://www.bilibili.com/blackboard/live/live-activity-player.html?quality=0&cid=22920648

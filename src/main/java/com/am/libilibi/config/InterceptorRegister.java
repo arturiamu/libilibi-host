@@ -43,7 +43,8 @@ public class InterceptorRegister implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> pathPatterns = new ArrayList<>();
-        pathPatterns.add("/login");
-        registry.addInterceptor(getInterceptor()).excludePathPatterns(pathPatterns);
+        pathPatterns.add("/user/*");
+        registry.addInterceptor(getInterceptor()).addPathPatterns(pathPatterns);
+//        registry.addInterceptor(getInterceptor()).excludePathPatterns(pathPatterns);
     }
 }

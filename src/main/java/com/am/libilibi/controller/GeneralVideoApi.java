@@ -77,9 +77,6 @@ public class GeneralVideoApi {
     public Result search(@PathVariable String keyword) {
         String baseUrl = "http://api.bilibili.com/x/web-interface/search/all/v2?keyword=";
         Result result = new Result();
-        LBProxy proxy = ProxyPool.getRandomProxy();
-        System.setProperty("proxyHost", proxy.getHost());
-        System.setProperty("proxyPort", proxy.getPort());
         try {
             String resp = HttpUtils.httpRequest(baseUrl + keyword, "GET", null, null);
             JSONObject root = JSON.parseObject(resp).getJSONObject("data");
