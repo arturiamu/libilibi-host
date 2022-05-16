@@ -2,7 +2,6 @@ package com.am.libilibi.utils;
 
 import com.am.libilibi.blapi.BLVideoZone;
 import com.am.libilibi.entity.GeneralVideo;
-import com.am.libilibi.entity.LBProxy;
 
 import java.util.*;
 
@@ -68,39 +67,23 @@ public class VideosPool {
                     }
                 }
             }
-            LBProxy proxy = ProxyPool.getRandomProxy();
-            int cnt = 0;
             for (int i = 0; i < vNames.length; i++) {
                 for (int j = 1; j < items[i].length; j++) {
-                    if (cnt == 8) {
-                        proxy = ProxyPool.getRandomProxy();
-                        cnt = 0;
-                    }
-                    try {
-                        Thread.sleep(1000 * 20);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-//                    System.out.println(proxy);
-//                    System.setProperty("proxyHost", proxy.getHost());
-//                    System.setProperty("proxyPort", proxy.getPort());
                     String jsStr = null;
                     try {
                         jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
-                        cnt += 1;
+                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
                     } catch (Exception e) {
-                        System.out.println("proxy timeout...");
-                        proxy = ProxyPool.getRandomProxy();
+                        System.out.println("Host Refuse...");
                         j -= 1;
-                        cnt = 0;
+                        try {
+                            Thread.sleep(1000 * 60 * 5);
+                        } catch (InterruptedException ee) {
+                            ee.printStackTrace();
+                        }
                         continue;
                     }
                     System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);
-                    try {
-                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
-                    } catch (Exception e) {
-                        j -= 1;
-                    }
                 }
             }
         }

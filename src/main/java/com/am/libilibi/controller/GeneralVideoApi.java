@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.am.libilibi.entity.GeneralVideo;
-import com.am.libilibi.entity.LBProxy;
 import com.am.libilibi.utils.HttpUtils;
-import com.am.libilibi.utils.ProxyPool;
 import com.am.libilibi.utils.Result;
 import com.am.libilibi.utils.VideosPool;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +28,10 @@ import java.util.List;
 public class GeneralVideoApi {
     private static final VideosPool videosPool = new VideosPool();
 
-    @RequestMapping("/general/{type}")
-    public Result getGeneral(@PathVariable String type) {
+    @RequestMapping("/general/{type}/{ps}")
+    public Result getGeneral(@PathVariable String type, @PathVariable int ps) {
         Result result = new Result();
-        List<GeneralVideo> data = videosPool.getGeneralVideoByType(type, 10);
+        List<GeneralVideo> data = videosPool.getGeneralVideoByType(type, ps);
         if (data.isEmpty()) {
             result.setResultFailed();
             return result;

@@ -17,7 +17,7 @@ import java.util.*;
  * @Return :
  * @Description ：
  */
-@Component
+//@Component
 public class ProxyPool {
     private static List<LBProxy> generalLBProxyPools = new ArrayList<>();
 
