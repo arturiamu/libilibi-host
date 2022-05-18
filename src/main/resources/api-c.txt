@@ -1,3 +1,6 @@
+QQ
+http://localhost:9000/login/qq/callback
+
 
 获取视频在线人数_web端 get aid:num/bvid:str cid:num
 http://api.bilibili.com/x/player/online/total

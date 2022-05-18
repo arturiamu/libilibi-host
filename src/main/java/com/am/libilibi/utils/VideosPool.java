@@ -67,25 +67,26 @@ public class VideosPool {
                     }
                 }
             }
-            for (int i = 0; i < vNames.length; i++) {
-                for (int j = 1; j < items[i].length; j++) {
-                    String jsStr = null;
-                    try {
-                        jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
-                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
-                    } catch (Exception e) {
-                        System.out.println("Host Refuse...");
-                        j -= 1;
-                        try {
-                            Thread.sleep(1000 * 60 * 5);
-                        } catch (InterruptedException ee) {
-                            ee.printStackTrace();
-                        }
-                        continue;
-                    }
-                    System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);
-                }
-            }
+//            for (int i = 0; i < vNames.length; i++) {
+//                for (int j = 1; j < items[i].length; j++) {
+//                    String jsStr = null;
+//                    try {
+//                        jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
+//                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
+//                    } catch (Exception e) {
+//                        System.out.println("Host Refuse...");
+//                        j -= 1;
+//                        try {
+//                            int a = new Random().nextInt(30) + 15;
+//                            Thread.sleep(1000 * 60 * a);
+//                        } catch (InterruptedException ee) {
+//                            ee.printStackTrace();
+//                        }
+//                        continue;
+//                    }
+//                    System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);
+//                }
+//            }
         }
     }
 

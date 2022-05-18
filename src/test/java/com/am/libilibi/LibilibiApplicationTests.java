@@ -16,15 +16,10 @@ class LibilibiApplicationTests {
 
     @Test
     void contextLoads() {
-//        LBProxy lbproxy = ProxyPool.getRandomProxy();
-//        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(lbproxy.getHost(), Integer.parseInt(lbproxy.getPort())));
-
-        String px = "176.56.107.99:50374";
-        String[] s = px.split(":");
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(s[0], Integer.parseInt(s[1])));
         String url = "http://api.bilibili.com/x/web-interface/view?bvid=BV1xL4y1L7JT";
+        url = "https://www.tyhttp.com/free/";
         try {
-            String jsStr = HttpUtils.httpRequest(url, "GET", null, proxy);
+            String jsStr = HttpUtils.httpRequest(url, "GET", null, null);
             System.out.println(jsStr);
         } catch (Exception e) {
             e.printStackTrace();

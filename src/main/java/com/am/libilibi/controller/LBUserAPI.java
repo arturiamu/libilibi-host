@@ -22,6 +22,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("user")
+
 public class LBUserAPI {
     public static final String SESSION_NAME = "userInfo";
 
