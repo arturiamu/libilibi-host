@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @Description ：
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 
 public class LBUserAPI {
     public static final String SESSION_NAME = "userInfo";
@@ -30,13 +31,16 @@ public class LBUserAPI {
     @Autowired
     private LBUserService lbUserService;
 
+    //注册
     @PostMapping("/register")
-    public Result<LBUser> register(@RequestBody LBUser user, BindingResult errors, HttpServletRequest request) {
+    public Result<LBUser> register(@RequestBody @Valid  LBUser user, BindingResult errors, HttpServletRequest request) {
+        System.out.println(user);
         Result<LBUser> result = new Result<>();
         if (errors.hasErrors()) {
             result.setResultFailed(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage());
             return result;
         }
+        System.out.println(user);
         result = lbUserService.register(user);
         if (result.isSuccess()) {
             request.getSession().setAttribute(SESSION_NAME, result.getData());
@@ -44,6 +48,7 @@ public class LBUserAPI {
         return result;
     }
 
+//    登录
     @PostMapping("/login")
     public Result<LBUser> login(@RequestBody LBUser user, BindingResult errors, HttpServletRequest request) {
         Result<LBUser> result = new Result<>();
@@ -61,11 +66,14 @@ public class LBUserAPI {
         return result;
     }
 
+
+    //    获取用户的session对象   判断是否用户已经登录
     @GetMapping("/islogin")
     public Result<LBUser> isLogin(HttpServletRequest request) {
         return lbUserService.isLogin(request.getSession());
     }
 
+    //修改用户信息
     @PutMapping("/update")
     public Result<LBUser> update(@RequestBody LBUser user, HttpServletRequest request) throws Exception {
         Result<LBUser> result = new Result<>();
@@ -82,6 +90,7 @@ public class LBUserAPI {
         return result;
     }
 
+    //退出登录
     @GetMapping("/logout")
     public Result logout(HttpServletRequest request) {
         Result result = new Result();

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 @Component
 public class LBUserServiceImpl implements LBUserService {
 
-    @Autowired
+    @Autowired(required = false)
     private LBUserMapper lbUserMapper;
 
     @Override
