@@ -71,17 +71,18 @@ public class VideosPool {
 //                for (int j = 1; j < items[i].length; j++) {
 //                    String jsStr = null;
 //                    try {
-//                        jsStr = HttpUtils.httpRequest(BLVideoZone.getZoneLatest(items[i][j], 50, 1), "GET", null, null);
+//                        jsStr = JsonBirdUtils.JBReq(BLVideoZone.getZoneLatest(items[i][j], 50, 1));
 //                        generalVideosPools.get(vNames[i]).addAll(JsonUtils.jsStrToGeneralVideo(jsStr));
-//                    } catch (Exception e) {
-//                        System.out.println("Host Refuse...");
-//                        j -= 1;
 //                        try {
-//                            int a = new Random().nextInt(30) + 15;
+//                            int a = new Random().nextInt(5);
+//                            System.out.println("process waiting ...");
 //                            Thread.sleep(1000 * 60 * a);
 //                        } catch (InterruptedException ee) {
 //                            ee.printStackTrace();
 //                        }
+//                    } catch (Exception e) {
+//                        System.out.println("Host Refuse...");
+//                        j -= 1;
 //                        continue;
 //                    }
 //                    System.out.println(vNames[i] + " " + (j + 1) + " / " + items[i].length);

@@ -23,8 +23,8 @@ public class LBSearchVideo {
     String play;
     String review;
 
-    public DisplayVideo toDisplayVideo() {
-        return new DisplayVideo(this.aid, this.tid, this.pic, this.tittle, this.play, this.review);
+    public LBDisplayVideo toDisplayVideo() {
+        return new LBDisplayVideo(this.aid, this.tid, this.pic, this.tittle, this.play, this.review);
     }
 
 //    {

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DisplayVideo {
+public class LBDisplayVideo {
     String aid;
     String tid;
     String pic;

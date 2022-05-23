@@ -40,6 +40,18 @@ public class GeneralVideoApi {
         return result;
     }
 
+    @RequestMapping("/live")
+    public String live() {
+        String live = "https://api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web";
+        try {
+            String jsStr = HttpUtils.httpRequest(live, "GET", null, null);
+            return jsStr;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @RequestMapping("/recommend")
     public Result refresh() {
         Result result = new Result();

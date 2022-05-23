@@ -32,3 +32,8 @@ http://api.live.bilibili.com/room/v1/Area/getList
 获取推荐直播  12  roomid ==> src.cid
 https://api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web
 src https://www.bilibili.com/blackboard/live/live-activity-player.html?quality=0&cid=22920648
+
+
+v1代理接口：
+https://bird.ioliu.cn/v1
+

@@ -22,8 +22,8 @@ public class LBDynamicVideo {
     String tittle;
     Stat stat;
 
-    public DisplayVideo toDisplayVideo() {
-        return new DisplayVideo(this.aid, this.tid, this.pic, this.tittle, this.stat.view, this.stat.danmaku);
+    public LBDisplayVideo toDisplayVideo() {
+        return new LBDisplayVideo(this.aid, this.tid, this.pic, this.tittle, this.stat.view, this.stat.danmaku);
     }
 
     @Data
