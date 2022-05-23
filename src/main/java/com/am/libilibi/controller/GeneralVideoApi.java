@@ -54,6 +54,7 @@ public class GeneralVideoApi {
 
     @RequestMapping("/recommend")
     public Result refresh() {
+
         Result result = new Result();
         List<GeneralVideo> data = videosPool.getGeneralVideoByReco(11);
         if (data.isEmpty()) {

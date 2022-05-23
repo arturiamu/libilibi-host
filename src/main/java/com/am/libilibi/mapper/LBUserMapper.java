@@ -17,15 +17,15 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface LBUserMapper {
-//    @Insert("insert into `lbuser` (`username`, `password`) values (#{username}, #{password})")
+    @Insert("insert into user values(null,#{username},#{password})")
     int add(LBUser lbUser);
 
-//    @Update("update `lbuser` set `password` = #{password} where id = #{id}")
+    @Update("update user set password=#{password} where id = #{id}")
     int update(LBUser lbUser);
 
-//    @Select("select * from `lbuser` where id = #{id}")
+    @Select("select * from user where id = #{id}")
     LBUser getById(int id);
 
-//    @Select("select * from `lbuser` where username = #{username}")
+    @Select("select * from user where username = #{username}")
     LBUser getByUsername(String username);
 }

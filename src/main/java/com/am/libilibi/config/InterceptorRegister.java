@@ -43,8 +43,17 @@ public class InterceptorRegister implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> pathPatterns = new ArrayList<>();
-        pathPatterns.add("/user/*");
+        pathPatterns.add("/aa");
+
+        //没有登录   将查看历史排除
+        pathPatterns.add("/history/*");
+
+        //将收藏视频排除
+        pathPatterns.add("/collection/*");
+
         registry.addInterceptor(getInterceptor()).addPathPatterns(pathPatterns);
 //        registry.addInterceptor(getInterceptor()).excludePathPatterns(pathPatterns);
     }
+
+
 }

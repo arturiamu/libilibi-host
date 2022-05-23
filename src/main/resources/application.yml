@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://175.24.175.35:3306/libilibi?characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/mylibilibi?characterEncoding=utf-8&serverTimezone=UTC
     username: root
-    password: 20000102@Mlb
+    password: root
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
