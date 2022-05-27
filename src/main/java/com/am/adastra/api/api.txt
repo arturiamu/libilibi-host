@@ -1,0 +1,49 @@
+用户注册
+/user/register  post    {userName,password,phoneNum,verificationCode,videoZone[]}
+用户登录
+/user/login  post    {userName,password}
+修改用户名
+/user/reUserName  post    {verificationCode,newUserName}
+重置密码
+/user/rePassword  post    {verificationCode,newPassword}
+退出登录
+/user/logout  get    {}
+注销
+/user/delAccount  post    {verificationCode}
+
+推荐视频
+/video/personalized/recommend/{ps}  get    {ps}
+分类视频
+/video/general/{type}/{ps}  get    {type,ps}
+直播
+/video/live/{ps}  get    {ps}
+搜索
+/video/search/{keyword}/{ps}  get    {keyword,ps}
+
+收藏视频
+/record/collection    post{aid}
+取消收藏
+/record/unCollection  post{aid}
+全部取消收藏
+/record/unCollectionAll  post{}
+点赞
+/record/like  post{aid}
+取消点赞
+/record/unlike    post{aid}
+播放
+/record/play  post{aid,aids[]}
+
+消息中心
+/individual/message   get {}
+消息已读
+/individual/readMessage   post {mid}
+全部消息已读
+/individual/readMessageAll   post {}
+历史记录
+/individual/history  get {}
+删除历史
+/individual/delHistory  post {aid}
+清空历史
+/individual/emptyHistory  post {}
+收藏中心
+/individual/collection   get {}

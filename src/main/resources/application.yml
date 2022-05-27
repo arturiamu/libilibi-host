@@ -1,15 +1,19 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mylibilibi?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: root
-
-mybatis:
-  mapper-locations: classpath*:mapper/*Mapper.xml
-  type-aliases-package: com.am.libilibi.entity
-
 server:
   port: 9000
   address: 0.0.0.0
+
+spring:
+  jackson:
+    defaultPropertyInclusion: NON_EMPTY
+    deserialization:
+      fail_on_unknown_properties: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: rootmlb
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.am.adastra.old.entity
+
 

@@ -33,6 +33,11 @@ http://api.live.bilibili.com/room/v1/Area/getList
 https://api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web
 src https://www.bilibili.com/blackboard/live/live-activity-player.html?quality=0&cid=22920648
 
+获取单视频推荐列表 最多40条 aid/bvid
+http://api.bilibili.com/x/web-interface/archive/related
+
+顶部推荐切换：
+https://api.bilibili.com/x/web-interface/index/top/rcmd?fresh_type=3&version=1&ps=10&fresh_idx=1&fresh_idx_1h=1
 
 v1代理接口：
 https://bird.ioliu.cn/v1
