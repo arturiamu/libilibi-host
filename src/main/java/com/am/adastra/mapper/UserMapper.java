@@ -1,6 +1,7 @@
 package com.am.adastra.mapper;
 
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.UserDB;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -16,15 +17,21 @@ import org.apache.ibatis.annotations.Update;
  */
 @Mapper
 public interface UserMapper {
-    @Insert("insert into user(username,password,phone) value(#{username},#{password},#{phone})")
+    @Insert("insert into users(username,password,account,items) value(#{username},#{password},#{account},#{jsItems})")
     int add(User user);
 
-    @Update("update user set username=#{username},password=#{password},phone=#{phone} where id=#{id}")
+    @Insert("insert into users(username,password,account,items) value(#{username},#{password},#{account},#{jsItems})")
+    int addDB(UserDB user);
+
+    @Update("update users set username=#{username},password=#{password},account=#{account} where id=#{id}")
     int update(User user);
 
-    @Select("select id,username,password,phone from user where id=#{id}")
+    @Select("select id,username,password,account,items as jsStr,state from users where id=#{id}")
     User getById(int id);
 
-    @Select("select id,username,password,phone from user where username=#{username}")
+    @Select("select id,username,password,account,items as jsItems,state from users where id=#{id}")
+    UserDB getByID(int id);
+
+    @Select("select id,username,password,account,items as jsStr,state from users where username=#{username}")
     User getByUsername(String username);
 }

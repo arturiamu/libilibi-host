@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DBVideo {
+public class Video {
     private long aid;
-    private int pid;
-    private int tid;
+    private Integer pid;
+    private Integer tid;
     private String tname;
     private String pic;
     private String title;

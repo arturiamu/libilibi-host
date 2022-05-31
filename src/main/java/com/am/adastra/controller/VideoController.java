@@ -1,6 +1,6 @@
 package com.am.adastra.controller;
 
-import com.am.adastra.entity.DBVideo;
+import com.am.adastra.entity.Video;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.VideoPool;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,30 +23,30 @@ import java.util.List;
 public class VideoController {
 
     @GetMapping("/test/{ps}")
-    public List<DBVideo> test(@PathVariable int ps) {
+    public List<Video> test(@PathVariable int ps) {
         return VideoPool.getPidVideo(1, ps);
     }
 
     @GetMapping("/pid/{pid}/{ps}")
-    public Result<List<DBVideo>> getPidVideo(@PathVariable int pid, @PathVariable int ps) {
-        Result<List<DBVideo>> result = new Result<>();
-        List<DBVideo> getVideos = VideoPool.getPidVideo(pid, ps);
-//        result.setResultSuccess(getVideos);
+    public Result<List<Video>> getPidVideo(@PathVariable int pid, @PathVariable int ps) {
+        Result<List<Video>> result = new Result<>();
+        List<Video> getVideos = VideoPool.getPidVideo(pid, ps);
+        result.setSuccess(getVideos);
         return result;
     }
 
     @GetMapping("/personalized/recommend/{ps}")
-    public List<DBVideo> recommend(@PathVariable int ps) {
+    public List<Video> recommend(@PathVariable int ps) {
         return VideoPool.getPidVideo(1, ps);
     }
 
     @GetMapping("/general/{tid}/{ps}")
-    public List<DBVideo> general(@PathVariable int tid, @PathVariable int ps) {
+    public List<Video> general(@PathVariable int tid, @PathVariable int ps) {
         return VideoPool.getPidVideo(1, ps);
     }
 
     @GetMapping("/search/{keyword}/{ps}")
-    public List<DBVideo> search(@PathVariable String keyword, @PathVariable int ps) {
+    public List<Video> search(@PathVariable String keyword, @PathVariable int ps) {
         return VideoPool.getPidVideo(1, ps);
     }
 

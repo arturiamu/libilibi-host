@@ -1,7 +1,12 @@
 package com.am.adastra.util;
 
-import com.am.adastra.entity.DBVideo;
-import com.am.adastra.mapper.DBVideoMapper;
+import com.am.adastra.entity.Item;
+import com.am.adastra.entity.User;
+import com.am.adastra.entity.UserDB;
+import com.am.adastra.entity.Video;
+import com.am.adastra.mapper.ItemMapper;
+import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.mapper.VideoMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,11 +23,17 @@ import java.util.*;
  */
 @Component
 public class VideoPool {
-    private static VideoPool videoPool;
+    private static VideoPool that;
     @Resource
-    public DBVideoMapper dbVideoMapper;
+    public VideoMapper videoMapper;
 
-    private static final List<List<DBVideo>> VIDEO_POOL = new ArrayList<>();
+    @Resource
+    public ItemMapper itemMapper;
+
+    @Resource
+    public UserMapper userMapper;
+
+    private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final int[][] items = {
             {1, 24, 25, 47, 210, 86, 27},  // 动画
             {13, 33, 32, 51, 152},  // 番剧
@@ -50,16 +61,23 @@ public class VideoPool {
     @PostConstruct
     public void init() {
         System.out.println("init video pool");
-        videoPool = this;
-        videoPool.dbVideoMapper = this.dbVideoMapper;
+        that = this;
+        that.videoMapper = this.videoMapper;
+        that.itemMapper = this.itemMapper;
+        that.userMapper = this.userMapper;
     }
 
     public static void run() {
         System.out.println("start load videos...");
-        for (int[] item : items) {
-            List<DBVideo> itVideos = videoPool.dbVideoMapper.getByPId(String.valueOf(item[0]));
+        List<Item> itemList = that.itemMapper.getAll();
+        int total = 0;
+        for (Item item : itemList) {
+            List<Video> itVideos = that.videoMapper.getByPId(item.getPid());
+            total += itVideos.size();
+            System.out.println(item + " size: " + itVideos.size());
             VIDEO_POOL.add(itVideos);
         }
+        System.out.println("total video : " + total);
         System.out.println("end load videos...");
     }
 
@@ -73,8 +91,8 @@ public class VideoPool {
         return idx;
     }
 
-    public static List<DBVideo> getPidVideo(int pid, int ps) {
-        Set<DBVideo> res = new HashSet<>();
+    public static List<Video> getPidVideo(int pid, int ps) {
+        Set<Video> res = new HashSet<>();
         Random random = new Random();
         while (ps-- > 0) {
             int pidIdx = indexPid(pid);

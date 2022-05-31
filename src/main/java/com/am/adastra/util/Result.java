@@ -43,6 +43,6 @@ public class Result<T> implements Serializable {
     }
 
     public boolean isSuccess() {
-        return this.data == State.OK.getValve();
+        return this.state == State.OK.getValve();
     }
 }

@@ -1,4 +1,4 @@
-package com.am.libilibi;
+package com.am.adastra;
 
 import com.am.adastra.mapper.UserMapper;
 import org.apache.commons.codec.digest.DigestUtils;

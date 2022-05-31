@@ -1,6 +1,6 @@
 package com.am.adastra.mapper;
 
-import com.am.adastra.entity.DBVideo;
+import com.am.adastra.entity.Video;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,19 +15,19 @@ import java.util.List;
  * @Description ：
  */
 @Mapper
-public interface DBVideoMapper {
+public interface VideoMapper {
     @Select("select * from videos")
-    List<DBVideo> getAll();
+    List<Video> getAll();
 
     @Select("select * from videos where aid=#{aid}")
-    DBVideo getByAId(String aid);
+    Video getByAId(int aid);
 
     @Select("select * from videos where tid in ${subTypes}")
-    List<DBVideo> getByTIds(String typeList);
+    List<Video> getByTIds(String typeList);
 
     @Select("select * from videos where tid=#{tid}")
-    List<DBVideo> getByTId(String tid);
+    List<Video> getByTId(int tid);
 
     @Select("select * from videos where pid=${pid}")
-    List<DBVideo> getByPId(String pid);
+    List<Video> getByPId(int pid);
 }
