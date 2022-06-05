@@ -26,4 +26,5 @@ public class RegisterParm {
     @NotNull(groups = ValidationRules.register.class, message = "验证码不能为空")
     @Size(groups = ValidationRules.register.class, message = "验证码格式不正确", max = 6, min = 6)
     String verCode;
+    Long tokenId;
 }

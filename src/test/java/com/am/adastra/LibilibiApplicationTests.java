@@ -8,17 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.regex.Pattern;
+
 
 @SpringBootTest
 @SpringBootConfiguration
-@MapperScan("com.am.adastra.mapper")
 class LibilibiApplicationTests {
+
+    @Test
+    public void reTest() {
+        Pattern pattern = Pattern.compile("^1[3|4|5|8][0-9]\\d{8}$");
+        String phone = "15911245016";
+        System.out.println(pattern.matcher(phone).matches());
+    }
 
     @Autowired
     public UserMapper userMapper;
 
     @Test
-    void json(){
+    void json() {
         userMapper.getById(1);
     }
 

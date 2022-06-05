@@ -16,18 +16,14 @@ import java.util.List;
  */
 @Mapper
 public interface VideoMapper {
-    @Select("select * from videos")
+
     List<Video> getAll();
 
-    @Select("select * from videos where aid=#{aid}")
     Video getByAId(int aid);
 
-    @Select("select * from videos where tid in ${subTypes}")
     List<Video> getByTIds(String typeList);
 
-    @Select("select * from videos where tid=#{tid}")
     List<Video> getByTId(int tid);
 
-    @Select("select * from videos where pid=${pid}")
     List<Video> getByPId(int pid);
 }

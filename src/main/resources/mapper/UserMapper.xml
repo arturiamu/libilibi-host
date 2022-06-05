@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserMapper">
+    <insert id="add">
+        insert into users(username, password, account, items) value (#{username}, #{password}, #{account}, #{jsItems})
+    </insert>
+
+    <insert id="addDB" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into users(username, password, account, items) value (#{username}, #{password}, #{account}, #{jsItems})
+    </insert>
+
+    <update id="update">
+        update users
+        set username=#{username},
+            password=#{password},
+            account=#{account}
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultType="com.am.adastra.entity.UserDB">
+        select id, username, password, account, items as jsItems, state
+        from users
+        where id = #{id}
+    </select>
+
+    <select id="getByUsername" resultType="com.am.adastra.entity.UserDB">
+        select id, username, password, account, items as jsItems, state
+        from users
+        where username = #{username}
+    </select>
+</mapper>

@@ -16,15 +16,11 @@ import java.util.List;
  */
 @Mapper
 public interface ItemMapper {
-    @Select("SELECT * FROM items;")
     List<Item> getAll();
 
-    @Select("SELECT * FROM items WHERE ID=#{id};")
     Item getById(int id);
 
-    @Select("SELECT * FROM items WHERE NAME=#{name};")
     Item getByName(String name);
 
-    @Select("SELECT * FROM items WHERE URI=#{uri};")
     Item getByUri(String uri);
 }

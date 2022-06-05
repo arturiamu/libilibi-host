@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.ItemMapper">
+    <select id="getAll" resultType="com.am.adastra.entity.Item">
+        SELECT *
+        FROM items;
+    </select>
+
+    <select id="getById" resultType="com.am.adastra.entity.Item">
+        SELECT *
+        FROM items
+        WHERE ID = #{id};
+    </select>
+
+    <select id="getByName" resultType="com.am.adastra.entity.Item">
+        SELECT *
+        FROM items
+        WHERE NAME = #{name};
+    </select>
+
+    <select id="getByUri" resultType="com.am.adastra.entity.Item">
+        SELECT *
+        FROM items
+        WHERE URI = #{uri};
+    </select>
+</mapper>

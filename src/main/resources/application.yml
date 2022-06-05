@@ -10,10 +10,11 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: rootmlb
+    username: adastra
+    password: mlb20000102
+    type: com.alibaba.druid.pool.DruidDataSource
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
-  type-aliases-package: com.am.adastra.old.entity
+  type-aliases-package: com.am.adastra.entity
 
 

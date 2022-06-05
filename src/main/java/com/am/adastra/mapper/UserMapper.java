@@ -17,21 +17,13 @@ import org.apache.ibatis.annotations.Update;
  */
 @Mapper
 public interface UserMapper {
-    @Insert("insert into users(username,password,account,items) value(#{username},#{password},#{account},#{jsItems})")
     int add(User user);
 
-    @Insert("insert into users(username,password,account,items) value(#{username},#{password},#{account},#{jsItems})")
     int addDB(UserDB user);
 
-    @Update("update users set username=#{username},password=#{password},account=#{account} where id=#{id}")
     int update(User user);
 
-    @Select("select id,username,password,account,items as jsStr,state from users where id=#{id}")
-    User getById(int id);
+    UserDB getById(int id);
 
-    @Select("select id,username,password,account,items as jsItems,state from users where id=#{id}")
-    UserDB getByID(int id);
-
-    @Select("select id,username,password,account,items as jsStr,state from users where username=#{username}")
-    User getByUsername(String username);
+    UserDB getByUsername(String username);
 }
