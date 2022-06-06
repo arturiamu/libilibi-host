@@ -18,6 +18,25 @@ spring:
       resourceserver:
         opaquetoken:
           client-id:
+  mail:
+    host: smtp.qq.com
+    username: 2762404119@qq.com
+    password: wopenrzwqnfhdhdh
+    default-encoding: utf-8
+    port: 465
+    properties:
+      mail.smtp.ssl.enable: true
+    protocol: smtps
+
+sms:
+  app:
+    id: 1400683116
+    key: 95f32e5cdb35bbc88dbcedb41b6934e4
+    template:
+      universal: 1419186
+    sign: isamumu
+  size: 6
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity

@@ -35,13 +35,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private SMSUtil smsUtil;
 
     @PostMapping("/registerSMS")
     public Result<Void> registerSMS(@RequestBody String account, HttpServletRequest request) {
         Result<Void> result = new Result<>();
         JSONObject jsonObject = JSON.parseObject(account);
         String phone = jsonObject.getString("account");
-        if (SMSUtil.sendSMS(phone, request)) {
+        if (smsUtil.sendSMS(phone, request)) {
             result.setSuccess("获取验证码成功！", null);
         } else {
             result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);

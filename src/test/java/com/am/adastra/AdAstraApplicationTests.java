@@ -2,17 +2,30 @@ package com.am.adastra;
 
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.util.SMSUtil;
+import com.am.adastra.util.EmailUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.regex.Pattern;
 
-
+@PropertySource(value = "classpath:application.yml")
 @SpringBootTest
 class AdAstraApplicationTests {
+
+    @Autowired
+    private EmailUtil emailUtil;
+    @Autowired
+    private SMSUtil smsUtil;
+    @Test
+    public void mail() {
+        String to = "1743089727@qq.com";
+        String subject = "isamumu";
+        String text = "test email";
+        emailUtil.sendMail(to,subject);
+    }
 
     @Test
     public void reTest() {
@@ -23,8 +36,9 @@ class AdAstraApplicationTests {
 
     @Test
     public void sms() {
-        System.out.println(SMSUtil.sendSMS("123", null));
-        System.out.println(SMSUtil.sendSMS("abc", null));
+        System.out.println(smsUtil.sendSMS("123", null));
+        System.out.println(smsUtil.sendSMS("abc", null));
+        System.out.println(smsUtil.sendSMS("15911245016", null));
     }
 
     @Test
