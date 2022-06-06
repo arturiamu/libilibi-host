@@ -28,4 +28,9 @@ public class TestController {
     public void getTest(HttpServletRequest request) {
         System.out.println(request.getSession().getId());
     }
+
+    @PostMapping("/codeSession")
+    public void codeSession(HttpServletRequest request){
+        System.out.println(request.getSession().getAttribute(UserController.VERIFICATION_CODE_SESSION));
+    }
 }

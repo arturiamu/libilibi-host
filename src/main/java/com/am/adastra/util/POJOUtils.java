@@ -3,7 +3,7 @@ package com.am.adastra.util;
 import com.alibaba.fastjson.JSON;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.User;
-import com.am.adastra.entity.UserDB;
+import com.am.adastra.entity.UserDBO;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import java.util.List;
  */
 public class POJOUtils {
 
-    public static UserDB userToDB(User user) {
+    public static UserDBO userToDB(User user) {
         String jsStr = JSON.toJSONString(user.getItems());
-        return new UserDB(user.getId(), user.getUsername(), user.getPassword(), user.getAccount(), jsStr, user.getState());
+        return new UserDBO(user.getId(), user.getUsername(), user.getPassword(), user.getAccount(), jsStr, user.getState());
     }
 
-    public static User DBToUser(UserDB userDB) {
-        List<Item> itemList = JSON.parseArray(userDB.getJsItems(), Item.class);
+    public static User DBToUser(UserDBO userDBO) {
+        List<Item> itemList = JSON.parseArray(userDBO.getJsItems(), Item.class);
         Item[] items = itemList.toArray(new Item[itemList.size()]);
-        return new User(userDB.getId(), userDB.getUsername(), userDB.getPassword(), userDB.getAccount(), items, userDB.getState());
+        return new User(userDBO.getId(), userDBO.getUsername(), userDBO.getPassword(), userDBO.getAccount(), items, userDBO.getState());
     }
 }

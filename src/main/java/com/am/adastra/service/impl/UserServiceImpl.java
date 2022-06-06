@@ -2,17 +2,14 @@ package com.am.adastra.service.impl;
 
 import com.am.adastra.controller.UserController;
 import com.am.adastra.entity.User;
-import com.am.adastra.entity.UserDB;
+import com.am.adastra.entity.UserDBO;
+import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
-import com.am.adastra.util.ClassExamine;
 import com.am.adastra.util.POJOUtils;
-import com.am.adastra.util.Result;
-import com.am.adastra.util.State;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,55 +27,62 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public Result<User> register(User user) {
-        Result<User> result = new Result<>();
-        UserDB userDB = POJOUtils.userToDB(user);
-        UserDB getUser = userMapper.getByUsername(userDB.getUsername());
+    public User register(User user) {
+        UserDBO userDBO = POJOUtils.userToDB(user);
+        UserDBO getUser = userMapper.getDBOByUsername(userDBO.getUsername());
         if (getUser != null) {
-            result.setFail("用户名已存在！", State.ERR_USERNAME_EXISTED);
-            return result;
+            throw new UsernameDuplicateException();
         }
-        userDB.setPassword(DigestUtils.md5Hex(userDB.getPassword()));
-        userMapper.addDB(userDB);
-        result.setSuccess(POJOUtils.DBToUser(userDB));
-        return result;
+        userDBO.setPassword(DigestUtils.md5Hex(userDBO.getPassword()));
+        userMapper.addDBO(userDBO);
+        return POJOUtils.DBToUser(userDBO);
     }
 
     @Override
-    public Result<User> login(User user) {
-        Result<User> result = new Result<>();
-        UserDB getUser = userMapper.getByUsername(user.getUsername());
+    public User login(User user) {
+        UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser == null) {
-            result.setFail("用户不存在！", State.ERR_NO_USER);
-            return result;
+            throw new UsernameDoesNotExistException();
         }
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
-            result.setFail("密码错误！", State.ERR_PASSWORD);
-            return result;
+            throw new PasswordNotMatchException();
         }
-        result.setSuccess(POJOUtils.DBToUser(getUser));
-        return result;
+        return POJOUtils.DBToUser(getUser);
     }
 
     @Override
-    public Result<User> update(User user) throws Exception {
-        Result<User> result = new Result<>();
-        UserDB getUser = userMapper.getById(user.getId());
-        if (getUser == null) {
-            result.setFail("用户不存在！", State.ERR_NO_USER);
-            return result;
-        }
-        if (!StringUtils.isEmpty(user.getPassword())) {
-            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-        }
-        ClassExamine.objectOverlap(user, getUser);
-        userMapper.update(user);
-        result.setSuccess("修改成功！", user);
-        return result;
-    }
-
-    @Override
-    public Result<User> isLogin(HttpSession session) {
+    public User update(User user) {
+        UserDBO getUser = userMapper.getDBOById(user.getId());
         return null;
     }
+
+    @Override
+    public User isLogin(HttpSession session) {
+        User sessionUser = (User) session.getAttribute(UserController.USER_INFO_SESSION);
+        if (sessionUser == null) {
+            throw new UserNotLoginException();
+        }
+        UserDBO getUserDB = userMapper.getDBOById(sessionUser.getId());
+        if (getUserDB == null || !getUserDB.getPassword().equals(sessionUser.getPassword())) {
+            throw new InvalidUserInformationException();
+        }
+        return POJOUtils.DBToUser(getUserDB);
+    }
+
+//    @Override
+//    public Result<User> update(User user) throws Exception {
+//        Result<User> result = new Result<>();
+//        UserDBO getUser = userMapper.getById(user.getId());
+//        if (getUser == null) {
+//            result.setFail("用户不存在！", State.ERR_NO_USER);
+//            return result;
+//        }
+//        if (!StringUtils.isEmpty(user.getPassword())) {
+//            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+//        }
+//        ClassExamine.objectOverlap(user, getUser);
+//        userMapper.update(user);
+//        result.setSuccess("修改成功！", user);
+//        return result;
+//    }
 }

@@ -25,20 +25,22 @@ public class SMSUtil {
     private static final String SMS_SIGN = "isamumu";
     private static final int CODE_SIZE = 6;
 
-    public static String sendSMS(String phoneNumber) {
+    public static boolean sendSMS(String phoneNumber, HttpServletRequest request) {
         String code = KeyUtils.keyUtils(CODE_SIZE);
         try {
             String[] params = {code};
             SmsSingleSender sender = new SmsSingleSender(APP_ID, APP_KEY);
             SmsSingleSenderResult result = sender.sendWithParam("86", phoneNumber, TEMPLATE_ID, params, SMS_SIGN, "", "");
             if (result.result != 0) {
-                return null;
+                return false;
             }
             System.out.println(code);
-            return code;
+            request.getSession().setMaxInactiveInterval(5 * 60);
+            request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 }

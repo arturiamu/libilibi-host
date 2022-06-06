@@ -1,9 +1,8 @@
-package com.am.libilibi;
+package com.am.adastra;
 
 import com.am.adastra.mapper.UserMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,23 +11,28 @@ import java.util.regex.Pattern;
 
 
 @SpringBootTest
-@SpringBootConfiguration
-@MapperScan("com.am.adastra.mapper")
-class LibilibiApplicationTests {
-
-    @Autowired
-    public UserMapper userMapper;
-
-    @Test
-    void json(){
-        userMapper.getById(1);
-    }
+class AdAstraApplicationTests {
 
     @Test
     public void reTest() {
         Pattern pattern = Pattern.compile("^1[3|4|5|8][0-9]\\d{8}$");
         String phone = "15911245016";
         System.out.println(pattern.matcher(phone).matches());
+    }
+
+    @Test
+    public void reMailTest(){
+        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
+        String mail = "12346@qq.com";
+        System.out.println(pattern.matcher(mail).matches());
+    }
+
+    @Autowired
+    public UserMapper userMapper;
+
+    @Test
+    void json() {
+        userMapper.getById(1);
     }
 
     @Test

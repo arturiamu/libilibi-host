@@ -19,13 +19,13 @@
         where id = #{id}
     </update>
 
-    <select id="getById" resultType="com.am.adastra.entity.UserDB">
+    <select id="getById" resultType="com.am.adastra.entity.UserDBO">
         select id, username, password, account, items as jsItems, state
         from users
         where id = #{id}
     </select>
 
-    <select id="getByUsername" resultType="com.am.adastra.entity.UserDB">
+    <select id="getByUsername" resultType="com.am.adastra.entity.UserDBO">
         select id, username, password, account, items as jsItems, state
         from users
         where username = #{username}

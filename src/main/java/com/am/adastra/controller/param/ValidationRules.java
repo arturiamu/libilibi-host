@@ -12,6 +12,12 @@ public class ValidationRules {
     public interface register {
     }
 
+    public interface registerPhone {
+    }
+
+    public interface registerMail {
+    }
+
     public interface login {
     }
 }

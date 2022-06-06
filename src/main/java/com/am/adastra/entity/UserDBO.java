@@ -17,7 +17,7 @@ import netscape.javascript.JSObject;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDB {
+public class UserDBO {
     private Integer id;
     private String username;
     private String password;

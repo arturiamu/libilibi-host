@@ -1,8 +1,6 @@
 package com.am.adastra.util;
 
 import com.am.adastra.entity.Item;
-import com.am.adastra.entity.User;
-import com.am.adastra.entity.UserDB;
 import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
