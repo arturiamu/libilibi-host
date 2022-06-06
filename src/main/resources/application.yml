@@ -17,4 +17,11 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
 
+logging:
+  level:
+    com:
+      am:
+        adastra:
+          info
+
 

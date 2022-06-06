@@ -1,6 +1,7 @@
 package com.am.adastra;
 
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.util.SMSUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,13 @@ class AdAstraApplicationTests {
     }
 
     @Test
-    public void reMailTest(){
+    public void sms() {
+        System.out.println(SMSUtil.sendSMS("123", null));
+        System.out.println(SMSUtil.sendSMS("abc", null));
+    }
+
+    @Test
+    public void reMailTest() {
         Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
         String mail = "12346@qq.com";
         System.out.println(pattern.matcher(mail).matches());
@@ -29,11 +36,6 @@ class AdAstraApplicationTests {
 
     @Autowired
     public UserMapper userMapper;
-
-    @Test
-    void json() {
-        userMapper.getById(1);
-    }
 
     @Test
     void getMD5() {

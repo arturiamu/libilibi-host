@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.controller.param.ValidationRules;
+import com.am.adastra.entity.Item;
 import com.am.adastra.entity.RegisterParm;
 import com.am.adastra.entity.User;
 import com.am.adastra.service.UserService;
@@ -15,7 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
