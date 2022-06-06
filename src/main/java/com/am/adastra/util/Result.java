@@ -29,8 +29,8 @@ public class Result<T> implements Serializable {
     }
 
     public void setSuccess(String message, T data) {
-        this.message = message;
         this.setSuccess(data);
+        this.message = message;
     }
 
     public void setSuccess() {
@@ -40,6 +40,12 @@ public class Result<T> implements Serializable {
     public void setFail(String message, State state) {
         this.message = message;
         this.state = state.getValve();
+    }
+
+    public void setFail(String message) {
+        this.state = -1;
+        this.message = message;
+        this.data = null;
     }
 
     public boolean isSuccess() {

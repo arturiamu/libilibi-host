@@ -9,12 +9,18 @@ spring:
       fail_on_unknown_properties: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
     username: adastra
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id:
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
+
 
 

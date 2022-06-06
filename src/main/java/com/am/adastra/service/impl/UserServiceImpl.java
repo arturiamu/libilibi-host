@@ -79,6 +79,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result<User> isLogin(HttpSession session) {
-        return null;
+        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz  "+session);
+        Result<User> result = new Result<>();
+        User sessionUser = (User) session.getAttribute(UserController.SESSION_NAME);
+        if (sessionUser == null) {
+            result.setFail("用户未登录！");
+            return result;
+        }
+        UserDB getUser = userMapper.getByUsername(sessionUser.getUsername());
+        System.out.println("getUser : "+getUser);
+        if (getUser == null || !getUser.getPassword().equals(sessionUser.getPassword())) {
+            result.setFail("用户信息无效！");
+            return result;
+        }
+        result.setSuccess("用户已登录！", POJOUtils.DBToUser(getUser));
+        return result;
     }
 }

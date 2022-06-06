@@ -31,7 +31,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+    public static final String SESSION_NAME = "userInfo";
     private static final HashMap<Long, String> verMap = new HashMap<>();
 
     @Autowired
@@ -55,8 +55,10 @@ public class UserController {
 
     @PostMapping("/register")
     public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) RegisterParm rp, BindingResult errors, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        System.out.println(rp);
         Result<User> result = new Result<>();
         if (errors.hasErrors()) {
+            System.out.println(1);
             result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_REG_INFO);
             return result;
         }
@@ -88,6 +90,9 @@ public class UserController {
             return result;
         }
         result = userService.login(user);
+        if (result.isSuccess()) {
+            request.getSession().setAttribute(SESSION_NAME, result.getData());
+        }
         return result;
     }
 
