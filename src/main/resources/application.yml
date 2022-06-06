@@ -9,19 +9,19 @@ spring:
       fail_on_unknown_properties: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
-    username: adastra
-    password: mlb20000102
-    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
+    username: rm01
+    password: remoteuser01
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
-  type-aliases-package: com.am.adastra.entity
+  type-aliases-package: com.am.adastra.old.entity
 
+#添加运行日志，这里配置最低显示什么级别的配置，
+#trace是最低级别的日志，配置到trace就会输出所有级别的日志
+#level.service.impl.AdminServiceImpl: trace
 logging:
+  #日志的显示级别
   level:
-    com:
-      am:
-        adastra:
-          info
-
+    #日志的根包
+    cn.tedu：trace
 
