@@ -15,6 +15,6 @@ public class EmailTests {
 
     @Test
     public void send(){
-        EmailUtil.sendEmail("test","test");
+        EmailUtil.sendEmail("老谢","我邮箱验证写完了");
     }
 }

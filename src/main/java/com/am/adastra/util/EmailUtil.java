@@ -51,7 +51,7 @@ public class EmailUtil {
             //设置邮件发送人
             message.setFrom("1589691384@qq.com");
             //设置邮件接收人
-            message.setTo("2761804524@qq.com");
+            message.setTo("2416588853@qq.com");
             //发送邮件
             sender.send(message);
             return true;
