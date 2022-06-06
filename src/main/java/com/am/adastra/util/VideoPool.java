@@ -70,12 +70,12 @@ public class VideoPool {
         System.out.println("start load videos...");
         List<Item> itemList = that.itemMapper.getAll();
         int total = 0;
-//        for (Item item : itemList) {
-//            List<Video> itVideos = that.videoMapper.getByPId(item.getPid());
-//            total += itVideos.size();
-//            System.out.println(item + " size: " + itVideos.size());
-//            VIDEO_POOL.add(itVideos);
-//        }
+        for (Item item : itemList) {
+            List<Video> itVideos = that.videoMapper.getByPId(item.getPid());
+            total += itVideos.size();
+            System.out.println(item + " size: " + itVideos.size());
+            VIDEO_POOL.add(itVideos);
+        }
         System.out.println("total video : " + total);
         System.out.println("end load videos...");
     }

@@ -1,4 +1,4 @@
-package com.am.adastra.controller.param;
+package com.am.adastra.entity.param;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -16,6 +16,15 @@ public class ValidationRules {
     }
 
     public interface registerMail {
+    }
+
+    public interface userOP {
+    }
+
+    public interface userOPSimple {
+    }
+
+    public interface userOPComplex {
     }
 
     public interface login {
