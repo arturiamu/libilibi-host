@@ -29,8 +29,8 @@ public class Result<T> implements Serializable {
     }
 
     public void setSuccess(String message, T data) {
-        this.message = message;
         this.setSuccess(data);
+        this.message = message;
     }
 
     public void setSuccess() {

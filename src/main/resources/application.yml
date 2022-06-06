@@ -10,8 +10,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
-    username: rm01
-    password: remoteuser01
+    username: rm02
+    password: remoteuser02
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.old.entity
@@ -21,7 +21,7 @@ mybatis:
 #level.service.impl.AdminServiceImpl: trace
 logging:
   #日志的显示级别
-  level:
+  pattern:
+    level:
     #日志的根包
-    cn.tedu：trace
-
+      com.am：trace
