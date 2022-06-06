@@ -3,7 +3,6 @@ package com.am.adastra.util;
 import com.am.adastra.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -33,6 +32,8 @@ public class EmailUtil {
     private String from;
     @Value("${sms.size}")
     private int CODE_SIZE;
+    @Value("${sms.app.sign}")
+    private String sign;
 
     public boolean sendRegisterMail(String to, HttpServletRequest request) {
         String code = KeyUtils.keyUtils(CODE_SIZE);
@@ -46,7 +47,7 @@ public class EmailUtil {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(from);
             helper.setTo(to);
-            helper.setSubject("isamumu");
+            helper.setSubject(sign);
             helper.setText(emailContent, true);
             mailSender.send(message);
             if (request != null) {
@@ -54,7 +55,7 @@ public class EmailUtil {
                 request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);
             }
             return true;
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             return false;
         }
     }

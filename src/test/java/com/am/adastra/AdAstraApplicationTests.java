@@ -42,8 +42,8 @@ class AdAstraApplicationTests {
 
     @Test
     public void reMailTest() {
-        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
-        String mail = "12346@qq.com";
+        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
+        String mail = "174308972@qq.com";
         System.out.println(pattern.matcher(mail).matches());
     }
 

@@ -3,10 +3,10 @@ package com.am.adastra.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.controller.param.ValidationRules;
-import com.am.adastra.entity.Item;
 import com.am.adastra.entity.RegisterParm;
 import com.am.adastra.entity.User;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.EmailUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
 import com.am.adastra.util.State;
@@ -16,8 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -32,21 +31,39 @@ import java.util.List;
 public class UserController {
     public static final String VERIFICATION_CODE_SESSION = "verificationCodeSession";
     public static final String USER_INFO_SESSION = "userInfoSession";
+    public static final Pattern patternMail = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
+    public static final Pattern patternPhone = Pattern.compile("^1[3|4|5|8|9][0-9]\\d{8}$");
 
     @Autowired
     private UserService userService;
     @Autowired
     private SMSUtil smsUtil;
+    @Autowired
+    private EmailUtil emailUtil;
 
-    @PostMapping("/registerSMS")
-    public Result<Void> registerSMS(@RequestBody String account, HttpServletRequest request) {
+    @PostMapping("/registerVerify")
+    public Result<Void> registerVerify(@RequestBody String account, HttpServletRequest request) {
         Result<Void> result = new Result<>();
+        if (account.isEmpty()) {
+            result.setFail("未输入账号！", State.ERR_REG_INFO);
+            return result;
+        }
         JSONObject jsonObject = JSON.parseObject(account);
-        String phone = jsonObject.getString("account");
-        if (smsUtil.sendSMS(phone, request)) {
-            result.setSuccess("获取验证码成功！", null);
+        String acc = jsonObject.getString("account");
+        if (patternMail.matcher(acc).matches()) {
+            if (emailUtil.sendRegisterMail(acc, request)) {
+                result.setSuccess("获取验证码成功！", null);
+            } else {
+                result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
+            }
+        } else if (patternPhone.matcher(acc).matches()) {
+            if (smsUtil.sendSMS(acc, request)) {
+                result.setSuccess("获取验证码成功！", null);
+            } else {
+                result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
+            }
         } else {
-            result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
+            result.setFail("账号不合法！");
         }
         return result;
     }
