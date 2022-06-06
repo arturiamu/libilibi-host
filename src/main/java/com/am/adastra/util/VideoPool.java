@@ -66,6 +66,7 @@ public class VideoPool {
     }
 
     public static void run() {
+
         System.out.println("start load videos...");
         List<Item> itemList = that.itemMapper.getAll();
         int total = 0;
