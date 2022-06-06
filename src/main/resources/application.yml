@@ -13,6 +13,20 @@ spring:
     username: adastra
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
+#redis
+  redis:
+    host: 47.113.222.20
+    port: 6379
+    password: 123
+    database: 0
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
