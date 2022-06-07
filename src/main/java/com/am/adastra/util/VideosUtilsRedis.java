@@ -4,6 +4,9 @@ import com.am.adastra.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author 马强
  * @Description
@@ -28,6 +31,26 @@ public class VideosUtilsRedis {
         redisTemplate.opsForHash().put("video:"+vide.getAid()+"","coin",vide.getCoin());
         redisTemplate.opsForHash().put("video:"+vide.getAid()+"","share",vide.getShare());
         redisTemplate.opsForHash().put("video:"+vide.getAid()+"","like",vide.getLike());
+
+    }
+
+    public void setVideAll(Video vide){
+        HashMap<String, Object> maps = new HashMap<>();
+        maps.put("aid",vide.getAid());
+       maps.put("pid",vide.getPid());
+        maps.put("tid",vide.getTid());
+        maps.put("tname",vide.getTname());
+        maps.put("pic",vide.getPic());
+        maps.put("title",vide.getTitle());
+        maps.put("desc",vide.getDesc());
+        maps.put("view",vide.getView());
+        maps.put("danmaku",vide.getDanmaku());
+        maps.put("reply",vide.getReply());
+        maps.put("favorite",vide.getFavorite());
+        maps.put("coin",vide.getCoin());
+        maps.put("share",vide.getShare());
+        maps.put("like",vide.getLike());
+        redisTemplate.opsForHash().putAll("video:"+vide.getAid()+"",maps);
     }
 
 
