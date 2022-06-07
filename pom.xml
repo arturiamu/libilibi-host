@@ -154,7 +154,7 @@
     </dependencies>
 
     <build>
-        <finalName>libilibi-v1-host</finalName>
+        <finalName>adastra</finalName>
         <resources>
             <resource>
                 <directory>src/main/java</directory>
