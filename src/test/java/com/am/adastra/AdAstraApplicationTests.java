@@ -30,10 +30,6 @@ class AdAstraApplicationTests {
     @Autowired
     public UserMapper userMapper;
 
-    @Test
-    void json() {
-        userMapper.getById(1);
-    }
 
     @Test
     void getMD5() {
