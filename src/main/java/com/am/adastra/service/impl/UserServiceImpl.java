@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 @Component
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Autowired(required = false)
     private UserMapper userMapper;
 
     @Override
