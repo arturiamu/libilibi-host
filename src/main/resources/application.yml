@@ -13,7 +13,6 @@ spring:
     username: adastra
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
-#redis
   redis:
     host: 47.113.222.20
     port: 6379
