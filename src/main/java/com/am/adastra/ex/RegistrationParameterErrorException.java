@@ -9,4 +9,22 @@ package com.am.adastra.ex;
  * @Description ：
  */
 public class RegistrationParameterErrorException extends ServiceException {
+    public RegistrationParameterErrorException() {
+    }
+
+    public RegistrationParameterErrorException(String message) {
+        super(message);
+    }
+
+    public RegistrationParameterErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RegistrationParameterErrorException(Throwable cause) {
+        super(cause);
+    }
+
+    public RegistrationParameterErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

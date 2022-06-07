@@ -9,4 +9,22 @@ package com.am.adastra.ex;
  * @Description ：
  */
 public class UsernameDoesNotExistException extends ServiceException {
+    public UsernameDoesNotExistException() {
+    }
+
+    public UsernameDoesNotExistException(String message) {
+        super(message);
+    }
+
+    public UsernameDoesNotExistException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public UsernameDoesNotExistException(Throwable cause) {
+        super(cause);
+    }
+
+    public UsernameDoesNotExistException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }
