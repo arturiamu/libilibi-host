@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.boot.demo.mapper.IdMapper">
+
+    <select id="getByChoice">
+        select
+        users.`id`,items.name,item_id,items.`uri`,items.`pid`
+        from
+        (users LEFT JOIN user_item ON users.id = user_item.`user_id` )
+        INNER JOIN items ON items.`id` = user_item.`item_id`
+    </select>
+
+    <select id="getByHistory">
+        SELECT users.`id`,history.`history_video_id`,history.`time`
+        FROM history,users
+        WHERE users.`id` = history.`user_id`
+    </select>
+
+    <select id="getByHistory">
+        SELECT users.`id`,collection.`category`,collection.`collection_time`,collection.`collection_video_id`,collection.`state`
+        FROM collection, users
+        WHERE collection.`user_id` = users.`id`
+    </select>
+
+
+
+</mapper>
