@@ -5,7 +5,6 @@ import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.mapper.VideoMapper;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -64,7 +63,8 @@ public class VideoPool {
         System.out.println("remove videos...");
         for (List<Video> videoList : VIDEO_POOL) {
             for (Video video : videoList) {
-                that.videosUtilsRedis.setVide(video);
+                that.videosUtilsRedis.setVideAll(video);
+                System.out.println(total--);
             }
         }
         System.out.println("remove videos done...");

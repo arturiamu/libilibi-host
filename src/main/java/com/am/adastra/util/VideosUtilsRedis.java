@@ -3,6 +3,7 @@ package com.am.adastra.util;
 import com.am.adastra.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
  * @Description
  * @create 2022-06-07 13:30
  */
+@Component
 public class VideosUtilsRedis {
     @Autowired
     private RedisTemplate redisTemplate;
