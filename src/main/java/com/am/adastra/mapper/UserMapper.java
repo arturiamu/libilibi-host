@@ -24,4 +24,5 @@ public interface UserMapper {
     UserDBO getDBOByAccount(String account);
 
     UserDBO getDBOByUsername(String username);
+
 }
