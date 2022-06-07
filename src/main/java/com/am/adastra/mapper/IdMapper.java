@@ -1,9 +1,8 @@
-package com.am.libilibi.mapper;
+package com.am.adastra.mapper;
 
-import com.am.adastra.entity.User;
-import com.am.libilibi.entity.User;
-import com.am.libilibi.entity.UserCollection;
-import com.am.libilibi.entity.UserHistory;
+import com.am.libilibi.entity.LBUser;
+import com.am.libilibi.entity.LBUserCollection;
+import com.am.libilibi.entity.LBUserHistory;
 
 /**
  * @Author: lyy
@@ -14,11 +13,11 @@ import com.am.libilibi.entity.UserHistory;
  */
 public interface IdMapper {
     //获取用户选择信息
-    User getByChoice(int id);
+    LBUser getByChoice(int id);
 
     //获取用户历史信息
-    UserHistory getByHistory(int id);
+    LBUserHistory getByHistory(int id);
 
     //获取用户收藏信息
-    UserCollection getByCollection(int id);
+    LBUserCollection getByCollection(int id);
 }
