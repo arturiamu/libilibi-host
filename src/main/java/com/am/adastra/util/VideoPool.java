@@ -62,9 +62,9 @@ public class VideoPool {
 
         System.out.println("remove videos...");
         for (List<Video> videoList : VIDEO_POOL) {
+            System.out.println(videoList.get(0).getPid());
             for (Video video : videoList) {
                 that.videosUtilsRedis.setVideAll(video);
-                System.out.println(total--);
             }
         }
         System.out.println("remove videos done...");
