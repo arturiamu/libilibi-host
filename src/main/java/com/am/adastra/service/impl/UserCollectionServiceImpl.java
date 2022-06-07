@@ -20,6 +20,8 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     public Result<UserCollection> add(UserCollection userCollection) {
         //设置添加时间为当前时间
         userCollection.setCollectionTime(new Date());
+        //设置当前信息状态为正常状态  normal
+        userCollection.setState("normal");
 
         Result<UserCollection> result = new Result<>();
         //1.先判断该用户  收藏夹中是否存在该视频（通过视频id和用户id查询）   存在就不添加
@@ -40,6 +42,15 @@ public class UserCollectionServiceImpl implements UserCollectionService {
 
     @Override
     public Result<List<UserCollection>> selectByCollection(Integer userId, String category) {
-        return null;
+        Result<List<UserCollection>> result = new Result<>();
+
+        //调用mapper查询数据
+        List<UserCollection> list = mapper.selectByCollection(userId,category);
+
+        System.out.println("查询出来的信息： "+list);
+
+        result.setSuccess("查询成功",list);
+
+        return result;
     }
 }

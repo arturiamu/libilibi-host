@@ -67,6 +67,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Result<User> login(@RequestBody @Validated(ValidationRules.login.class) User user, BindingResult errors, HttpServletRequest request) {
+        System.out.println("登陆的用户信息 ： " + user);
         Result<User> result = new Result<>();
         if (errors.hasErrors()) {
             result = new Result<>();

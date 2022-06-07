@@ -24,7 +24,7 @@ public interface UserCollectionMapper {
     /*
      * 在数据库中添加新的收藏记录
      * */
-    @Insert("insert into collection values(null,#{userId},#{collectionVideoId},#{collectionTime},#{category})")
+    @Insert("insert into collection values(null,#{userId},#{collectionVideoId},#{collectionTime},#{category},#{state})")
     void add(UserCollection lbUserCollection);
 
     /*

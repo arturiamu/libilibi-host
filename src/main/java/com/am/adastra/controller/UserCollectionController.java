@@ -7,13 +7,11 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -53,6 +51,24 @@ public class UserCollectionController {
         result = userCollectionService.add(userCollection);
         return result;
 
+    }
+
+
+    /*
+     * 通过用户分类的查看用户的收藏
+     * */
+    @GetMapping("/selectByCollection")
+    public Result<List<UserCollection>> selectByCollection(String category, HttpServletRequest request){
+
+//        1.获取当前用户的用户 id
+        User user = userService.isLogin(request.getSession());
+        Integer userId = user.getId();
+
+        System.out.println("用户ID： "+userId);
+        System.out.println("用户分类：  "+category);
+
+        //2.调用逻辑层获取到此用户的视频分类信息  将用户id和分类信息传递过去
+        return userCollectionService.selectByCollection(userId,category);
     }
 
 }

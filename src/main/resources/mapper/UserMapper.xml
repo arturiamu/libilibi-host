@@ -33,4 +33,13 @@
         from users
         where account = #{account}
     </select>
+
+
+   <!--  返回所有用户信息
+    @Select("select * from users")-->
+    <select id="list" resultMap="BaseListMap">
+        select id, username,  account, items, state
+        from users
+    </select>
+
 </mapper>

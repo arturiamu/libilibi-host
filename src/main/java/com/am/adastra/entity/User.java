@@ -28,7 +28,6 @@ public class User implements Serializable {
     private Integer id;
 
     @NotEmpty(groups = ValidationRules.register.class, message = "用户名不能为空！")
-    @NotEmpty(groups = ValidationRules.login.class, message = "用户名不能为空！")
     private String username;
 
     @NotEmpty(groups = ValidationRules.register.class, message = "密码不能为空！")

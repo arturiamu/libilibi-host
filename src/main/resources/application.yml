@@ -24,4 +24,4 @@ logging:
   pattern:
     level:
     #日志的根包
-      com.am：trace
+      com.am: trace

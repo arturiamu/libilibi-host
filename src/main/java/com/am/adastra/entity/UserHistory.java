@@ -1,6 +1,7 @@
 package com.am.adastra.entity;
 
-import lombok.AllArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,22 +9,17 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserCollection {
-    private Integer id;
-
+public class UserHistory {
+    private int id;
     //    @NotNull(message = "用户id不能为空！")
-    private Integer userId ;
-
+    private Integer userId;
     @NotNull(message = "视频id不能为空！")
-    private Integer collectionVideoId;
-
+    private Integer historyVideoId;
     //    yyyy表示年  MM代表月份   dd代表日   HH代表小时   mm代表分钟  ss代表秒
-//    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
-    private Date collectionTime;//收藏时间
-
-    private String category;//收藏分类
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    private Date time;//浏览时间时间
 
     private String state;//当前信息的状态（显示或者不显示）
+
 }
