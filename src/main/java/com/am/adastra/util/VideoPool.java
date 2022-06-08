@@ -35,7 +35,7 @@ public class VideoPool {
     public VideosUtilsRedis videosUtilsRedis;
 
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
-    private static final Map<Integer, Integer> POD_INDEX = new HashMap<>();
+    private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -48,25 +48,31 @@ public class VideoPool {
 
     public static void run() {
         System.out.println("start load videos...");
-//        List<Item> itemList = that.itemMapper.getAll();
-        System.out.println(System.currentTimeMillis());
-        List<Video> videoList = that.videosUtilsRedis.getAllVideo();
-        System.out.println(videoList.size());
-        System.out.println(System.currentTimeMillis());
-//        int total = 0;
-//        for (int i = 0; i < itemList.size(); i++) {
-//            List<Video> itVideos = that.videoMapper.getByPId(itemList.get(i).getPid());
-//            POD_INDEX.put(itVideos.get(0).getPid(), i);
-//            total += itVideos.size();
-//            System.out.println(itemList.get(i) + " size: " + itVideos.size());
-//            VIDEO_POOL.add(itVideos);
+        List<Item> itemList = that.itemMapper.getAll();
+        for (Item item : itemList) {
+            List<Video> videos = that.videoMapper.getByPId(item.getPid());
+            System.out.println(item + " size: " + videos.size());
+            for (Video video : videos) {
+                that.videosUtilsRedis.setVideAll(video);
+            }
+        }
+//        for (Item item : itemList) {
+//            List<Video> list = new ArrayList<>();
+//            VIDEO_POOL.add(list);
 //        }
-//        System.out.println("total video : " + total);
-        System.out.println("end load videos...");
+//        System.out.println(System.currentTimeMillis());
+//        List<Video> videoList = that.videosUtilsRedis.getAllVideo();
+//        for (Video video : videoList) {
+//            int pid = video.getPid();
+//            VIDEO_POOL.get(indexPid(pid)).add(video);
+//        }
+//        System.out.println(videoList.size());
+//        System.out.println(System.currentTimeMillis());
+//        System.out.println("end load videos...");
     }
 
     public static int indexPid(int pid) {
-        return POD_INDEX.get(pid);
+        return PID_INDEX.get(pid);
     }
 
     public static List<Video> getPidVideo(int pid, int ps) {

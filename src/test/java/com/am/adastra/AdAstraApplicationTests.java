@@ -82,24 +82,29 @@ class AdAstraApplicationTests {
         System.out.println(entries);
     }
 
+    @Test
+    void remove() {
+
+    }
+
 
     @Test
     void getAllVideo() {
-        List list = new LinkedList();
-        long satrt = System.currentTimeMillis();
-        System.out.println(satrt);
-        Set keys = redisTemplate.keys("*");
-        Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            System.out.println(key);
-            Map entries = redisTemplate.opsForHash().entries(key);
-            Video video = mapToObject(entries, Video.class);
-            System.out.println(video);
+        Long st = System.currentTimeMillis();
+        Set<String> keys = redisTemplate.keys("*");
+        HashMap<Object, Object> map = new HashMap<>();
+        for (String key : keys) {
+            try {
+                Object value = redisTemplate.opsForValue().get(key);
+                System.out.println(value);
+                map.put(key, value);
+            } catch (Exception e) {
+                System.out.println("error" + key);
+            }
         }
-//        System.out.println(list);
-//        long end=System.currentTimeMillis();
-//        System.out.println("所用时间："+(end-satrt));
+        System.out.println(map.size());
+        Long ed = System.currentTimeMillis();
+        System.out.println((ed - st) / 1000);
     }
 
 
