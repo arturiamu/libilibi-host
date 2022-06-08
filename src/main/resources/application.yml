@@ -25,11 +25,6 @@ spring:
         max-wait: -1
         max-idle: 5
         min-idle: 0
-    security:
-      oauth2:
-        resourceserver:
-          opaquetoken:
-            client-id:
   mail:
     host: smtp.qq.com
     username: 2762404119@qq.com

@@ -9,16 +9,22 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
+@AutoConfigureMockMvc
 @SpringBootTest(classes = AdAstraApplication.class)
 class AdAstraApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private EmailUtil emailUtil;
@@ -70,31 +76,31 @@ class AdAstraApplicationTests {
 
 
     @Test
-    void testGetPid(){
-        Integer pid=155;
+    void testGetPid() {
+        Integer pid = 155;
         Map entries = redisTemplate.opsForHash().entries("video:811566062");
         System.out.println(entries);
     }
 
 
     @Test
-    void getAllVideo(){
-        List list= new LinkedList();
-        long satrt=System.currentTimeMillis();
+    void getAllVideo() {
+        List list = new LinkedList();
+        long satrt = System.currentTimeMillis();
         System.out.println(satrt);
         Set keys = redisTemplate.keys("*");
         Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()){
-            String key=iterator.next();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            System.out.println(key);
             Map entries = redisTemplate.opsForHash().entries(key);
             Video video = mapToObject(entries, Video.class);
-            System.out.println(video.toString());
+            System.out.println(video);
         }
 //        System.out.println(list);
 //        long end=System.currentTimeMillis();
 //        System.out.println("所用时间："+(end-satrt));
     }
-
 
 
     public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {

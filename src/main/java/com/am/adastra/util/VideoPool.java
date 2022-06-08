@@ -48,9 +48,11 @@ public class VideoPool {
 
     public static void run() {
         System.out.println("start load videos...");
-        List<Item> itemList = that.itemMapper.getAll();
+//        List<Item> itemList = that.itemMapper.getAll();
+        System.out.println(System.currentTimeMillis());
         List<Video> videoList = that.videosUtilsRedis.getAllVideo();
         System.out.println(videoList.size());
+        System.out.println(System.currentTimeMillis());
 //        int total = 0;
 //        for (int i = 0; i < itemList.size(); i++) {
 //            List<Video> itVideos = that.videoMapper.getByPId(itemList.get(i).getPid());
