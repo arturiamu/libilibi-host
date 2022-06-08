@@ -2,6 +2,7 @@ package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserCollection;
+import com.am.adastra.pojo.DTO.UserCollectionAddDTO;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
