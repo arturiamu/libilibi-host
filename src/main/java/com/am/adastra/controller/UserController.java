@@ -3,7 +3,7 @@ package com.am.adastra.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.param.ValidationRules;
-import com.am.adastra.entity.RegisterParm;
+import com.am.adastra.entity.RegisterUserVO;
 import com.am.adastra.entity.User;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
@@ -69,8 +69,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) RegisterParm rp, BindingResult errors, HttpServletRequest request) {
+    public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) RegisterUserVO rp, BindingResult errors, HttpServletRequest request) {
         Result<User> result = new Result<>();
+        System.out.println(rp);
         if (errors.hasErrors()) {
             result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_REG_INFO);
             return result;

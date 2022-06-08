@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterParm {
+public class RegisterUserVO {
     @Valid
     User user;
     @NotNull(groups = ValidationRules.register.class, message = "验证码不能为空")
