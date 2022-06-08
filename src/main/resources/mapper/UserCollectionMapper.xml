@@ -21,6 +21,7 @@
         <id column="id" property="id"/>
         <id column="user_id" property="userId"/>
         <result column="collection_video_id" property="collectionVideoId"/>
+        <result column="video_id" property="videoId"/>
         <result column="collection_time" property="collectionTime"/>
         <result column="category" property="category"/>
         <result column="state" property="state"/>
@@ -31,10 +32,10 @@
     * 在数据库中添加新的收藏记录
     * */
     @Insert("insert into collection values(null,#{userId},#{collectionVideoId},#{collectionTime},#{category},#{state})")-->
-<!--    <insert id="add">
-        insert into collection
-        values
-    </insert>-->
+    <insert id="add">
+        insert into collection( user_id, collection_video_id, collection_time, category, state, video_id)
+        values(#{userid},#{collectionVideoId},#{collectionTime},#{category},#{state},#{videoId})
+    </insert>
 
 
 
