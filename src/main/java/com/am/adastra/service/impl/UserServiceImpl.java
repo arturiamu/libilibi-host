@@ -1,12 +1,15 @@
 package com.am.adastra.service.impl;
 
+import com.am.adastra.controller.ItemController;
 import com.am.adastra.controller.UserController;
+import com.am.adastra.entity.Item;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,25 +25,34 @@ import javax.servlet.http.HttpSession;
  * @Description ：
  */
 @Component
+@Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
     @Override
     public User register(User user) {
-        UserDBO userDBO = POJOUtils.userToDB(user);
-        UserDBO getUser = userMapper.getDBOByUsername(userDBO.getUsername());
+        UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser != null) {
             throw new UsernameDuplicateException();
         }
-        userDBO.setPassword(DigestUtils.md5Hex(userDBO.getPassword()));
-        userMapper.addDBO(userDBO);
-        return POJOUtils.DBToUser(userDBO);
+        getUser = userMapper.getDBOByAccount(user.getAccount());
+        if (getUser != null) {
+            throw new AccountRegisteredException();
+        }
+        if (user.getItems() == null || user.getItems().length == 0) {
+            log.info("default items");
+            user.setItems(ItemController.defaultItems.toArray(new Item[0]));
+        }
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        userMapper.addDBO(POJOUtils.userToDB(user));
+        return user;
     }
 
     @Override
     public User login(User user) {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
+//        UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser == null) {
             throw new UsernameDoesNotExistException();
         }

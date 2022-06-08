@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.controller.param.ValidationRules;
+import com.am.adastra.entity.Item;
 import com.am.adastra.entity.RegisterParm;
 import com.am.adastra.entity.User;
 import com.am.adastra.service.UserService;
@@ -15,7 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -48,14 +50,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) RegisterParm rp, BindingResult errors, HttpServletRequest request) throws UnsupportedEncodingException {
+    public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) RegisterParm rp, BindingResult errors, HttpServletRequest request) {
         Result<User> result = new Result<>();
         if (errors.hasErrors()) {
             result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_REG_INFO);
             return result;
         }
         if (rp.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
-            result = userService.register(rp.getUser());
+            User getUser = userService.register(rp.getUser());
+            result.setSuccess(getUser);
         } else {
             result.setFail("验证码错误", State.ERR_REG_INFO);
         }
@@ -64,33 +67,36 @@ public class UserController {
 
     @PostMapping("/login")
     public Result<User> login(@RequestBody @Validated(ValidationRules.login.class) User user, BindingResult errors, HttpServletRequest request) {
-        Result<User> result;
+        Result<User> result = new Result<>();
         if (errors.hasErrors()) {
             result = new Result<>();
             result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_USER_INFO);
             return result;
         }
-        result = userService.login(user);
-        if (result.isSuccess()) {
-            request.getSession().setAttribute(USER_INFO_SESSION, result.getData());
-        }
+        User getUser = userService.login(user);
+        request.getSession().setAttribute(USER_INFO_SESSION, getUser);
+        result.setSuccess(getUser);
         return result;
     }
 
     @GetMapping("/isLogin")
     public Result<User> isLogin(HttpServletRequest request) {
-        return userService.isLogin(request.getSession());
+        User getUser = userService.isLogin(request.getSession());
+        Result<User> result = new Result<>();
+        result.setSuccess(getUser);
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/update")
-    public Result<User> update(@RequestBody User user, HttpServletRequest request) throws Exception {
+    public Result<User> update(@RequestBody User user, HttpServletRequest request) {
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
         if (!sessionUser.getId().equals(user.getId())) {
             result.setFail("当前登录用户和被修改用户不一致，操作终止！", State.ERR_USER_INFO);
             return result;
         }
-        result = userService.update(user);
+        User getUser = userService.update(user);
+        result.setSuccess(getUser);
         return result;
     }
 
