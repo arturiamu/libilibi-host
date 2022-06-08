@@ -9,11 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCollectionAddDTO {
+public class UserCollectionAddDTO implements Serializable {
 
     @NotNull(message = "视频id不能为空！")
     private Integer videoId;//视频的具体id

@@ -58,8 +58,8 @@ public class UserCollectionController {
     /*
      * 通过用户分类的查看用户的收藏
      * */
-    @GetMapping("/selectByCollection")
-    public Result<List<UserCollection>> selectByCollection(String category, HttpServletRequest request){
+    @GetMapping("/selectByCategory")
+    public Result<List<UserCollection>> selectByCategory(String category, HttpServletRequest request){
 
 //        1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
@@ -69,7 +69,20 @@ public class UserCollectionController {
         System.out.println("用户分类：  "+category);
 
         //2.调用逻辑层获取到此用户的视频分类信息  将用户id和分类信息传递过去
-        return userCollectionService.selectByCollection(userId,category);
+        return userCollectionService.selectByCategory(userId,category);
     }
+
+/*    *//*
+    * 查看当前用户的收藏夹分类
+    * *//*
+    @GetMapping("/selectAllCollection")
+    public Result<List<String>> selectAllCollection(HttpServletRequest request){
+//        1.获取当前用户的用户 id
+        User user = userService.isLogin(request.getSession());
+        Integer userId = user.getId();
+
+        //2.查询该用户所有的收藏夹的名字
+        return  userCollectionService.selectAllCollection(userId);
+    }*/
 
 }

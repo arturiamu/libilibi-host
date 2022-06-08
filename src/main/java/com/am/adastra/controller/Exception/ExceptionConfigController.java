@@ -1,4 +1,4 @@
-package com.am.adastra.controller;
+package com.am.adastra.controller.Exception;
 
 import com.am.adastra.ex.*;
 import com.am.adastra.util.Result;
@@ -38,7 +38,9 @@ public class ExceptionConfigController {
             result.setFail("验证码过期！", State.ERR_REG_INFO);
         } else if (e instanceof AccountRegisteredException) {
             result.setFail("当前账号已注册！", State.ERR_REG_INFO);
-        } else {
+        }else if (e instanceof UserCollectionRepeatException){
+            result.setFail("重复添加！", State.ERR_REPEATADD);
+        }else {
             result.setFail("系统繁忙，请稍后重试", State.ERR_REG_INFO);
         }
         return result;

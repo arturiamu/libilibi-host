@@ -11,6 +11,8 @@ public interface UserCollectionService {
 
     Result<UserCollection> add(UserCollection UserCollection);
 
-    Result<List<UserCollection>> selectByCollection(Integer userId, String category);
+    Result<List<UserCollection>> selectByCategory(Integer userId, String category);
+
+    Result<List<String>> selectAllCollection(Integer userId);
 
 }

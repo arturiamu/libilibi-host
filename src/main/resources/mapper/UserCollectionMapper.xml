@@ -11,7 +11,7 @@
     <select id="selectByUserId" resultMap="selectByUserIdResultMap">
         select id, user_id, collection_video_id, collection_time, category, state
         from collection
-        where user_id=#{userId} and collection_video_id=#{collectionVideoId}
+        where user_id=#{userId} and video_id=#{videoId}
     </select>
     <!--resultMap节点的作用是：指导Mybatis如何将结果集中的数据封装到返回的对象中-->
     <!-- id: 自定义名称-->
@@ -34,9 +34,77 @@
     @Insert("insert into collection values(null,#{userId},#{collectionVideoId},#{collectionTime},#{category},#{state})")-->
     <insert id="add">
         insert into collection( user_id, collection_video_id, collection_time, category, state, video_id)
-        values(#{userid},#{collectionVideoId},#{collectionTime},#{category},#{state},#{videoId})
+        values(#{userId},#{collectionVideoId},#{collectionTime},#{category},#{state},#{videoId})
     </insert>
 
+<!--    /*
+    * 通过用户id和分类信息查询出用户的收藏信息
+    * */
+    @Select("select * from collection where user_id=#{userId} and category=#{category}")
+    //这里的名称和数据库中的名称不一样，因此我们需要利用Result来声明不一样的变量
+    @Result(property = "collectionVideoId", column = "collection_video_id")
+    @Result(property = "collectionTime", column = "collection_time")
+    @Result(property = "userId", column = "user_id")-->
+    <select id="selectByCategory" resultMap="selectByCategoryMap">
+        select id,  collection_time, category,  video_id
+        from collection
+        where user_id=#{userId} and category=#{category}
+    </select>
+<!--    resultMap节点的作用是：指导Mybatis如何将结果集中的数据封装到返回的对象中
+     id: 自定义名称
+     type：封装查询结果的类型的全限定名
+    column=列名， property=属性名-->
+    <resultMap id="selectByCategoryMap" type="com.am.adastra.pojo.VO.UserCollectionSimpleVO">
+        <id column="id" property="id" />
+        <result column="category" property="category" />
+        <result column="collection_time" property="collectionTime" />
+        <result column="video_id" property="videoId" />
+    </resultMap>
 
+<!--    /*
+    * 通过用户id查询出用户所有的收藏夹
+    * */
+    @Select("select * from collection where user_id=#{userId}")
+    //这里的名称和数据库中的名称不一样，因此我们需要利用Result来声明不一样的变量
+    @Result(property = "collectionVideoId", column = "collection_video_id")
+    @Result(property = "collectionTime", column = "collection_time")
+    @Result(property = "userId", column = "user_id")
+    List<String> selectById(Integer userId);-->
+    <select id="selectById" resultMap="selectByIdMap">
+        select id, user_id, collection_video_id, collection_time, category, state, video_id
+        from collection where user_id=#{userId}
+    </select>
+    <resultMap id="selectByIdMap" type="com.am.adastra.entity.UserCollection">
+        <id column="id" property="id" />
+        <id column="user_id" property="userId" />
+        <id column="collection_video_id" property="collectionVideoId" />
+        <result column="category" property="category" />
+        <result column="collection_time" property="collectionTime" />
+        <result column="video_id" property="videoId" />
+    </resultMap>
+
+
+<!--    /*
+    * 查询该用户所有的收藏夹分类
+    * */
+    List<String> selectAllCollection(Integer userId);-->
+    <select id="selectAllCollection" resultType="String">
+        select category from collection where user_id=#{userId}
+    </select>
 
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
