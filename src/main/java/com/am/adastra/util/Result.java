@@ -42,6 +42,12 @@ public class Result<T> implements Serializable {
         this.state = state.getValve();
     }
 
+    public void setFail(String message) {
+        this.state = -1;
+        this.message = message;
+        this.data = null;
+    }
+
     public boolean isSuccess() {
         return this.state == State.OK.getValve();
     }

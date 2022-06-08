@@ -1,18 +1,43 @@
 package com.am.adastra;
 
+import com.alibaba.fastjson.JSONObject;
+import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.util.SMSUtil;
+import com.am.adastra.util.EmailUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.*;
 import java.util.regex.Pattern;
 
-
-@SpringBootTest
+@AutoConfigureMockMvc
+@SpringBootTest(classes = AdAstraApplication.class)
 class AdAstraApplicationTests {
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private EmailUtil emailUtil;
+
+    @Autowired
+    private SMSUtil smsUtil;
+
+
+    @Test
+    public void mail() {
+        String to = "1743089727@qq.com";
+        emailUtil.sendRegisterMail(to, null);
+    }
 
     @Test
     public void reTest() {
@@ -23,14 +48,15 @@ class AdAstraApplicationTests {
 
     @Test
     public void sms() {
-        System.out.println(SMSUtil.sendSMS("123", null));
-        System.out.println(SMSUtil.sendSMS("abc", null));
+        System.out.println(smsUtil.sendSMS("123", null));
+        System.out.println(smsUtil.sendSMS("abc", null));
+        System.out.println(smsUtil.sendSMS("15911245016", null));
     }
 
     @Test
     public void reMailTest() {
-        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
-        String mail = "12346@qq.com";
+        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
+        String mail = "174308972@qq.com";
         System.out.println(pattern.matcher(mail).matches());
     }
 
@@ -46,5 +72,44 @@ class AdAstraApplicationTests {
     @Test
     void getJson() {
         String[] item = new String[]{};
+    }
+
+
+    @Test
+    void testGetPid() {
+        Integer pid = 155;
+        Map entries = redisTemplate.opsForHash().entries("video:811566062");
+        System.out.println(entries);
+    }
+
+    @Test
+    void remove() {
+
+    }
+
+
+    @Test
+    void getAllVideo() {
+        Long st = System.currentTimeMillis();
+        Set<String> keys = redisTemplate.keys("*");
+        HashMap<Object, Object> map = new HashMap<>();
+        for (String key : keys) {
+            try {
+                Object value = redisTemplate.opsForValue().get(key);
+                System.out.println(value);
+                map.put(key, value);
+            } catch (Exception e) {
+                System.out.println("error" + key);
+            }
+        }
+        System.out.println(map.size());
+        Long ed = System.currentTimeMillis();
+        System.out.println((ed - st) / 1000);
+    }
+
+
+    public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {
+        String jsonStr = JSONObject.toJSONString(map);
+        return JSONObject.parseObject(jsonStr, clazz);
     }
 }

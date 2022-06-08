@@ -9,4 +9,22 @@ package com.am.adastra.ex;
  * @Description ：
  */
 public class AccountRegisteredException extends ServiceException{
+    public AccountRegisteredException() {
+    }
+
+    public AccountRegisteredException(String message) {
+        super(message);
+    }
+
+    public AccountRegisteredException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public AccountRegisteredException(Throwable cause) {
+        super(cause);
+    }
+
+    public AccountRegisteredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

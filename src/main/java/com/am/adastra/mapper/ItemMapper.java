@@ -2,7 +2,6 @@ package com.am.adastra.mapper;
 
 import com.am.adastra.entity.Item;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

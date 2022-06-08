@@ -28,11 +28,11 @@ public class InterestRecommendation {
     public List<Integer> ProcessingData(List<UserHistory> historyList, List<UserCollection> collectionList, List<List<UserHistory>> allHistoryList, List<List<UserCollection>> allCollectionList) {
 
         System.out.println("所有用户的历史记录");
-        for (List<UserHistory> list : allHistoryList){
+        for (List<UserHistory> list : allHistoryList) {
             System.out.println(list);
         }
         System.out.println("所有用户的收藏记录");
-        for (List<UserCollection> list : allCollectionList){
+        for (List<UserCollection> list : allCollectionList) {
             System.out.println(list);
         }
 
@@ -42,25 +42,25 @@ public class InterestRecommendation {
         for (UserHistory history : historyList) {
             USER[history.getHistoryVideoId()] += historyValue;
         }
-        for (UserCollection co : collectionList){
+        for (UserCollection co : collectionList) {
             USER[co.getCollectionVideoId()] += collectionValue;
         }
 
         //2.获取所有的用户的用历史记录和收藏记录对应的分值
         ArrayList<double[]> list = new ArrayList<>();
-        for (int i =0; i< allHistoryList.size() ;i++){
+        for (int i = 0; i < allHistoryList.size(); i++) {
             double[] otherUser = new double[classify];
-            for (UserHistory history : allHistoryList.get(i)){
+            for (UserHistory history : allHistoryList.get(i)) {
                 otherUser[history.getHistoryVideoId()] += historyValue;
             }
-            for (UserCollection CollectionList : allCollectionList.get(i) ){
+            for (UserCollection CollectionList : allCollectionList.get(i)) {
                 otherUser[CollectionList.getCollectionVideoId()] += collectionValue;
             }
             list.add(otherUser);
         }
 
         //3.数据分析返回最终结果
-        return recommend(USER,list);
+        return recommend(USER, list);
 
     }
 
@@ -68,7 +68,7 @@ public class InterestRecommendation {
     /*
      * 对数据分析进行推荐
      * */
-    public List<Integer> recommend(double[] USER, ArrayList<double[]> list){
+    public List<Integer> recommend(double[] USER, ArrayList<double[]> list) {
         //1.获取用户对应视频的分数
 /*//        double[] USER = {0.3,1.2,0.1,0,0};
 //        int[] USER = {1, 8, 9, 2, 3, 8, 0};
@@ -92,7 +92,7 @@ public class InterestRecommendation {
 
 //        3.对用户相似度排序，找到相似度排行榜的前5名，并且相似度大于0.5
         ArrayList<Integer> P = new ArrayList<>();//前5名的用户id
-        double[] copyNum = Arrays.copyOf(num,num.length);
+        double[] copyNum = Arrays.copyOf(num, num.length);
         for (int i = 0; i < people && i < copyNum.length; i++) {
             int n = 0;
             double max = -1;
@@ -119,17 +119,17 @@ public class InterestRecommendation {
         }
 
         //5.将视频排序，推荐前几名的视频id给他
-       List<Integer> ans = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
         for (int i = 0; i < videNum; i++) {
             double maxRecommend = -1;
             int number = -1;
             for (int j = 0; j < recommend.length; j++) {
-                if (recommend[j] > maxRecommend){
+                if (recommend[j] > maxRecommend) {
                     maxRecommend = recommend[j];
                     number = j;
                 }
             }
-            if (number != -1){
+            if (number != -1) {
                 ans.add(number);
                 recommend[number] = 0;
             }
@@ -138,7 +138,6 @@ public class InterestRecommendation {
 
         return ans;
     }
-
 
 
     /*
@@ -164,8 +163,8 @@ public class InterestRecommendation {
             } else {
                 copyV.add(v[i]);
             }
-            w[i] = copyW.get(copyW.size()-1) ;
-            v[i] = copyV.get(copyV.size()-1) ;
+            w[i] = copyW.get(copyW.size() - 1);
+            v[i] = copyV.get(copyV.size() - 1);
         }
 
         //2.利用余弦相似度公式计算两个用户之间的相似度
