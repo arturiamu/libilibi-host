@@ -3,7 +3,11 @@ package com.am.adastra.util;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 
 import java.util.*;
 
@@ -54,16 +58,21 @@ public class VideosUtilsRedis {
     }
 
     public List<Video> getAllVideo(){
-        List<Video> list= new LinkedList();
-        Set keys = redisTemplate.keys("*");
+        Set keys = redisTemplate.keys("video:" + "*");
         Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()){
-            String key=iterator.next();
-            Map entries = redisTemplate.opsForHash().entries(key);
-            Video video = mapToObject(entries, Video.class);
-            list.add(video);
-        }
-        return  list;
+        List<Video> pipelinedResultList = redisTemplate.executePipelined(
+                new SessionCallback<Object>() {
+                    @Override
+                    public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                        HashOperations<K, Object, Object> hashOperations = operations.opsForHash();
+                        while (iterator.hasNext()) {
+                            String key=iterator.next();
+                            hashOperations.entries((K) key);
+                        }
+                        return null;
+                    }
+                });
+        return pipelinedResultList;
     }
 
 

@@ -8,7 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -73,6 +77,25 @@ class AdAstraApplicationTests {
 //        System.out.println(list);
 //        long end=System.currentTimeMillis();
 //        System.out.println("所用时间："+(end-satrt));
+    }
+
+    @Test
+    public void test1() {
+        Set keys = redisTemplate.keys("video:" + "*");
+        Iterator<String> iterator = keys.iterator();
+        List<Video> pipelinedResultList = redisTemplate.executePipelined(
+                new SessionCallback<Object>() {
+                    @Override
+                    public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                        HashOperations<K, Object, Object> hashOperations = operations.opsForHash();
+                        while (iterator.hasNext()) {
+                            String key=iterator.next();
+                            hashOperations.entries((K) key);
+                        }
+                        return null;
+                    }
+                });
+        System.out.println(pipelinedResultList);
     }
 
 
