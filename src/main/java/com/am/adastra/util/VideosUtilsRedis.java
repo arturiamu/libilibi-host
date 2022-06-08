@@ -1,11 +1,11 @@
 package com.am.adastra.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author 马强
@@ -51,6 +51,26 @@ public class VideosUtilsRedis {
         maps.put("share",vide.getShare());
         maps.put("like",vide.getLike());
         redisTemplate.opsForHash().putAll("video:"+vide.getAid()+"",maps);
+    }
+
+    public List<Video> getAllVideo(){
+        List<Video> list= new LinkedList();
+        Set keys = redisTemplate.keys("*");
+        Iterator<String> iterator = keys.iterator();
+        while (iterator.hasNext()){
+            String key=iterator.next();
+            Map entries = redisTemplate.opsForHash().entries(key);
+            Video video = mapToObject(entries, Video.class);
+            list.add(video);
+        }
+        return  list;
+    }
+
+
+
+    public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {
+        String jsonStr = JSONObject.toJSONString(map);
+        return JSONObject.parseObject(jsonStr, clazz);
     }
 
 
