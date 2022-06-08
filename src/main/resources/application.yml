@@ -1,10 +1,14 @@
 server:
   port: 9000
   address: 0.0.0.0
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
 
 spring:
   jackson:
-    defaultPropertyInclusion: NON_EMPTY
+    defaultPropertyInclusion: non_null
     deserialization:
       fail_on_unknown_properties: false
   datasource:
@@ -59,3 +63,5 @@ logging:
     com:
       am:
         adastra: info
+knife4j:
+  enable: true

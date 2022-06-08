@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
@@ -105,6 +109,27 @@ class AdAstraApplicationTests {
         System.out.println(map.size());
         Long ed = System.currentTimeMillis();
         System.out.println((ed - st) / 1000);
+    }
+
+    @Test
+    public void getAllVideo2() {
+        Set keys = redisTemplate.keys("video:" + "*");
+        Iterator<String> iterator = keys.iterator();
+        List<Video> pipelinedResultList = redisTemplate.executePipelined(
+                new SessionCallback<Object>() {
+                    @Override
+                    public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                        HashOperations<K, Object, Object> hashOperations = operations.opsForHash();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
+                            hashOperations.entries((K) key);
+                        }
+                        return null;
+                    }
+                });
+        System.out.println(pipelinedResultList.get(0));
+        System.out.println(pipelinedResultList.size());
+//        return pipelinedResultList;
     }
 
 

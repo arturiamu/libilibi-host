@@ -1,4 +1,4 @@
-package com.am.adastra.controller.adminController;
+package com.am.adastra.controller;
 
 
 import com.am.adastra.entity.Admin;

@@ -10,6 +10,9 @@ import com.am.adastra.util.EmailUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
 import com.am.adastra.util.State;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +29,7 @@ import java.util.regex.Pattern;
  * @Return :
  * @Description ：
  */
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -41,6 +45,8 @@ public class UserController {
     @Autowired
     private EmailUtil emailUtil;
 
+    @ApiOperation("发送注册验证码")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/registerVerify")
     public Result<Void> registerVerify(@RequestBody String account, HttpServletRequest request) {
         Result<Void> result = new Result<>();

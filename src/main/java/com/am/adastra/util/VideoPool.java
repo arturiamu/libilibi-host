@@ -48,27 +48,21 @@ public class VideoPool {
 
     public static void run() {
         System.out.println("start load videos...");
-        List<Item> itemList = that.itemMapper.getAll();
-        for (Item item : itemList) {
-            List<Video> videos = that.videoMapper.getByPId(item.getPid());
-            System.out.println(item + " size: " + videos.size());
-            for (Video video : videos) {
-                that.videosUtilsRedis.setVideAll(video);
-            }
+        long st = System.currentTimeMillis();
+        List<Item> items = that.itemMapper.getAll();
+        for (int i = 0; i < items.size(); i++) {
+            PID_INDEX.put(items.get(i).getPid(), i);
         }
-//        for (Item item : itemList) {
-//            List<Video> list = new ArrayList<>();
-//            VIDEO_POOL.add(list);
-//        }
-//        System.out.println(System.currentTimeMillis());
-//        List<Video> videoList = that.videosUtilsRedis.getAllVideo();
-//        for (Video video : videoList) {
-//            int pid = video.getPid();
-//            VIDEO_POOL.get(indexPid(pid)).add(video);
-//        }
-//        System.out.println(videoList.size());
-//        System.out.println(System.currentTimeMillis());
-//        System.out.println("end load videos...");
+        int total = 0;
+        for (Item item : items) {
+            List<Video> videoList = that.videoMapper.getByPId(item.getPid());
+            System.out.println(item + " size: " + videoList.size());
+            total += videoList.size();
+            VIDEO_POOL.add(videoList);
+        }
+        System.out.println((System.currentTimeMillis() - st) / 1000);
+        System.out.println(total);
+        System.out.println("end load videos...");
     }
 
     public static int indexPid(int pid) {
