@@ -37,7 +37,7 @@
 
    <!--  返回所有用户信息
     @Select("select * from users")-->
-    <select id="list" resultMap="BaseListMap">
+    <select id="list" resultType="com.am.adastra.entity.User">
         select id, username,  account, items, state
         from users
     </select>

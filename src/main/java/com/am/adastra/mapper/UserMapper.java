@@ -31,5 +31,6 @@ public interface UserMapper {
     /*
      * 返回所有用户信息
      * */
+//    @Select("select * from users")
     List<User> list();
 }
