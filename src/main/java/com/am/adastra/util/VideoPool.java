@@ -49,15 +49,17 @@ public class VideoPool {
     public static void run() {
         System.out.println("start load videos...");
         List<Item> itemList = that.itemMapper.getAll();
-        int total = 0;
-        for (int i = 0; i < itemList.size(); i++) {
-            List<Video> itVideos = that.videoMapper.getByPId(itemList.get(i).getPid());
-            POD_INDEX.put(itVideos.get(0).getPid(), i);
-            total += itVideos.size();
-            System.out.println(itemList.get(i) + " size: " + itVideos.size());
-            VIDEO_POOL.add(itVideos);
-        }
-        System.out.println("total video : " + total);
+        List<Video> videoList = that.videosUtilsRedis.getAllVideo();
+        System.out.println(videoList.size());
+//        int total = 0;
+//        for (int i = 0; i < itemList.size(); i++) {
+//            List<Video> itVideos = that.videoMapper.getByPId(itemList.get(i).getPid());
+//            POD_INDEX.put(itVideos.get(0).getPid(), i);
+//            total += itVideos.size();
+//            System.out.println(itemList.get(i) + " size: " + itVideos.size());
+//            VIDEO_POOL.add(itVideos);
+//        }
+//        System.out.println("total video : " + total);
         System.out.println("end load videos...");
     }
 
