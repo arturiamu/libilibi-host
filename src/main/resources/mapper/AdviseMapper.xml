@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.AdviseMapper">
+
+    <!--    /*
+        * 向用户历史表中添加数据
+        * */
+        @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")
+        int add(UserHistoryAddDTO userHistory);-->
+    <insert id="add">
+        insert into advise(user_id,advise,advise_time)
+        values (#{userId},#{advise},#{adviseTime})
+    </insert>
+
+    <select id="selectById" resultMap="selectByIdResultMap">
+        select id, user_id, advise,advise_time
+        from advise
+    </select>
+
+    <resultMap id="selectByIdResultMap" type="com.am.adastra.entity.Advise">
+        <id column="id" property="id"/>
+        <id column="user_id" property="userId"/>
+        <result column="advise" property="advise"/>
+        <result column="advise_time" property="adviseTime"/>
+    </resultMap>
+
+</mapper>
