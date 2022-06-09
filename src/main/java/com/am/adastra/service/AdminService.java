@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AdminService {
 
-    Result<Admin> login(Admin admin);
+    Admin login(Admin admin);
 }

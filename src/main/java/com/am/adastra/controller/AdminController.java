@@ -32,22 +32,16 @@ public class AdminController {
      * */
     @PostMapping("/reg")
     public Result<Admin> login(@RequestBody @Valid Admin admin, BindingResult errors, HttpServletRequest request) {
-        System.out.println("管理员的登录信息 : " + admin);
         log.info("管理员的登录信息 : {}", admin);
         Result<Admin> result = new Result<>();
-        //1.判断用户的输入信息是否正确
         if (errors.hasErrors()) {
             log.info("用户信息输入错误");
             result.setSuccess(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage(), null);
             return result;
         }
-        //2.用户登录
-        result = adminService.login(admin);
-        //3.将用户登录信息添加到session中
-        if (result.isSuccess()) {
-            request.getSession().setAttribute(SESSION_NAME, result.getData());
-        }
-        //4.将结果返回到前端请求中
+        Admin getAdmin = adminService.login(admin);
+        result.setSuccess(getAdmin);
+        request.getSession().setAttribute(SESSION_NAME, result.getData());
         return result;
     }
 

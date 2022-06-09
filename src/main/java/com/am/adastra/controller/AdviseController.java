@@ -48,6 +48,7 @@ public class AdviseController {
         if (getUser != null) {
             advise.setUserId(getUser.getId());
         }
+        adviseService.add(advise);
         result.setSuccess("意见反馈成功", null);
         return result;
     }
@@ -56,12 +57,14 @@ public class AdviseController {
     @GetMapping("/select")
     public Result<List<AdviseDTO>> select(HttpServletRequest request) {
         //  获取当前用户的用户 id
+        Result<List<AdviseDTO>> result = new Result<>();
         log.info("查询建议");
         User user = userService.isLogin(request.getSession());
         Integer userId = user.getId();
-
         //调用业务层查询所有的用户历史信息
-        return adviseService.selectById(userId);
+        List<AdviseDTO> adviseDTOList = adviseService.selectById(userId);
+        result.setSuccess(adviseDTOList);
+        return result;
     }
 
 }

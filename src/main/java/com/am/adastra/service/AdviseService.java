@@ -15,9 +15,8 @@ import java.util.List;
  */
 @Service
 public interface AdviseService {
-    //增加建议
-    Result<AdviseDTO> add(AdviseDTO advise);
 
-    //返回所有建议信息
-    Result<List<AdviseDTO>> selectById(Integer userId);
+    boolean add(AdviseDTO advise);
+
+    List<AdviseDTO> selectById(Integer userId);
 }
