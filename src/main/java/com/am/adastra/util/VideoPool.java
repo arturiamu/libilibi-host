@@ -62,9 +62,8 @@ public class VideoPool {
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
-        System.out.println((System.currentTimeMillis() - st) / 1000);
-        System.out.println(total);
-        System.out.println("end load videos...");
+        log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.info("total videos:{}", total);
         log.info("end load videos...");
     }
 
