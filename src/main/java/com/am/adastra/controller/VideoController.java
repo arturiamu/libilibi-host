@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -49,5 +51,4 @@ public class VideoController {
     public List<Video> search(@PathVariable String keyword, @PathVariable int ps) {
         return VideoPool.getPidVideo(1, ps);
     }
-
 }
