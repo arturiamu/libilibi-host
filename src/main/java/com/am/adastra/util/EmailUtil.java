@@ -1,6 +1,7 @@
 package com.am.adastra.util;
 
 import com.am.adastra.controller.UserController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: 2022/6/6 11:32
  * @Description:
  */
-
+@Slf4j
 @Component
 public class EmailUtil {
     @Autowired
@@ -54,6 +55,7 @@ public class EmailUtil {
                 request.getSession().setMaxInactiveInterval(5 * 60);
                 request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);
             }
+            log.info(code);
             return true;
         } catch (Exception e) {
             return false;

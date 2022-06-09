@@ -12,12 +12,14 @@ import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Interest.InterestRecommendation;
 import com.am.adastra.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class InterestServiceImpl implements InterestService {
     @Autowired(required = false)
@@ -31,18 +33,17 @@ public class InterestServiceImpl implements InterestService {
 
 
     /*
-    * 通过用户id查询用户的兴趣推荐
-    * */
+     * 通过用户id查询用户的兴趣推荐
+     * */
     @Override
     public Result<ArrayList<Integer>> list(Integer userId) {
         //2.获取当前用户的关看历史和收藏夹
         //2.1获取当前用户的历史记录
         List<UserHistory> historyList = userHistoryMapper.selectById(userId);
-        System.out.println("当前用户的历史记录 ： "+historyList);
+        log.info("当前用户的历史记录 ：{}", historyList);
         //2.2获取当前用户的收藏夹记录
         List<UserCollection> collectionList = userCollectionMapper.selectById(userId);
-        System.out.println("当前用户的收藏夹记录 ： " + collectionList);
-
+        log.info("当前用户的收藏夹记录 ：{}", collectionList);
         //3.获取所有人的观看历史和收藏夹记录
         //3.1获取所有用户的信息（为了遍历获取用户的历史记录和收藏）
         List<User> AllUserList = userMapper.list();
@@ -51,14 +52,14 @@ public class InterestServiceImpl implements InterestService {
         List<List<UserCollection>> AllCollectionList = new ArrayList<>();
         for (User user : AllUserList) {
             //匹配到当前用户就跳出当前循环
-            if (userId == user.getId()){
+            if (userId == user.getId()) {
                 continue;
             }
             //匹配到不是当前用户就进入
 //            如果当前用户的历史记录和收藏记录都为空就跳出本层循环
             List<UserHistory> otherUserHistory = userHistoryMapper.selectById(user.getId());
-            List<UserCollection>  otherUserCollection = userCollectionMapper.selectById(user.getId());
-            if (otherUserCollection == null && otherUserHistory == null){
+            List<UserCollection> otherUserCollection = userCollectionMapper.selectById(user.getId());
+            if (otherUserCollection == null && otherUserHistory == null) {
                 continue;
             }
             AllHistoryList.add(otherUserHistory);
@@ -72,10 +73,9 @@ public class InterestServiceImpl implements InterestService {
          *   AllHistoryList所有用户的信息
          *   AllCollectionList所有用户的收藏记录
          * */
-        List<Integer> video = recommendation.ProcessingData(historyList,collectionList,AllHistoryList,AllCollectionList);
+        List<Integer> video = recommendation.ProcessingData(historyList, collectionList, AllHistoryList, AllCollectionList);
 
-        System.out.println("通过算法推荐的视频id" + video);
-
+        log.info("通过算法推荐的视频id ：{}", video);
 
         return null;
     }

@@ -17,9 +17,7 @@ import java.util.Date;
 public class AdviseAddDTO implements Serializable {
     private Integer id;
     private Integer userId;
-
     private String advise;
-
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     private Date adviseTime;
 }

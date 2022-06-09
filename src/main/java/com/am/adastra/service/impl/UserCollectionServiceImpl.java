@@ -5,12 +5,14 @@ import com.am.adastra.ex.UserCollectionRepeatException;
 import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Component
 public class UserCollectionServiceImpl implements UserCollectionService {
     @Autowired(required = false)
@@ -26,33 +28,33 @@ public class UserCollectionServiceImpl implements UserCollectionService {
 
         Result<UserCollection> result = new Result<>();
         //1.先判断该用户  收藏夹中是否存在该视频（通过视频id和用户id查询）   存在就不添加
-        System.out.println("用户ID ： " + userCollection.getUserId() );
-        System.out.println("视频ID ： " + userCollection.getVideoId() );
-        UserCollection userNewCollection = mapper.selectByUserId(userCollection.getUserId(),userCollection.getVideoId());
-        if (userNewCollection != null){
-            System.out.println("重复添加"+userCollection);
+        log.info("用户ID ：{}", userCollection.getUserId());
+        log.info("视频ID ：{}", userCollection.getVideoId());
+        UserCollection userNewCollection = mapper.selectByUserId(userCollection.getUserId(), userCollection.getVideoId());
+        if (userNewCollection != null) {
+            System.out.println("重复添加" + userCollection);
+            log.info("重复添加 ：{}", userCollection);
             throw new UserCollectionRepeatException("重复添加,视频已存在收藏夹");
-        }else {
+        } else {
             //2.收藏夹中不存在此视频  调用mapper中的方法添加进入
             mapper.add(userCollection);
-            result.setSuccess("添加成功",null);
+            result.setSuccess("添加成功", null);
         }
         return result;
     }
 
     /*
-    * 通过用户id和收藏夹名字查询出该用户该收藏夹中的所有视频
-    * */
+     * 通过用户id和收藏夹名字查询出该用户该收藏夹中的所有视频
+     * */
     @Override
     public Result<List<UserCollection>> selectByCategory(Integer userId, String category) {
         Result<List<UserCollection>> result = new Result<>();
 
         //调用mapper查询数据
-        List<UserCollection> list = mapper.selectByCategory(userId,category);
+        List<UserCollection> list = mapper.selectByCategory(userId, category);
 
-        System.out.println("查询出来的信息： "+list);
-
-        result.setSuccess("查询成功",list);
+        log.info("查询出来的信息 ：{}", list);
+        result.setSuccess("查询成功", list);
 
         return result;
     }

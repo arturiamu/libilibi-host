@@ -5,6 +5,7 @@ import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.mapper.VideoMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.*;
  * @Return :
  * @Description ：
  */
+@Slf4j
 @Component
 public class VideoPool {
     private static VideoPool that;
@@ -39,7 +41,7 @@ public class VideoPool {
 
     @PostConstruct
     public void init() {
-        System.out.println("init video pool");
+        log.info("init video pool");
         that = this;
         that.videoMapper = this.videoMapper;
         that.itemMapper = this.itemMapper;
@@ -47,7 +49,7 @@ public class VideoPool {
     }
 
     public static void run() {
-        System.out.println("start load videos...");
+        log.info("start load videos...");
         long st = System.currentTimeMillis();
         List<Item> items = that.itemMapper.getAll();
         for (int i = 0; i < items.size(); i++) {
@@ -56,13 +58,14 @@ public class VideoPool {
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoMapper.getByPId(item.getPid());
-            System.out.println(item + " size: " + videoList.size());
+            log.info("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
         System.out.println((System.currentTimeMillis() - st) / 1000);
         System.out.println(total);
         System.out.println("end load videos...");
+        log.info("end load videos...");
     }
 
     public static int indexPid(int pid) {

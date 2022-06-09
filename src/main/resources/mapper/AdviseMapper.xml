@@ -10,12 +10,12 @@
         @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")
         int add(UserHistoryAddDTO userHistory);-->
     <insert id="add">
-        insert into advise(user_id,advise,advise_time)
-        values (#{userId},#{advise},#{adviseTime})
+        insert into advise(user_id, advise, advise_time)
+        values (#{userId}, #{advise}, #{adviseTime})
     </insert>
 
     <select id="selectById" resultMap="selectByIdResultMap">
-        select id, user_id, advise,advise_time
+        select id, user_id, advise, advise_time
         from advise
     </select>
 

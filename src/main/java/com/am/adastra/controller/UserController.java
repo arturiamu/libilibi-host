@@ -13,6 +13,7 @@ import com.am.adastra.util.State;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
  * @Return :
  * @Description ：
  */
+@Slf4j
 @Api(tags = "用户模块")
 @RestController
 @RequestMapping("/user")
@@ -58,17 +60,20 @@ public class UserController {
         String acc = jsonObject.getString("account");
         if (patternMail.matcher(acc).matches()) {
             if (emailUtil.sendRegisterMail(acc, request)) {
+                log.info("发送邮箱验证成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
                 result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
             }
         } else if (patternPhone.matcher(acc).matches()) {
             if (smsUtil.sendSMS(acc, request)) {
+                log.info("发送邮箱验证成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
                 result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
             }
         } else {
+            log.info("账号不合法");
             result.setFail("账号不合法！");
         }
         return result;
@@ -93,7 +98,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Result<User> login(@RequestBody @Validated(ValidationRules.login.class) User user, BindingResult errors, HttpServletRequest request) {
-        System.out.println("登陆的用户信息 ： " + user);
+        log.info("登陆的用户信息 ： {}", user);
         Result<User> result = new Result<>();
         if (errors.hasErrors()) {
             result = new Result<>();
