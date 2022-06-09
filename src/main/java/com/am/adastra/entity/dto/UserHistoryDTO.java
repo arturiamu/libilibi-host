@@ -1,4 +1,4 @@
-package com.am.adastra.pojo.DTO;
+package com.am.adastra.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Date;
  * 外部数据进入后台用DTO
  * */
 @Data
-public class UserHistoryAddDTO implements Serializable {
+public class UserHistoryDTO implements Serializable {
     private int id;
     //    @NotNull(message = "用户id不能为空！")
     private Integer userId;

@@ -1,4 +1,4 @@
-package com.am.adastra.pojo.DTO;
+package com.am.adastra.entity.dto;
 
 /*
 * 用户添加收藏记录传进来的东西
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCollectionAddDTO implements Serializable {
+public class UserCollectionDTO implements Serializable {
 
     @NotNull(message = "视频id不能为空！")
     private Integer videoId;//视频的具体id

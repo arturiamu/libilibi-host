@@ -49,7 +49,7 @@ public class VideoPool {
     }
 
     public static void run() {
-        log.info("start load videos...");
+        log.debug("start load videos...");
         long st = System.currentTimeMillis();
         List<Item> items = that.itemMapper.getAll();
         for (int i = 0; i < items.size(); i++) {
@@ -58,13 +58,13 @@ public class VideoPool {
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoMapper.getByPId(item.getPid());
-            log.info("{} size {}", item, videoList.size());
+            log.debug("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
-        log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
-        log.info("total videos:{}", total);
-        log.info("end load videos...");
+        log.debug("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.debug("total videos:{}", total);
+        log.debug("end load videos...");
     }
 
     public static int indexPid(int pid) {

@@ -8,7 +8,7 @@
         * 向用户历史表中添加数据
         * */
         @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")
-        int add(UserHistoryAddDTO userHistory);-->
+        int add(UserHistoryDTO userHistory);-->
     <insert id="add">
         insert into advise(user_id, advise, advise_time)
         values (#{userId}, #{advise}, #{adviseTime})
@@ -19,7 +19,7 @@
         from advise
     </select>
 
-    <resultMap id="selectByIdResultMap" type="com.am.adastra.entity.Advise">
+    <resultMap id="selectByIdResultMap" type="com.am.adastra.entity.dto.AdviseDTO">
         <id column="id" property="id"/>
         <id column="user_id" property="userId"/>
         <result column="advise" property="advise"/>

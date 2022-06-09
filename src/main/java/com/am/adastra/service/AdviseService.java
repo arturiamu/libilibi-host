@@ -1,7 +1,6 @@
 package com.am.adastra.service;
 
-import com.am.adastra.entity.Advise;
-import com.am.adastra.pojo.DTO.AdviseAddDTO;
+import com.am.adastra.entity.dto.AdviseDTO;
 import com.am.adastra.util.Result;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,8 @@ import java.util.List;
 @Service
 public interface AdviseService {
     //增加建议
-    Result<Advise> add(AdviseAddDTO advise);
+    Result<AdviseDTO> add(AdviseDTO advise);
 
     //返回所有建议信息
-    Result<List<Advise>> selectById(Integer userId);
+    Result<List<AdviseDTO>> selectById(Integer userId);
 }

@@ -1,16 +1,18 @@
 package com.am.adastra.controller;
 
-import com.am.adastra.entity.Advise;
 import com.am.adastra.entity.User;
-import com.am.adastra.pojo.DTO.AdviseAddDTO;
+import com.am.adastra.entity.dto.AdviseDTO;
 import com.am.adastra.service.AdviseService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.am.adastra.util.State;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -32,9 +34,15 @@ public class AdviseController {
 
     //添加用户的建议
     @PostMapping("/add")
-    public Result<Void> advise(@RequestBody AdviseAddDTO advise, HttpServletRequest request) {
+    public Result<Void> advise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
         log.info("用户建议:{}", advise);
         Result<Void> result = new Result<>();
+
+        if (errors.hasErrors()) {
+            result = new Result<>();
+            result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_USER_INFO);
+            return result;
+        }
 
         User getUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         if (getUser != null) {
@@ -46,7 +54,7 @@ public class AdviseController {
 
     //通过id来查询
     @GetMapping("/select")
-    public Result<List<Advise>> select(HttpServletRequest request) {
+    public Result<List<AdviseDTO>> select(HttpServletRequest request) {
         //  获取当前用户的用户 id
         log.info("查询建议");
         User user = userService.isLogin(request.getSession());

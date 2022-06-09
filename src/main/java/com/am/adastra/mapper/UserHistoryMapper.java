@@ -1,11 +1,8 @@
 package com.am.adastra.mapper;
 
 import com.am.adastra.entity.UserHistory;
-import com.am.adastra.pojo.DTO.UserHistoryAddDTO;
-import org.apache.ibatis.annotations.Insert;
+import com.am.adastra.entity.dto.UserHistoryDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,7 +14,7 @@ public interface UserHistoryMapper {
      * 向用户历史表中添加数据
      * */
 /*    @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")*/
-    int add(UserHistoryAddDTO userHistory);
+    int add(UserHistoryDTO userHistory);
 
     /*
      * 查询userId用户所有的浏览信息，通过时间排序

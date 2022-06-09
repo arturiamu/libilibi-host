@@ -1,8 +1,8 @@
 package com.am.adastra.service.impl;
 
 import com.am.adastra.entity.UserHistory;
+import com.am.adastra.entity.dto.UserHistoryDTO;
 import com.am.adastra.mapper.UserHistoryMapper;
-import com.am.adastra.pojo.DTO.UserHistoryAddDTO;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
      *实现用户浏览后   添加历史浏览记录的方法
      */
     @Override
-    public Result<UserHistory> add(UserHistoryAddDTO userHistory) {
+    public Result<UserHistory> add(UserHistoryDTO userHistory) {
         //设置添加时间为当前时间
         userHistory.setTime(new Date());
         //设置当前信息状态为正常状态  normal

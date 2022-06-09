@@ -1,5 +1,6 @@
-package com.am.adastra.entity;
+package com.am.adastra.entity.dto;
 
+import com.am.adastra.entity.User;
 import com.am.adastra.entity.param.ValidationRules;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterUserVO {
+public class UserRegisterDTO {
     @Valid
     User user;
     @NotNull(groups = ValidationRules.register.class, message = "验证码不能为空")

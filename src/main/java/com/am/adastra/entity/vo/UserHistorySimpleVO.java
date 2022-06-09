@@ -1,10 +1,9 @@
-package com.am.adastra.pojo.VO;
+package com.am.adastra.entity.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 

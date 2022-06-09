@@ -1,4 +1,4 @@
-package com.am.adastra.pojo.VO;
+package com.am.adastra.entity.vo;
 
 import lombok.Data;
 

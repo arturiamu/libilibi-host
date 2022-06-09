@@ -54,7 +54,7 @@
      id: 自定义名称
      type：封装查询结果的类型的全限定名
     column=列名， property=属性名-->
-    <resultMap id="selectByCategoryMap" type="com.am.adastra.pojo.VO.UserCollectionSimpleVO">
+    <resultMap id="selectByCategoryMap" type="com.am.adastra.entity.vo.UserCollectionSimpleVO">
         <id column="id" property="id" />
         <result column="category" property="category" />
         <result column="collection_time" property="collectionTime" />

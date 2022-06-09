@@ -8,7 +8,7 @@
     * 向用户历史表中添加数据
     * */
     @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")
-    int add(UserHistoryAddDTO userHistory);-->
+    int add(UserHistoryDTO userHistory);-->
     <insert id="add">
         insert into history(user_id, history_video_id, time, state, video_id)
         values (#{userId},#{historyVideoId},#{time},#{state},#{videoId})
@@ -30,7 +30,7 @@
         from history
         where user_id=#{userId}
     </select>
-    <resultMap id="selectByIdMap" type="com.am.adastra.pojo.VO.UserHistorySimpleVO">
+    <resultMap id="selectByIdMap" type="com.am.adastra.entity.vo.UserHistorySimpleVO">
         <id column="id" property="id" />
         <id column="history_video_id" property="historyVideoId" />
         <result column="time" property="time" />

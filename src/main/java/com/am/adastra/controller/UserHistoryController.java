@@ -3,7 +3,7 @@ package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserHistory;
-import com.am.adastra.pojo.DTO.UserHistoryAddDTO;
+import com.am.adastra.entity.dto.UserHistoryDTO;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
@@ -32,7 +32,7 @@ public class UserHistoryController {
 
     //添加用户的历史浏览信息
     @PostMapping("/add")
-    public Result<UserHistory> add(@RequestBody @Valid UserHistoryAddDTO userHistory, BindingResult errors, HttpServletRequest request){
+    public Result<UserHistory> add(@RequestBody @Valid UserHistoryDTO userHistory, BindingResult errors, HttpServletRequest request){
         log.info("用户新增历史:{}",userHistory);
         Result<UserHistory> result = new Result<>();
 

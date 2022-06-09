@@ -1,8 +1,6 @@
 package com.am.adastra.mapper;
 
-import com.am.adastra.entity.Advise;
-import com.am.adastra.pojo.DTO.AdviseAddDTO;
-import com.am.adastra.util.Result;
+import com.am.adastra.entity.dto.AdviseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,8 +15,7 @@ import java.util.List;
 @Mapper
 public interface AdviseMapper {
     //添加用户建议
-    int add(AdviseAddDTO advise);
+    int add(AdviseDTO advise);
     //查询用户建议
-    List<Advise> selectById(Integer userId);
-
+    List<AdviseDTO> selectById(Integer userId);
 }
