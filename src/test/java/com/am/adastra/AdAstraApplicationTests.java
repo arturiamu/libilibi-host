@@ -3,6 +3,8 @@ package com.am.adastra;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserHistoryService;
+import com.am.adastra.service.VideoService;
 import com.am.adastra.util.SMSUtil;
 import com.am.adastra.util.EmailUtil;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -38,7 +40,18 @@ class AdAstraApplicationTests {
     private SMSUtil smsUtil;
 
     @Autowired
+    VideoService videoService;
+
+    @Autowired
+    UserHistoryService userHistoryService;
+
+    @Autowired
     DataSource dataSource;
+
+    @Test
+    void history(){
+        System.out.println(userHistoryService.getAll(11));
+    }
 
     @Test
     void data(){

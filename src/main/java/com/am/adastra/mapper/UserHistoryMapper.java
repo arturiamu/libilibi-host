@@ -1,5 +1,6 @@
 package com.am.adastra.mapper;
 
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Mapper
 public interface UserHistoryMapper {
-    List<VideoOperateDTO> getAll(Integer user_id);
+    List<Video> getAll(Integer user_id);
 
     boolean add(VideoOperateDTO videoOperateDTO);
 }

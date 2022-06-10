@@ -78,20 +78,17 @@ public class UserServiceImpl implements UserService {
         return POJOUtils.DBToUser(getUserDB);
     }
 
-//    @Override
-//    public Result<User> update(User user) throws Exception {
-//        Result<User> result = new Result<>();
-//        UserDBO getUser = userMapper.getById(user.getId());
-//        if (getUser == null) {
-//            result.setFail("用户不存在！", State.ERR_NO_USER);
-//            return result;
-//        }
-//        if (!StringUtils.isEmpty(user.getPassword())) {
-//            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-//        }
-//        ClassExamine.objectOverlap(user, getUser);
-//        userMapper.update(user);
-//        result.setSuccess("修改成功！", user);
-//        return result;
-//    }
+    @Override
+    public User updatePwd(String password, User user) {
+        UserDBO getUser = userMapper.getDBOById(user.getId());
+        if (getUser == null) {
+            throw new IllegalOperationException("目标用户不存在");
+        }
+        if (userMapper.updatePwd(DigestUtils.md5Hex(password), user.getId()) == 1) {
+            user.setPassword(DigestUtils.md5Hex(password));
+            return user;
+        } else {
+            throw new SystemException("系统繁忙，请稍后重试");
+        }
+    }
 }

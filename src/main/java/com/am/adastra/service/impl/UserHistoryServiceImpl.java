@@ -1,5 +1,6 @@
 package com.am.adastra.service.impl;
 
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.service.UserHistoryService;
@@ -23,7 +24,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     UserHistoryMapper userHistoryMapper;
 
     @Override
-    public List<VideoOperateDTO> getAll(Integer user_id) {
+    public List<Video> getAll(Integer user_id) {
         return userHistoryMapper.getAll(user_id);
     }
 

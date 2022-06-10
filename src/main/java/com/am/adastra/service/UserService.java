@@ -23,4 +23,6 @@ public interface UserService {
     User update(User user);
 
     User isLogin(HttpSession session);
+
+    User updatePwd(String password,User user);
 }

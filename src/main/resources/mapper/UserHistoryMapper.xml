@@ -4,11 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.am.adastra.mapper.UserHistoryMapper">
 
-    <select id="getAll" resultType="com.am.adastra.entity.dto.VideoOperateDTO">
-        select id, user_id, pid, aid
-        from history
-        where user_id = #{user_id}
-          and state = 'normal'
+    <select id="getAll" resultType="com.am.adastra.entity.Video">
+        SELECT *
+        FROM videos
+        WHERE aid IN (
+            SELECT aid
+            FROM history
+            WHERE user_id = 11)
     </select>
 
     <insert id="add">

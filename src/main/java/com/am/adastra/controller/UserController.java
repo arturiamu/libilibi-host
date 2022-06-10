@@ -2,6 +2,7 @@ package com.am.adastra.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.am.adastra.entity.dto.UpdatePwdDTO;
 import com.am.adastra.entity.param.ValidationRules;
 import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
@@ -60,14 +61,14 @@ public class UserController {
         String acc = jsonObject.getString("account");
         if (patternMail.matcher(acc).matches()) {
             if (emailUtil.sendRegisterMail(acc, request)) {
-                log.info("发送邮箱验证成功");
+                log.info("获取邮箱验证码成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
                 throw new SystemException("系统繁忙，请稍后重试");
             }
         } else if (patternPhone.matcher(acc).matches()) {
             if (smsUtil.sendSMS(acc, request)) {
-                log.info("发送邮箱验证成功");
+                log.info("获取手机验证码成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
                 throw new SystemException("系统繁忙，请稍后重试");
@@ -82,13 +83,33 @@ public class UserController {
     @PostMapping("/register")
     public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) UserRegisterDTO rp, BindingResult errors, HttpServletRequest request) {
         Result<User> result = new Result<>();
-        System.out.println(rp);
+        log.info("rp: {}", rp);
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
         if (rp.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
             User getUser = userService.register(rp.getUser());
             result.setSuccess(getUser);
+        } else {
+            throw new ValidException("验证码错误");
+        }
+        return result;
+    }
+
+    @PostMapping("/updatePwd")
+    public Result<User> updatePwd(@RequestBody @Validated UpdatePwdDTO up, BindingResult errors, HttpServletRequest request) {
+        Result<User> result = new Result<>();
+        if (errors.hasErrors()) {
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
+        }
+        User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
+        if (sessionUser == null) {
+            throw new IllegalOperationException("非法操作");
+        }
+        if (up.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
+            User getUser = userService.updatePwd(up.getPassword(), sessionUser);
+            result.setSuccess(getUser);
+            request.getSession().setAttribute(USER_INFO_SESSION, null);
         } else {
             throw new ValidException("验证码错误");
         }
