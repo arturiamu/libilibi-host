@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface UserLikeService {
-    boolean addLike(VideoOperateDTO videoOperateDTO);
+    void addLike(VideoOperateDTO videoOperateDTO);
 
-    boolean cancelLike(VideoOperateDTO videoOperateDTO);
+    void cancelLike(VideoOperateDTO videoOperateDTO);
+
+    boolean isLikeVideo(VideoOperateDTO videoOperateDTO);
 }

@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
     public User register(User user) {
         UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser != null) {
-            throw new UsernameDuplicateException();
+            throw new RegisterException("用户名已存在");
         }
         getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser != null) {
-            throw new AccountRegisteredException();
+            throw new RegisterException("该号码已经注册过");
         }
         if (user.getItems() == null || user.getItems().length == 0) {
             log.info("default items");
@@ -54,10 +54,10 @@ public class UserServiceImpl implements UserService {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
 //        UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser == null) {
-            throw new UsernameDoesNotExistException();
+            throw new LoginException("用户名不存在");
         }
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
-            throw new PasswordNotMatchException();
+            throw new LoginException("密码错误");
         }
         return POJOUtils.DBToUser(getUser);
     }
@@ -72,12 +72,9 @@ public class UserServiceImpl implements UserService {
     public User isLogin(HttpSession session) {
         User sessionUser = (User) session.getAttribute(UserController.USER_INFO_SESSION);
         if (sessionUser == null) {
-            throw new UserNotLoginException();
+            throw new UserNotLoginException("用户未登录");
         }
         UserDBO getUserDB = userMapper.getDBOById(sessionUser.getId());
-        if (getUserDB == null || !getUserDB.getPassword().equals(sessionUser.getPassword())) {
-            throw new InvalidUserInformationException();
-        }
         return POJOUtils.DBToUser(getUserDB);
     }
 

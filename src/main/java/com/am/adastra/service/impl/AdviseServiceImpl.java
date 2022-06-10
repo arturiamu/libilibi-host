@@ -25,9 +25,9 @@ public class AdviseServiceImpl implements AdviseService {
     private AdviseMapper adviseMapper;
 
     @Override
-    public boolean add(AdviseDTO advise) {
+    public int add(AdviseDTO advise) {
         advise.setAdviseTime(new Date());
-        return adviseMapper.add(advise) == 1;
+        return adviseMapper.add(advise);
     }
 
     @Override

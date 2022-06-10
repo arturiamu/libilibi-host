@@ -2,6 +2,7 @@ package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.AdviseDTO;
+import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.AdviseService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
@@ -40,8 +41,7 @@ public class AdviseController {
 
         if (errors.hasErrors()) {
             result = new Result<>();
-            result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_USER_INFO);
-            return result;
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
 
         User getUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);

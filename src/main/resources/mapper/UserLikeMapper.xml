@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserLikeMapper">
+
+    <insert id="addLike">
+        insert into `likes`(user_id, aid, pid)
+        values (#{user_id}, #{aid}, #{pid})
+    </insert>
+
+    <select id="listByUserId" resultType="com.am.adastra.entity.dto.VideoOperateDTO">
+        select id, user_id, aid
+        from likes
+        where user_id = #{uid}
+    </select>
+
+    <select id="isLikeVideo" resultType="com.am.adastra.entity.dto.VideoOperateDTO">
+        select id, user_id, aid
+        from likes
+        where user_id = #{user_id}
+          and aid = #{aid}
+    </select>
+
+    <delete id="cancelLike">
+        delete
+        from likes
+        where user_id = #{user_id}
+          and aid = #{aid}
+    </delete>
+</mapper>

@@ -19,10 +19,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class VideoOperateDTO {
     Integer id;
-    Integer uid;
+    Integer user_id;
     @NotNull(message = "aid不能为空")
     Integer aid;
     @NotNull(message = "pid不能为空")
     Integer pid;
-    String cName;
+    String categoryName;
 }

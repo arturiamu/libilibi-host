@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.sql.DataSource;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,13 @@ class AdAstraApplicationTests {
     @Autowired
     private SMSUtil smsUtil;
 
+    @Autowired
+    DataSource dataSource;
+
+    @Test
+    void data(){
+        System.out.println(dataSource);
+    }
 
     @Test
     public void mail() {

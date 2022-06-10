@@ -24,6 +24,7 @@
         select *
         from videos
         where pid = #{pid}
+        limit 0,50
     </select>
 
 </mapper>

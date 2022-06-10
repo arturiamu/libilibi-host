@@ -5,6 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.param.ValidationRules;
 import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
+import com.am.adastra.ex.IllegalOperationException;
+import com.am.adastra.ex.SystemException;
+import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
 import com.am.adastra.util.Result;
@@ -20,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
 import java.util.regex.Pattern;
 
 /**
@@ -50,12 +54,8 @@ public class UserController {
     @ApiOperation("发送注册验证码")
     @ApiOperationSupport(order = 0)
     @PostMapping("/registerVerify")
-    public Result<Void> registerVerify(@RequestBody String account, HttpServletRequest request) {
+    public Result<Void> registerVerify(@RequestBody @NotBlank String account, HttpServletRequest request) {
         Result<Void> result = new Result<>();
-        if (account.isEmpty()) {
-            result.setFail("未输入账号！", State.ERR_REG_INFO);
-            return result;
-        }
         JSONObject jsonObject = JSON.parseObject(account);
         String acc = jsonObject.getString("account");
         if (patternMail.matcher(acc).matches()) {
@@ -63,14 +63,14 @@ public class UserController {
                 log.info("发送邮箱验证成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
-                result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
+                throw new SystemException("系统繁忙，请稍后重试");
             }
         } else if (patternPhone.matcher(acc).matches()) {
             if (smsUtil.sendSMS(acc, request)) {
                 log.info("发送邮箱验证成功");
                 result.setSuccess("获取验证码成功！", null);
             } else {
-                result.setFail("系统繁忙，请稍后重试！", State.ERR_REG_INFO);
+                throw new SystemException("系统繁忙，请稍后重试");
             }
         } else {
             log.info("账号不合法");
@@ -84,14 +84,13 @@ public class UserController {
         Result<User> result = new Result<>();
         System.out.println(rp);
         if (errors.hasErrors()) {
-            result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_REG_INFO);
-            return result;
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
         if (rp.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
             User getUser = userService.register(rp.getUser());
             result.setSuccess(getUser);
         } else {
-            result.setFail("验证码错误", State.ERR_REG_INFO);
+            throw new ValidException("验证码错误");
         }
         return result;
     }
@@ -101,9 +100,7 @@ public class UserController {
         log.info("登陆的用户信息 ： {}", user);
         Result<User> result = new Result<>();
         if (errors.hasErrors()) {
-            result = new Result<>();
-            result.setFail(errors.getFieldError().getDefaultMessage(), State.ERR_USER_INFO);
-            return result;
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
         User getUser = userService.login(user);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
@@ -124,8 +121,7 @@ public class UserController {
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
         if (!sessionUser.getId().equals(user.getId())) {
-            result.setFail("当前登录用户和被修改用户不一致，操作终止！", State.ERR_USER_INFO);
-            return result;
+            throw new IllegalOperationException("系统繁忙，请稍后重试");
         }
         User getUser = userService.update(user);
         result.setSuccess(getUser);

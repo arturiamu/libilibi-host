@@ -20,28 +20,20 @@ public class ExceptionConfigController {
     @ExceptionHandler(ServiceException.class)
     public Result<Void> serviceExceptionHandler(ServiceException e) {
         Result<Void> result = new Result<>();
-        if (e instanceof InvalidUserInformationException) {
-            result.setFail("用户信息无效！", State.ERR_REG_INFO);
-        } else if (e instanceof PasswordNotMatchException) {
-            result.setFail("密码错误！", State.ERR_REG_INFO);
-        } else if (e instanceof RegistrationParameterErrorException) {
-            result.setFail("参数错误！", State.ERR_REG_INFO);
-        } else if (e instanceof UsernameDoesNotExistException) {
-            result.setFail("用户不存在！", State.ERR_REG_INFO);
-        } else if (e instanceof UsernameDuplicateException) {
-            result.setFail("用户名已存在！", State.ERR_REG_INFO);
+        if (e instanceof LoginException) {
+            result.setFail(e.getMessage(), State.LOGIN_EX_CODE);
+        } else if (e instanceof RegisterException) {
+            result.setFail(e.getMessage(), State.REGISTER_EX_CODE);
+        } else if (e instanceof SystemException) {
+            result.setFail(e.getMessage(), State.SYS_EX_CODE);
         } else if (e instanceof UserNotLoginException) {
-            result.setFail("用户未登录！", State.ERR_REG_INFO);
-        } else if (e instanceof VerificationCodeErrorException) {
-            result.setFail("验证码错误！", State.ERR_REG_INFO);
-        } else if (e instanceof VerificationCodeExpiredException) {
-            result.setFail("验证码过期！", State.ERR_REG_INFO);
-        } else if (e instanceof AccountRegisteredException) {
-            result.setFail("当前账号已注册！", State.ERR_REG_INFO);
-        }else if (e instanceof UserCollectionRepeatException){
-            result.setFail("重复添加！", State.ERR_REPEATADD);
-        }else {
-            result.setFail("系统繁忙，请稍后重试", State.ERR_REG_INFO);
+            result.setFail(e.getMessage(), State.USER_NOT_LOGIN_EX_CODE);
+        } else if (e instanceof ValidException) {
+            result.setFail(e.getMessage(), State.VALID_EX_CODE);
+        } else if (e instanceof IllegalOperationException) {
+            result.setFail(e.getMessage(), State.ILLEGAL_EX_CODE);
+        } else {
+            result.setFail(e.getMessage(), State.SYS_EX_CODE);
         }
         return result;
     }

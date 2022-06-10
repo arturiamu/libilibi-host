@@ -13,7 +13,7 @@ spring:
       fail_on_unknown_properties: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: adastra
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource

@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public interface AdviseService {
 
-    boolean add(AdviseDTO advise);
+    int add(AdviseDTO advise);
 
     List<AdviseDTO> selectById(Integer userId);
 }
