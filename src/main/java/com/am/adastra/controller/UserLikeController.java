@@ -1,5 +1,6 @@
 package com.am.adastra.controller;
 
+import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
@@ -34,7 +35,7 @@ public class UserLikeController {
 
     @PostMapping("/add")
     public Result<Void> addLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info(videoOperateDTO.toString());
+        log.info("add like {}",videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
@@ -42,6 +43,8 @@ public class UserLikeController {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
+        User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        videoOperateDTO.setUser_id(sessionUser.getId());
         userLikeService.addLike(videoOperateDTO);
         result.setSuccess("添加成功", null);
         return result;
@@ -49,7 +52,7 @@ public class UserLikeController {
 
     @PostMapping("/cancel")
     public Result<Void> cancelLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info(videoOperateDTO.toString());
+        log.info("unlike {}",videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
@@ -57,6 +60,8 @@ public class UserLikeController {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
+        User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        videoOperateDTO.setUser_id(sessionUser.getId());
         userLikeService.cancelLike(videoOperateDTO);
         result.setSuccess("取消成功", null);
         return result;
@@ -64,7 +69,7 @@ public class UserLikeController {
 
     @PostMapping("/isLike")
     public Result<Void> isLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info(videoOperateDTO.toString());
+        log.info("isLike {}",videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
@@ -72,6 +77,8 @@ public class UserLikeController {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
+        User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        videoOperateDTO.setUser_id(sessionUser.getId());
         if (userLikeService.isLikeVideo(videoOperateDTO)) {
             result.setSuccess("like", null);
         } else {

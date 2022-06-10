@@ -5,7 +5,9 @@ import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.mapper.VideoMapper;
+import com.am.adastra.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -27,6 +29,9 @@ public class VideoPool {
     @Resource
     public VideoMapper videoMapper;
 
+    @Autowired
+    public VideoService videoService;
+
     @Resource
     public ItemMapper itemMapper;
 
@@ -46,6 +51,7 @@ public class VideoPool {
         that.videoMapper = this.videoMapper;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
+        that.videoService = this.videoService;
     }
 
     public static void run() {
@@ -57,7 +63,7 @@ public class VideoPool {
         }
         int total = 0;
         for (Item item : items) {
-            List<Video> videoList = that.videoMapper.getByPId(item.getPid());
+            List<Video> videoList = that.videoService.getByPId(item.getPid());
             log.info("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
@@ -74,10 +80,16 @@ public class VideoPool {
     public static List<Video> getPidVideo(int pid, int ps) {
         Set<Video> res = new HashSet<>();
         Random random = new Random();
+        int pidIdx = indexPid(pid);
+        int st = 0;
+        if (ps < VIDEO_POOL.get(pidIdx).size()) {
+            st = random.nextInt(VIDEO_POOL.get(pidIdx).size()) - ps;
+        }
+        if (st < 0) {
+            st = 0;
+        }
         while (ps-- > 0) {
-            int pidIdx = indexPid(pid);
-            int vIdx = random.nextInt(VIDEO_POOL.get(pidIdx).size());
-            res.add(VIDEO_POOL.get(pidIdx).get(vIdx));
+            res.add(VIDEO_POOL.get(pidIdx).get(st++));
         }
         return new ArrayList<>(res);
     }

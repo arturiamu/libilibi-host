@@ -4,9 +4,12 @@ import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.ex.RepeatException;
 import com.am.adastra.mapper.UserLikeMapper;
 import com.am.adastra.service.UserLikeService;
+import com.am.adastra.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -19,8 +22,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class UserLikeServiceImpl implements UserLikeService {
-    @Autowired
+    @Resource
     UserLikeMapper userLikeMapper;
+
+    @Resource
+    VideoService videoService;
 
     @Override
     public void addLike(VideoOperateDTO videoOperateDTO) {
@@ -30,11 +36,13 @@ public class UserLikeServiceImpl implements UserLikeService {
             throw new RepeatException("重复操作");
         }
         userLikeMapper.addLike(videoOperateDTO);
+        videoService.like(videoOperateDTO.getAid());
     }
 
     @Override
     public void cancelLike(VideoOperateDTO videoOperateDTO) {
         userLikeMapper.cancelLike(videoOperateDTO);
+        videoService.unlike(videoOperateDTO.getAid());
     }
 
     @Override

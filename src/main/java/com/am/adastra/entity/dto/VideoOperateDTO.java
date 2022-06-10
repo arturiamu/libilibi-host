@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -25,4 +26,5 @@ public class VideoOperateDTO {
     @NotNull(message = "pid不能为空")
     Integer pid;
     String categoryName;
+    Date time;
 }

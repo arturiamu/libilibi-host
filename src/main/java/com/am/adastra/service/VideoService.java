@@ -1,23 +1,20 @@
-package com.am.adastra.mapper;
+package com.am.adastra.service;
 
 import com.am.adastra.entity.Video;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
- * @Date : 2022/5/25 15:20
+ * @Date : 2022/6/10 13:01
  * @Params : @param null
  * @Exception :
  * @Return :
  * @Description ：
  */
-@Mapper
-public interface VideoMapper {
-
+@Service
+public interface VideoService {
     List<Video> getAll();
 
     Video getByAId(Integer aid);

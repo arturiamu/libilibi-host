@@ -24,7 +24,37 @@
         select *
         from videos
         where pid = #{pid}
-        limit 0,50
+        limit 0,100
     </select>
+
+    <update id="like">
+        update videos
+        set `like`=(`like` + 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="unlike">
+        update videos
+        set `like`=(`like` - 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="collect">
+        update videos
+        set favorite=(favorite + 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="unCollect">
+        update videos
+        set favorite=(favorite - 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="share">
+        update videos
+        set share=(share + 1)
+        where aid = #{aid}
+    </update>
 
 </mapper>
