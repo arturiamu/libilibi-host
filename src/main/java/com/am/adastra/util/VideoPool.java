@@ -62,12 +62,12 @@ public class VideoPool {
             PID_INDEX.put(items.get(i).getPid(), i);
         }
         int total = 0;
-        for (Item item : items) {
-            List<Video> videoList = that.videoService.getByPId(item.getPid());
-            log.info("{} size {}", item, videoList.size());
-            total += videoList.size();
-            VIDEO_POOL.add(videoList);
-        }
+//        for (Item item : items) {
+//            List<Video> videoList = that.videoService.getByPId(item.getPid());
+//            log.info("{} size {}", item, videoList.size());
+//            total += videoList.size();
+//            VIDEO_POOL.add(videoList);
+//        }
         log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
         log.info("total videos:{}", total);
         log.info("end load videos...");

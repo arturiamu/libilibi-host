@@ -2,6 +2,7 @@ package com.am.adastra.service.impl;
 
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
+import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.service.UserHistoryService;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     }
 
     @Override
-    public List<Video> getLimit(Integer user_id, Integer ps) {
+    public List<UserHistorySimpleVO> getLimit(Integer user_id, Integer ps) {
         return userHistoryMapper.getLimit(user_id, ps);
     }
 

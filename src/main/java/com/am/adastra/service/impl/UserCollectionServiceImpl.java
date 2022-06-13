@@ -1,5 +1,6 @@
 package com.am.adastra.service.impl;
 
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.ex.RepeatException;
@@ -30,13 +31,15 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         //设置添加时间为当前时间
         // 创建当前时间对象now > LocalDateTime.now()
         LocalDateTime now = LocalDateTime.now();
-        videoOperateDTO.setTime(now);
+        videoOperateDTO.setCreateTime(now);
 
         Result<Void> result = new Result<>();
         //1.先判断该用户  收藏夹中是否存在该视频（通过视频id和用户id查询）   存在就不添加
-        log.info("用户ID ： " + videoOperateDTO.getUid());
-        log.info("视频ID ： " + videoOperateDTO.getAid());
-        UserCollectionSimpleVO userCollectionSimpleVO = mapper.selectByUserId(videoOperateDTO.getUid(), videoOperateDTO.getAid());
+        int uid =  videoOperateDTO.getUid();
+        int aid =  videoOperateDTO.getAid();
+        log.info("用户ID ： " + uid);
+        log.info("视频ID ： " + aid);
+        UserCollectionSimpleVO userCollectionSimpleVO = mapper.selectByUserId(uid,aid);
         if (userCollectionSimpleVO != null) {
             log.info("重复添加shoucang " + userCollectionSimpleVO);
             throw new RepeatException("重复添加");
@@ -60,6 +63,8 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     */
     @Override
     public Result<List<UserCollectionSimpleVO>> selectByCollection(Integer userId, String category) {
+
+        log.info(" " +userId+ " " + category);
 
         Result<List<UserCollectionSimpleVO>> result = new Result<>();
 
