@@ -17,7 +17,6 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +37,13 @@ import java.util.regex.Pattern;
 @Slf4j
 @Api(tags = "用户模块")
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user", produces = "application/json;charset=utf-8")
 public class UserController {
     public static final String VERIFICATION_CODE_SESSION = "verificationCodeSession";
     public static final String USER_INFO_SESSION = "userInfoSession";
     public static final Pattern patternMail = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
     public static final Pattern patternPhone = Pattern.compile("^1[3|4|5|8|9][0-9]\\d{8}$");
+
 
     @Resource
     private UserService userService;

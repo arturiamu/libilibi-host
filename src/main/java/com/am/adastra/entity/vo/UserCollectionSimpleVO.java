@@ -11,6 +11,8 @@ import java.util.Date;
 public class UserCollectionSimpleVO {
     private Integer id;//该条收藏的id
     private String category;//收藏夹分类
-    private Integer videoId;//视频PID
-    private Date collectionTime;//收藏视频的时间
+    private Integer pid;//视频PID
+    private Integer aid;//视频PID
+    private Date createTime;//收藏视频的时间()
+
 }

@@ -44,7 +44,7 @@ public class UserLikeController {
             throw new UserNotLoginException("用户未登录");
         }
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        videoOperateDTO.setUser_id(sessionUser.getId());
+        videoOperateDTO.setUid(sessionUser.getId());
         userLikeService.addLike(videoOperateDTO);
         result.setSuccess("添加成功", null);
         return result;
@@ -61,7 +61,7 @@ public class UserLikeController {
             throw new UserNotLoginException("用户未登录");
         }
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        videoOperateDTO.setUser_id(sessionUser.getId());
+        videoOperateDTO.setUid(sessionUser.getId());
         userLikeService.cancelLike(videoOperateDTO);
         result.setSuccess("取消成功", null);
         return result;
@@ -78,7 +78,7 @@ public class UserLikeController {
             throw new UserNotLoginException("用户未登录");
         }
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        videoOperateDTO.setUser_id(sessionUser.getId());
+        videoOperateDTO.setUid(sessionUser.getId());
         if (userLikeService.isLikeVideo(videoOperateDTO)) {
             result.setSuccess("like", null);
         } else {

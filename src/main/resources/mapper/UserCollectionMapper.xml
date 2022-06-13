@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserCollectionMapper">
+
+<!--    /*
+    * 通过视频id和用户id   在收藏夹中查找   判断该用户是否收藏了这个视频
+    * */
+    @Select("select * from collection where user_id=#{userId} and collection_video_id=#{collectionVideoId}")
+    UserCollectionSimpleVO selectByUserId(Integer userId, Integer collectionVideoId);-->
+   <select id="selectByUserId" resultMap="selectByUserIdMap">
+       select id,  create_time, category_name
+       from collection
+       where uid=#{uid} and pid=#{pid}
+   </select>
+    <resultMap id="selectByUserIdMap" type="com.am.adastra.entity.vo.UserCollectionSimpleVO">
+        <id column="id" property="id" />
+        <result column="category" property="category" />
+        <result column="pid" property="pid" />
+        <result column="uid" property="uid" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+ <!--   /*
+    * 在数据库中添加新的收藏记录
+    * */
+    @Insert("insert into collection values(null,#{userId},#{collectionVideoId},#{collectionTime},#{category})")
+    int add(VideoOperateDTO lbUserCollection);-->
+    <insert id="add">
+        insert into collection(uid, aid, create_time, category_name,  pid)
+        VALUES(#{uip},#{aid},#{createTime},#{category_name},#{pid})
+    </insert>
+
+<!--
+    /*
+    * 通过用户id和分类信息查询出用户的收藏信息
+    * */
+    @Select("select * from collection where user_id=#{userId} and category=#{category}")
+    List<UserCollectionSimpleVO> selectByCollection(Integer userId, String category);
+-->
+    <select id="selectByCollection" resultMap="selectByUserIdMap">
+        select   aid, create_time,  pid
+        from collection
+        where uid=#{uid} and category_name=#{categoryName}
+    </select>
+
+
+<!--    /*
+    * 通过用户id查询出用户所有的收藏信息
+    * */
+    @Select("select * from collection where user_id=#{userId}")
+    List<UserCollectionSimpleVO> selectById(Integer userId);-->
+    <select id="selectById" resultMap="selectByUserIdMap">
+        select aid, create_time,  pid
+        from collection
+        where uid=#{uid}
+    </select>
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -20,11 +21,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class VideoOperateDTO {
     Integer id;
-    Integer user_id;
+    Integer uid;
     @NotNull(message = "aid不能为空")
     Integer aid;
     @NotNull(message = "pid不能为空")
     Integer pid;
     String categoryName;
-    Date time;
+    LocalDateTime time;
 }

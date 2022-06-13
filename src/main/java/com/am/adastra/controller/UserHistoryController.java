@@ -47,7 +47,7 @@ public class UserHistoryController {
         }
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         log.info("sessionUser: {}", sessionUser);
-        videoOperateDTO.setUser_id(sessionUser.getId());
+        videoOperateDTO.setUid(sessionUser.getId());
         log.info("videoOperateDTO: {}", videoOperateDTO);
         userHistoryService.add(videoOperateDTO);
         result.setSuccess("添加成功", null);
