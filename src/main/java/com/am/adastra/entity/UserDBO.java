@@ -1,10 +1,8 @@
 package com.am.adastra.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import netscape.javascript.JSObject;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
