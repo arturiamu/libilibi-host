@@ -8,18 +8,14 @@ import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,9 +30,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/history")
 public class UserHistoryController {
-    @Autowired
+    @Resource
     UserHistoryService userHistoryService;
-    @Autowired
+    @Resource
     UserService userService;
 
     @PostMapping("/add")
@@ -58,16 +54,16 @@ public class UserHistoryController {
         return result;
     }
 
-    @PostMapping("/getAll")
-    public Result<List<Video>> getAll(HttpServletRequest request) {
+    @GetMapping("/get/{ps}")
+    public Result<List<Video>> getAll(@PathVariable Integer ps, HttpServletRequest request) {
         Result<List<Video>> result = new Result<>();
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
-        Date date = new Date();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        List<Video> all = userHistoryService.getAll(sessionUser.getId());
-        result.setSuccess("获取", all);
+        log.info("sessionUser: {}", sessionUser);
+        List<Video> all = userHistoryService.getLimit(sessionUser.getId(), ps);
+        result.setSuccess("获取历史记录成功", all);
         return result;
     }
 }

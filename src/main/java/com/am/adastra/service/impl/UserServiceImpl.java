@@ -14,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -27,34 +28,36 @@ import javax.servlet.http.HttpSession;
 @Component
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired(required = false)
+    @Resource
     private UserMapper userMapper;
 
     @Override
     public User register(User user) {
+        log.info("user register:{}", user);
         UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser != null) {
             throw new RegisterException("用户名已存在");
         }
         getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser != null) {
-            throw new RegisterException("该号码已经注册过");
+            throw new RegisterException("该号码已经注册");
         }
         if (user.getItems() == null || user.getItems().length == 0) {
             log.info("default items");
             user.setItems(ItemController.defaultItems.toArray(new Item[0]));
         }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-        userMapper.addDBO(POJOUtils.userToDB(user));
-        return user;
+        if (userMapper.addDBO(POJOUtils.userToDB(user)) == 1) {
+            return user;
+        }
+        throw new SystemException("系统繁忙，请稍后重试");
     }
 
     @Override
     public User login(User user) {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
-//        UserDBO getUser = userMapper.getDBOByUsername(user.getUsername());
         if (getUser == null) {
-            throw new LoginException("用户名不存在");
+            throw new LoginException("该账号不存在");
         }
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
@@ -75,6 +78,9 @@ public class UserServiceImpl implements UserService {
             throw new UserNotLoginException("用户未登录");
         }
         UserDBO getUserDB = userMapper.getDBOById(sessionUser.getId());
+        if (getUserDB == null) {
+            throw new IllegalOperationException("非法操作");
+        }
         return POJOUtils.DBToUser(getUserDB);
     }
 

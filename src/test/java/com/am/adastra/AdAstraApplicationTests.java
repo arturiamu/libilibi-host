@@ -2,6 +2,7 @@ package com.am.adastra;
 
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.Video;
+import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.VideoService;
@@ -48,13 +49,28 @@ class AdAstraApplicationTests {
     @Autowired
     DataSource dataSource;
 
+    @Autowired
+    UserHistoryMapper userHistoryMapper;
+
     @Test
-    void history(){
+    void history() {
         System.out.println(userHistoryService.getAll(11));
     }
 
     @Test
-    void data(){
+    void dateHistory() {
+//        long dis = 7 * 24 * 60 * 60 * 1000;
+        long dis = 16 * 60 * 60 * 1000;
+        long c = System.currentTimeMillis();
+        Date date = new Date(c - dis);
+        List<Video> limitByDate = userHistoryMapper.getLimitByDate(11, date);
+        for (Video video : limitByDate) {
+            System.out.println(video.getAid());
+        }
+    }
+
+    @Test
+    void data() {
         System.out.println(dataSource);
     }
 

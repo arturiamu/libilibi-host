@@ -29,6 +29,16 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     }
 
     @Override
+    public List<Video> getLimitByDate(Integer user_id, Date date) {
+        return userHistoryMapper.getLimitByDate(user_id, date);
+    }
+
+    @Override
+    public List<Video> getLimit(Integer user_id, Integer ps) {
+        return userHistoryMapper.getLimit(user_id, ps);
+    }
+
+    @Override
     public boolean add(VideoOperateDTO videoOperateDTO) {
         return userHistoryMapper.add(videoOperateDTO);
     }

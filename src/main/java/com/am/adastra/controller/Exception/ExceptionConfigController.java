@@ -24,8 +24,6 @@ public class ExceptionConfigController {
             result.setFail(e.getMessage(), State.LOGIN_EX_CODE);
         } else if (e instanceof RegisterException) {
             result.setFail(e.getMessage(), State.REGISTER_EX_CODE);
-        } else if (e instanceof SystemException) {
-            result.setFail(e.getMessage(), State.SYS_EX_CODE);
         } else if (e instanceof UserNotLoginException) {
             result.setFail(e.getMessage(), State.USER_NOT_LOGIN_EX_CODE);
         } else if (e instanceof ValidException) {
