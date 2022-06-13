@@ -1,30 +1,83 @@
 package com.am.adastra;
 
+import com.alibaba.fastjson.JSONObject;
+import com.am.adastra.entity.Video;
+import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserHistoryService;
+import com.am.adastra.service.VideoService;
 import com.am.adastra.util.SMSUtil;
 import com.am.adastra.util.EmailUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
+import org.springframework.test.web.servlet.MockMvc;
 
+import javax.sql.DataSource;
+import java.util.*;
 import java.util.regex.Pattern;
 
-@PropertySource(value = "classpath:application.yml")
-@SpringBootTest
+@AutoConfigureMockMvc
+@SpringBootTest(classes = AdAstraApplication.class)
 class AdAstraApplicationTests {
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private EmailUtil emailUtil;
+
     @Autowired
     private SMSUtil smsUtil;
+
+    @Autowired
+    VideoService videoService;
+
+    @Autowired
+    UserHistoryService userHistoryService;
+
+    @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    UserHistoryMapper userHistoryMapper;
+
+    @Test
+    void history() {
+        System.out.println(userHistoryService.getAll(11));
+    }
+
+    @Test
+    void dateHistory() {
+//        long dis = 7 * 24 * 60 * 60 * 1000;
+        long dis = 16 * 60 * 60 * 1000;
+        long c = System.currentTimeMillis();
+        Date date = new Date(c - dis);
+        List<Video> limitByDate = userHistoryMapper.getLimitByDate(11, date);
+        for (Video video : limitByDate) {
+            System.out.println(video.getAid());
+        }
+    }
+
+    @Test
+    void data() {
+        System.out.println(dataSource);
+    }
+
     @Test
     public void mail() {
         String to = "1743089727@qq.com";
-        String subject = "isamumu";
-        String text = "test email";
-        emailUtil.sendMail(to,subject);
+        emailUtil.sendRegisterMail(to, null);
     }
 
     @Test
@@ -43,8 +96,8 @@ class AdAstraApplicationTests {
 
     @Test
     public void reMailTest() {
-        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
-        String mail = "12346@qq.com";
+        Pattern pattern = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
+        String mail = "174308972@qq.com";
         System.out.println(pattern.matcher(mail).matches());
     }
 
@@ -60,5 +113,65 @@ class AdAstraApplicationTests {
     @Test
     void getJson() {
         String[] item = new String[]{};
+    }
+
+
+    @Test
+    void testGetPid() {
+        Integer pid = 155;
+        Map entries = redisTemplate.opsForHash().entries("video:811566062");
+        System.out.println(entries);
+    }
+
+    @Test
+    void remove() {
+
+    }
+
+
+    @Test
+    void getAllVideo() {
+        Long st = System.currentTimeMillis();
+        Set<String> keys = redisTemplate.keys("*");
+        HashMap<Object, Object> map = new HashMap<>();
+        for (String key : keys) {
+            try {
+                Object value = redisTemplate.opsForValue().get(key);
+                System.out.println(value);
+                map.put(key, value);
+            } catch (Exception e) {
+                System.out.println("error" + key);
+            }
+        }
+        System.out.println(map.size());
+        Long ed = System.currentTimeMillis();
+        System.out.println((ed - st) / 1000);
+    }
+
+    @Test
+    public void getAllVideo2() {
+        Set keys = redisTemplate.keys("video:" + "*");
+        Iterator<String> iterator = keys.iterator();
+        List<Video> pipelinedResultList = redisTemplate.executePipelined(
+                new SessionCallback<Object>() {
+                    @Override
+                    public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                        HashOperations<K, Object, Object> hashOperations = operations.opsForHash();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
+                            hashOperations.entries((K) key);
+                        }
+                        return null;
+                    }
+                });
+        System.out.println(pipelinedResultList.get(0));
+        System.out.println(pipelinedResultList.size());
+//        return pipelinedResultList;
+    }
+
+
+    public static <T> T mapToObject(Map<String, Object> map, Class<T> clazz) {
+        String jsonStr = JSONObject.toJSONString(map);
+        return JSONObject.parseObject(jsonStr, clazz);
     }
 }

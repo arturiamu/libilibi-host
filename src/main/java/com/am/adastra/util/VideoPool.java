@@ -5,6 +5,9 @@ import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.mapper.VideoMapper;
+import com.am.adastra.service.VideoService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,11 +22,15 @@ import java.util.*;
  * @Return :
  * @Description ：
  */
+@Slf4j
 @Component
 public class VideoPool {
     private static VideoPool that;
     @Resource
     public VideoMapper videoMapper;
+
+    @Autowired
+    public VideoService videoService;
 
     @Resource
     public ItemMapper itemMapper;
@@ -31,71 +38,58 @@ public class VideoPool {
     @Resource
     public UserMapper userMapper;
 
+    @Resource
+    public VideosUtilsRedis videosUtilsRedis;
+
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
-    private static final int[][] items = {
-            {1, 24, 25, 47, 210, 86, 27},  // 动画
-            {13, 33, 32, 51, 152},  // 番剧
-            {167, 153, 168, 169, 195, 170},  // 国创
-            {3, 28, 31, 30, 194, 59, 193, 29, 130, 243, 244},  // 音乐
-            {129, 20, 198, 199, 200, 154, 156},  // 舞蹈
-            {4, 17, 171, 172, 65, 173, 121, 136, 19},  // 游戏
-            {36, 201, 124, 228, 207, 208, 209, 229, 122},  // 知识
-            {188, 95, 230, 231, 232, 233},  // 科技
-            {234, 235, 164, 236, 237, 238, 249},  // 运动
-            {223, 176, 224, 245, 225, 240, 226, 227, 246, 247, 248},  // 汽车
-            {160, 138, 239, 161, 162, 21, 250},  // 生活
-//            {211, 76, 212, 213, 214, 215}, 美食
-            {217, 218, 219, 220, 221, 222, 75},  // 动物
-            {119, 22, 26, 126, 216, 127},  // 鬼畜
-            {155, 157, 158, 159},  // 时尚
-            {202, 203, 204, 205, 206},  // 资讯
-            {5, 71, 241, 242, 137},  // 娱乐
-            {181, 182, 183, 85, 184},  // 影视
-            {177, 37, 178, 179, 180},  // 纪录片
-            {23, 147, 145, 146, 83},  // 电影
-            {11, 185, 187},  // 电视剧
-    };
+    private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
 
     @PostConstruct
     public void init() {
-        System.out.println("init video pool");
+        log.info("init video pool");
         that = this;
         that.videoMapper = this.videoMapper;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
+        that.videoService = this.videoService;
     }
 
     public static void run() {
-        System.out.println("start load videos...");
-//        List<Item> itemList = that.itemMapper.getAll();
-//        int total = 0;
-//        for (Item item : itemList) {
-//            List<Video> itVideos = that.videoMapper.getByPId(item.getPid());
-//            total += itVideos.size();
-//            System.out.println(item + " size: " + itVideos.size());
-//            VIDEO_POOL.add(itVideos);
-//        }
-//        System.out.println("total video : " + total);
-        System.out.println("end load videos...");
+        log.info("start load videos...");
+        long st = System.currentTimeMillis();
+        List<Item> items = that.itemMapper.getAll();
+        for (int i = 0; i < items.size(); i++) {
+            PID_INDEX.put(items.get(i).getPid(), i);
+        }
+        int total = 0;
+        for (Item item : items) {
+            List<Video> videoList = that.videoService.getByPId(item.getPid());
+            log.info("{} size {}", item, videoList.size());
+            total += videoList.size();
+            VIDEO_POOL.add(videoList);
+        }
+        log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.info("total videos:{}", total);
+        log.info("end load videos...");
     }
 
     public static int indexPid(int pid) {
-        int idx = -1;
-        for (int[] item : items) {
-            if (item[0] == pid)
-                return idx + 1;
-            idx += 1;
-        }
-        return idx;
+        return PID_INDEX.get(pid);
     }
 
     public static List<Video> getPidVideo(int pid, int ps) {
         Set<Video> res = new HashSet<>();
         Random random = new Random();
+        int pidIdx = indexPid(pid);
+        int st = 0;
+        if (ps < VIDEO_POOL.get(pidIdx).size()) {
+            st = random.nextInt(VIDEO_POOL.get(pidIdx).size()) - ps;
+        }
+        if (st < 0) {
+            st = 0;
+        }
         while (ps-- > 0) {
-            int pidIdx = indexPid(pid);
-            int vIdx = random.nextInt(VIDEO_POOL.get(pidIdx).size());
-            res.add(VIDEO_POOL.get(pidIdx).get(vIdx));
+            res.add(VIDEO_POOL.get(pidIdx).get(st++));
         }
         return new ArrayList<>(res);
     }

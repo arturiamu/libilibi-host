@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.am.adastra.entity.Item;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.util.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Return :
  * @Description ：
  */
+@Slf4j
 @RestController
 @RequestMapping("/item")
 public class ItemController {
@@ -34,16 +36,20 @@ public class ItemController {
 
     @GetMapping("/all")
     public Result<List<Item>> itemList() {
+        log.info("获取所有分区信息");
         Result<List<Item>> result = new Result<>();
         List<Item> items = itemMapper.getAll();
+        log.info("所有分区信息：{}", items);
         result.setSuccess(items);
         return result;
     }
 
     @GetMapping("/default")
     public Result<List<Item>> itemDefault() {
+        log.info("获取默认分区信息");
         Result<List<Item>> result = new Result<>();
         result.setSuccess(defaultItems);
+        log.info("默认分区信息：{}", defaultItems);
         return result;
     }
 }

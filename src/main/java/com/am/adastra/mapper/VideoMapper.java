@@ -3,6 +3,7 @@ package com.am.adastra.mapper;
 import com.am.adastra.entity.Video;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -19,11 +20,21 @@ public interface VideoMapper {
 
     List<Video> getAll();
 
-    Video getByAId(int aid);
+    Video getByAId(Integer aid);
 
     List<Video> getByTIds(String typeList);
 
-    List<Video> getByTId(int tid);
+    List<Video> getByTId(Integer tid);
 
-    List<Video> getByPId(int pid);
+    List<Video> getByPId(Integer pid);
+
+    int like(Integer aid);
+
+    int unlike(Integer aid);
+
+    int collect(Integer aid);
+
+    int unCollect(Integer aid);
+
+    int share(Integer aid);
 }

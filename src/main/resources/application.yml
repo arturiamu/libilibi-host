@@ -1,23 +1,34 @@
 server:
   port: 9000
   address: 0.0.0.0
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
 
 spring:
   jackson:
-    defaultPropertyInclusion: NON_EMPTY
+    defaultPropertyInclusion: non_null
     deserialization:
       fail_on_unknown_properties: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: adastra
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
-  security:
-    oauth2:
-      resourceserver:
-        opaquetoken:
-          client-id:
+  redis:
+    host: 47.113.222.20
+    port: 6379
+    password: 123
+    database: 0
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
   mail:
     host: smtp.qq.com
     username: 2762404119@qq.com
@@ -27,7 +38,14 @@ spring:
     properties:
       mail.smtp.ssl.enable: true
     protocol: smtps
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
 sms:
   app:
     id: 1400683116
@@ -40,13 +58,10 @@ sms:
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
-
 logging:
   level:
     com:
       am:
-        adastra:
-          info
-
-
-
+        adastra: info
+knife4j:
+  enable: true

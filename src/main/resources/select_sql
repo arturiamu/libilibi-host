@@ -1,0 +1,10 @@
+SELECT users.`id`,items.name,item_id,items.`uri`,items.`pid` FROM (users LEFT JOIN user_item ON users.id = user_item.`user_id` )
+					INNER JOIN items ON items.`id` = user_item.`item_id`
+
+SELECT users.`id`,collection.`category`,collection.`collection_time`,collection.`collection_video_id`,collection.`state`
+FROM collection, users
+WHERE collection.`user_id` = users.`id`
+
+SELECT users.`id`,history.`history_video_id`,history.`time`
+FROM history,users
+WHERE users.`id` = history.`user_id`

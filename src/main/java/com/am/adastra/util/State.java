@@ -10,12 +10,13 @@ package com.am.adastra.util;
  */
 public enum State {
     OK(200),
-    ERR_PASSWORD(201),
-    ERR_NO_USER(202),
-    ERR_REG_INFO(202),
-    ERR_NOT_LOGIN(202),
-    ERR_USER_INFO(202),
-    ERR_USERNAME_EXISTED(203);
+    LOGIN_EX_CODE(201),
+    REGISTER_EX_CODE(202),
+    REPEAT_EX_CODE(203),
+    SYS_EX_CODE(204),
+    USER_NOT_LOGIN_EX_CODE(205),
+    ILLEGAL_EX_CODE(205),
+    VALID_EX_CODE(205);
 
     private final Integer valve;
 

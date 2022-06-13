@@ -5,7 +5,8 @@
 <mapper namespace="com.am.adastra.mapper.VideoMapper">
     <select id="getAll">
         select *
-        from videos;
+        from videos
+        order by aid;
     </select>
 
     <select id="getById" resultType="com.am.adastra.entity.Video">
@@ -18,12 +19,45 @@
         select *
         from videos
         where tid = #{tid}
+        order by aid;
     </select>
 
     <select id="getByPId" resultType="com.am.adastra.entity.Video">
         select *
         from videos
         where pid = #{pid}
+        order by aid
+        limit 0,100
     </select>
+
+    <update id="like">
+        update videos
+        set `like`=(`like` + 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="unlike">
+        update videos
+        set `like`=(`like` - 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="collect">
+        update videos
+        set favorite=(favorite + 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="unCollect">
+        update videos
+        set favorite=(favorite - 1)
+        where aid = #{aid}
+    </update>
+
+    <update id="share">
+        update videos
+        set share=(share + 1)
+        where aid = #{aid}
+    </update>
 
 </mapper>

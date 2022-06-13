@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserHistoryMapper">
+
+    <select id="getAll" resultType="com.am.adastra.entity.Video">
+        SELECT *
+        FROM videos
+        WHERE aid IN (
+            SELECT aid
+            FROM history
+            WHERE user_id = 11)
+    </select>
+
+    <select id="getLimitByDate" resultType="com.am.adastra.entity.Video">
+        SELECT *
+        FROM videos
+        WHERE aid IN (
+            SELECT aid
+            FROM history
+            WHERE user_id = 11
+              and create_time > #{date})
+    </select>
+
+    <select id="getLimit" resultType="com.am.adastra.entity.Video">
+        SELECT *
+        FROM videos
+        WHERE aid IN (
+            SELECT aid
+            FROM history
+            WHERE user_id = #{user_id}
+            limit 0,#{ps}
+        )
+    </select>
+
+    <insert id="add">
+        insert into history(user_id, pid, aid)
+        values (#{user_id}, #{pid}, #{aid})
+    </insert>
+</mapper>

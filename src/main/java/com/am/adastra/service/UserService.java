@@ -16,14 +16,6 @@ import javax.servlet.http.HttpSession;
  */
 @Service
 public interface UserService {
-//    Result<User> register(User user);
-//
-//    Result<User> login(User user);
-//
-//    Result<User> update(User user) throws Exception;
-//
-//    Result<User> isLogin(HttpSession session);
-
     User register(User user);
 
     User login(User user);
@@ -31,4 +23,6 @@ public interface UserService {
     User update(User user);
 
     User isLogin(HttpSession session);
+
+    User updatePwd(String password,User user);
 }

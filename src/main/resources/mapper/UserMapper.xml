@@ -33,4 +33,19 @@
         from users
         where account = #{account}
     </select>
+
+    <update id="updatePwd">
+        update users
+        set password = #{password}
+        where id = #{id}
+    </update>
+
+
+    <!--  返回所有用户信息
+     @Select("select * from users")-->
+    <select id="list" resultType="com.am.adastra.entity.User">
+        select id, username, account, items, state
+        from users
+    </select>
+
 </mapper>
