@@ -27,14 +27,14 @@ public class UserInterestRecommendController {
     private UserInterestRecommendService interestService;
 
     @GetMapping
-    public Result<Void> interest(HttpServletRequest request) {
+    public Result<Void> interest(int number,HttpServletRequest request) {
         //  获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
         long userId = user.getId();
         log.info("当前的用户id为" + userId);
 
         //2.调用service层方法获取推荐
-        interestService.list(userId);
+        interestService.list(userId,number);
 
         return null;
 

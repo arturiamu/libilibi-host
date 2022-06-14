@@ -47,7 +47,7 @@ public class UserCollectionController {
 
         //  获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
         videoOperateDTO.setUid(userId);
         log.info("当前的用户id为" + userId);
 
@@ -65,7 +65,7 @@ public class UserCollectionController {
 
 //        1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
 
         log.info("用户ID： " + userId);
         log.info("用户分类：  " + category);

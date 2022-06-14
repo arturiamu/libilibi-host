@@ -22,9 +22,9 @@ public interface UserMapper {
 
     int updateDBO(User user);
 
-    int updatePwd(String password,Integer id);
+    int updatePwd(String password,Long id);
 
-    UserDBO getDBOById(int id);
+    UserDBO getDBOById(Long id);
 
     UserDBO getDBOByAccount(String account);
 

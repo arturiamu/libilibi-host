@@ -18,12 +18,11 @@
     <resultMap id="selectByUserIdMap" type="com.am.adastra.entity.vo.UserCollectionSimpleVO">
         <id column="id" property="id"/>
         <result column="category_name" property="categoryName"/>
-        <result column="collection.pid" property="pid"/>
-        <result column="collection.aid" property="aid"/>
+        <result column="uid" property="uid"/>
         <result column="create_time" property="createTime"/>
         <collection property="video" ofType="com.am.adastra.entity.Video">
-          <!--  <id column="videos.aid" property="aid"/>
-            <result column="videos.pid" property="pid"/>-->
+            <id column="aid" property="aid"/>
+            <result column="pid" property="pid"/>
             <result column="tid" property="tid"/>
             <result column="tname" property="tname"/>
             <result column="pic" property="pic"/>
@@ -50,8 +49,7 @@
     </select>
     <sql id="selectByCollectionFields">
         <if test="true">
-            videos.aid,
-            videos.pid,
+            videos.uid,
             videos.tid,
             videos.tname,
             videos.pic,

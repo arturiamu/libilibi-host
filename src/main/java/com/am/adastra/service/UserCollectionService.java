@@ -15,5 +15,5 @@ public interface UserCollectionService {
 
     Result<Void> add(VideoOperateDTO videoOperateDTO);
 
-    Result<List<UserCollectionSimpleVO>> selectByCollection(Integer userId, String category);
+    Result<List<UserCollectionSimpleVO>> selectByCollection(Long userId, String category);
 }

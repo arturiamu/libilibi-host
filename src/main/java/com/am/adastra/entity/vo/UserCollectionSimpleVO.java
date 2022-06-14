@@ -13,8 +13,9 @@ import java.util.List;
 public class UserCollectionSimpleVO {
     private long id;//该条收藏的id
     private String categoryName;//收藏夹分类
-    private Integer pid;//视频大分类PID
-    private long aid;//视频aID
+    private Long uid;//
+//    private Integer pid;//视频大分类PID
+//    private long aid;//视频aID
     private Date createTime;//收藏视频的时间()
 
     private List<Video> video;//视频信息

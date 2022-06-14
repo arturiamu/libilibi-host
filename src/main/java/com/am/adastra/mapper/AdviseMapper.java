@@ -17,5 +17,5 @@ public interface AdviseMapper {
     //添加用户建议
     int add(AdviseDTO advise);
     //查询用户建议
-    List<AdviseDTO> selectById(Integer userId);
+    List<AdviseDTO> selectById(Long userId);
 }

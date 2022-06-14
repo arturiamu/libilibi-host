@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
 public class User implements Serializable {
-    private Integer id;
+    private Long id;
 
     @NotEmpty(groups = ValidationRules.register.class, message = "用户名不能为空！")
     private String username;
