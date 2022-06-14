@@ -1,6 +1,7 @@
 package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.Video;
 import com.am.adastra.service.UserInterestRecommendService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
@@ -8,10 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /*
  * 用户推荐
@@ -26,17 +29,17 @@ public class UserInterestRecommendController {
     @Autowired(required = false)
     private UserInterestRecommendService interestService;
 
-    @GetMapping
-    public Result<Void> interest(int number,HttpServletRequest request) {
+    @GetMapping("/{number}")
+    public Result<List<Video>> interest(@PathVariable int number, HttpServletRequest request) {
         //  获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
         long userId = user.getId();
         log.info("当前的用户id为" + userId);
 
         //2.调用service层方法获取推荐
-        interestService.list(userId,number);
+        Result<List<Video>> list = interestService.list(userId, number);
 
-        return null;
+        return list;
 
 
     }

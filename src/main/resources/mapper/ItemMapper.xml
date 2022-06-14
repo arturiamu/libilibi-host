@@ -5,7 +5,7 @@
 <mapper namespace="com.am.adastra.mapper.ItemMapper">
     <select id="getAll" resultType="com.am.adastra.entity.Item">
         SELECT *
-        FROM items;
+        FROM items order by id;
     </select>
 
     <select id="getById" resultType="com.am.adastra.entity.Item">

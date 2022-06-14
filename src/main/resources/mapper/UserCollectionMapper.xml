@@ -87,12 +87,11 @@
     <!--    /*
         * 通过用户id查询出用户所有的收藏信息
         * */
-        @Select("select * from collection where user_id=#{userId}")
         List<UserCollectionSimpleVO> selectById(Integer userId);-->
     <select id="selectById" resultMap="selectByUserIdMap">
-        select aid, create_time, pid
-        from collection
-        where uid = #{uid}
+        select *
+        from collection,videos
+        where collection.aid = videos.aid and collection.uid=#{uid}
     </select>
 
 
