@@ -54,7 +54,7 @@ public class UserController {
 
     @ApiOperation("发送验证码")
     @ApiOperationSupport(order = 0)
-    @PostMapping("/registerVerify")
+    @PostMapping("/verifyCode")
     public Result<Void> registerVerify(@RequestBody @NotBlank String account, HttpServletRequest request) {
         log.info("发送验证码：{}", account);
         Result<Void> result = new Result<>();
@@ -90,7 +90,7 @@ public class UserController {
         }
         if (rp.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
             User getUser = userService.register(rp.getUser());
-            result.setSuccess(getUser);
+            result.setSuccess("注册成功，已为您自动登录", getUser);
         } else {
             throw new ValidException("验证码错误");
         }
@@ -117,12 +117,8 @@ public class UserController {
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
-        User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        if (sessionUser == null) {
-            throw new IllegalOperationException("非法操作");
-        }
         if (up.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
-            User getUser = userService.updatePwd(up.getPassword(), sessionUser);
+            User getUser = userService.updatePwd(up.getPassword(), up.getAccount());
             result.setSuccess(getUser);
             request.getSession().setAttribute(USER_INFO_SESSION, null);
         } else {
@@ -144,6 +140,20 @@ public class UserController {
         Result<Void> result = new Result<>();
         result.setSuccess("用户退出登录成功！", null);
         request.getSession().setAttribute(USER_INFO_SESSION, null);
+        return result;
+    }
+
+    @PostMapping("/verify")
+    public Result<Void> verify(@RequestBody @NotBlank String code, HttpServletRequest request) {
+        log.info("验证 ： {}", code);
+        JSONObject jsonObject = JSON.parseObject(code);
+        String acc = jsonObject.getString("code");
+        Result<Void> result = new Result<>();
+        if (acc.equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
+            result.setSuccess();
+        } else {
+            result.setFail("验证码错误");
+        }
         return result;
     }
 

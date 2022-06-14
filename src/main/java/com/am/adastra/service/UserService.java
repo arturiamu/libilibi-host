@@ -24,5 +24,5 @@ public interface UserService {
 
     User isLogin(HttpSession session);
 
-    User updatePwd(String password,User user);
+    User updatePwd(String password,String account);
 }

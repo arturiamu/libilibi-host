@@ -85,14 +85,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updatePwd(String password, User user) {
-        UserDBO getUser = userMapper.getDBOById(user.getId());
+    public User updatePwd(String password, String account) {
+        UserDBO getUser = userMapper.getDBOByAccount(account);
         if (getUser == null) {
             throw new IllegalOperationException("目标用户不存在");
         }
-        if (userMapper.updatePwd(DigestUtils.md5Hex(password), user.getId()) == 1) {
-            user.setPassword(DigestUtils.md5Hex(password));
-            return user;
+        if (userMapper.updatePwd(DigestUtils.md5Hex(password), getUser.getId()) == 1) {
+            getUser.setPassword(DigestUtils.md5Hex(password));
+            return POJOUtils.DBToUser(getUser);
         } else {
             throw new SystemException("系统繁忙，请稍后重试");
         }
