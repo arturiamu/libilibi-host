@@ -25,4 +25,6 @@ public class UpdatePwdDTO {
     @NotBlank(message = "验证码不能为空")
     @Size(min = 6, max = 6, message = "验证码格式不正确")
     private String verCode;
+    @NotBlank(message = "账号不能为空")
+    private String account;
 }

@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
+import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserHistoryService;
@@ -55,14 +56,15 @@ public class UserHistoryController {
     }
 
     @GetMapping("/get/{ps}")
-    public Result<List<Video>> getAll(@PathVariable Integer ps, HttpServletRequest request) {
-        Result<List<Video>> result = new Result<>();
+    public Result<List<UserHistorySimpleVO>> getAll(@PathVariable Integer ps, HttpServletRequest request) {
+        log.info("get history: {}", ps);
+        Result<List<UserHistorySimpleVO>> result = new Result<>();
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         log.info("sessionUser: {}", sessionUser);
-        List<Video> all = userHistoryService.getLimit(sessionUser.getId(), ps);
+        List<UserHistorySimpleVO> all = userHistoryService.getLimit(sessionUser.getId(), ps);
         result.setSuccess("获取历史记录成功", all);
         return result;
     }

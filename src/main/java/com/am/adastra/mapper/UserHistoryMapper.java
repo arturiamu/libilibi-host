@@ -2,6 +2,7 @@ package com.am.adastra.mapper;
 
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
+import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public interface UserHistoryMapper {
 
     List<Video> getLimitByDate(Integer uid, Date date);
 
-    List<Video> getLimit(Integer uid, Integer ps);
+    List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps);
 
     boolean add(VideoOperateDTO videoOperateDTO);
 }

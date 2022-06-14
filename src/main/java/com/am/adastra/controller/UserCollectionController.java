@@ -10,6 +10,7 @@ import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -34,7 +35,7 @@ public class UserCollectionController {
     /*
             用户添加视频到收藏夹中*/
     @PostMapping("/add")
-    public Result<Void> add(@RequestBody VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
+    public Result<Void> add(@RequestBody @Validated VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         //先判断传递的信息是否有误
         log.info("用户收藏============" + videoOperateDTO);
         Result<Void> result = new Result<>();
@@ -60,7 +61,7 @@ public class UserCollectionController {
     /*  通过用户分类的查看用户的收藏
      */
     @GetMapping("/selectByCollection")
-    public Result<List<UserCollectionSimpleVO>> selectByCollection(String category, HttpServletRequest request) {
+    public Result<List<UserCollectionSimpleVO>> selectByCollection( String category, HttpServletRequest request) {
 
 //        1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());

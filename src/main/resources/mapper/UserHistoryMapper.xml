@@ -23,15 +23,35 @@
               and create_time > #{date})
     </select>
 
-    <select id="getLimit" resultType="com.am.adastra.entity.Video">
-        SELECT *
-        FROM videos
-        WHERE aid IN (
-            SELECT aid
-            FROM history
-            WHERE uid = #{uid}
-        )
+    <select id="getLimit" resultMap="getLimitMap">
+        SELECT  *
+        FROM history JOIN videos ON history.aid=videos.aid
+        WHERE uid = #{uid}
+        order by create_time desc
+        limit 0,#{ps}
     </select>
+    <resultMap id="getLimitMap" type="com.am.adastra.entity.vo.UserHistorySimpleVO">
+        <result column="id" property="id"/>
+        <result column="history.pid" property="pid"/>
+        <result column="history.aid" property="aid"/>
+        <result column="createTime" property="createTime"/>
+        <collection property="videoList" ofType="com.am.adastra.entity.Video">
+            <!--  <id column="videos.aid" property="aid"/>
+              <result column="videos.pid" property="pid"/>-->
+            <result column="tid" property="tid"/>
+            <result column="tname" property="tname"/>
+            <result column="pic" property="pic"/>
+            <result column="title" property="title"/>
+            <result column="desc" property="desc"/>
+            <result column="view" property="view"/>
+            <result column="danmaku" property="danmaku"/>
+            <result column="reply" property="reply"/>
+            <result column="favorite" property="favorite"/>
+            <result column="coin" property="coin"/>
+            <result column="share" property="share"/>
+            <result column="like" property="like"/>
+        </collection>
+    </resultMap>
 
     <insert id="add">
         insert into history(uid, pid, aid)

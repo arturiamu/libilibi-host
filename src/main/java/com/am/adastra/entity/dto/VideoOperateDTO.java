@@ -27,5 +27,5 @@ public class VideoOperateDTO {
     @NotNull(message = "pid不能为空")
     Integer pid;
     String categoryName;
-    LocalDateTime time;
+    LocalDateTime createTime;
 }
