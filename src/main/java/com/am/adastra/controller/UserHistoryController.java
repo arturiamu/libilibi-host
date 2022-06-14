@@ -65,6 +65,7 @@ public class UserHistoryController {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         log.info("sessionUser: {}", sessionUser);
         List<UserHistorySimpleVO> all = userHistoryService.getLimit(sessionUser.getId(), ps);
+        log.info("result:{}", all);
         result.setSuccess("获取历史记录成功", all);
         return result;
     }
