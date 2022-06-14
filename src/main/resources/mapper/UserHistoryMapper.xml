@@ -26,7 +26,7 @@
     <select id="getLimit" resultMap="getLimitMap">
         SELECT  *
         FROM history JOIN videos ON history.aid=videos.aid
-        WHERE uid = #{user_id}
+        WHERE uid = #{uid}
         order by create_time desc
         limit 0,#{ps}
     </select>
@@ -55,6 +55,6 @@
 
     <insert id="add">
         insert into history(uid, pid, aid)
-        values (#{user_id}, #{pid}, #{aid})
+        values (#{uid}, #{pid}, #{aid})
     </insert>
 </mapper>

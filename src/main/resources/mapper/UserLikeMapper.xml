@@ -5,27 +5,27 @@
 <mapper namespace="com.am.adastra.mapper.UserLikeMapper">
 
     <insert id="addLike">
-        insert into `likes`(user_id, aid, pid)
-        values (#{user_id}, #{aid}, #{pid})
+        insert into `likes`(uid, aid, pid)
+        values (#{uid}, #{aid}, #{pid})
     </insert>
 
     <select id="listByUserId" resultType="com.am.adastra.entity.dto.VideoOperateDTO">
-        select id, user_id, aid
+        select id, uid, aid
         from likes
-        where user_id = #{uid}
+        where uid = #{uid}
     </select>
 
     <select id="isLikeVideo" resultType="com.am.adastra.entity.dto.VideoOperateDTO">
-        select id, user_id, aid
+        select id, uid, aid
         from likes
-        where user_id = #{user_id}
+        where uid = #{uid}
           and aid = #{aid}
     </select>
 
     <delete id="cancelLike">
         delete
         from likes
-        where user_id = #{user_id}
+        where uid = #{uid}
           and aid = #{aid}
     </delete>
 </mapper>
