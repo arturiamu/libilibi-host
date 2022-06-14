@@ -1,7 +1,6 @@
 package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
-import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import com.am.adastra.ex.UserNotLoginException;
@@ -10,7 +9,6 @@ import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
