@@ -10,6 +10,6 @@ import java.util.List;
 @Service
 public interface UserInterestRecommendService {
 
-    Result<List<Video>> list(Long userId);
+    Result<List<Video>> list(Long userId,int number);
 
 }

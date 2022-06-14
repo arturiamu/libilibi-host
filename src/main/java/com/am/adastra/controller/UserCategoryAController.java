@@ -42,7 +42,7 @@ public class UserCategoryAController {
 
         //  获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
         log.info("用户id:" + userId);
         userCategory.setUid(userId);
 
@@ -54,7 +54,7 @@ public class UserCategoryAController {
     @GetMapping("/selectByCategory")
     public Result<List<UserCategorySimpleVO>> selectById(HttpServletRequest request){
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
 
         log.info("用户ID： "+userId);
 

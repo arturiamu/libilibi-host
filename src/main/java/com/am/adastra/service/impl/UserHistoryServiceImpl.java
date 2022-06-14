@@ -35,7 +35,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     }
 
     @Override
-    public List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps) {
+    public List<UserHistorySimpleVO> getLimit(Long uid, Integer ps) {
         return userHistoryMapper.getLimit(uid, ps);
     }
 

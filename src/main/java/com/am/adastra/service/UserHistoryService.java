@@ -14,7 +14,7 @@ public interface UserHistoryService {
 
     List<Video> getLimitByDate(Integer uid, Date date);
 
-    List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps);
+    List<UserHistorySimpleVO> getLimit(Long uid, Integer ps);
 
     boolean add(VideoOperateDTO videoOperateDTO);
 }

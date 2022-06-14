@@ -18,11 +18,11 @@ import java.util.List;
  */
 @Mapper
 public interface UserHistoryMapper {
-    List<Video> getAll(Integer uid);
+    List<Video> getAll(long uid);
 
     List<Video> getLimitByDate(Integer uid, Date date);
 
-    List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps);
+    List<UserHistorySimpleVO> getLimit(Long uid, Integer ps);
 
     boolean add(VideoOperateDTO videoOperateDTO);
 }

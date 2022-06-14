@@ -21,7 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class VideoOperateDTO {
     Integer id;
-    Integer uid;
+    Long uid;
     @NotNull(message = "aid不能为空")
     Integer aid;
     @NotNull(message = "pid不能为空")

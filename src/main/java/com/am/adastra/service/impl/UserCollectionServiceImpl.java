@@ -35,7 +35,7 @@ public class UserCollectionServiceImpl implements UserCollectionService {
 
         Result<Void> result = new Result<>();
         //1.先判断该用户  收藏夹中是否存在该视频（通过视频id和用户id查询）   存在就不添加
-        int uid =  videoOperateDTO.getUid();
+        Long uid =  videoOperateDTO.getUid();
         int aid =  videoOperateDTO.getAid();
         log.info("用户ID ： " + uid);
         log.info("视频ID ： " + aid);
@@ -62,7 +62,7 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         通过用户传递过来的分类信息查询他的收藏夹中属于这一分类的所有视频信息
     */
     @Override
-    public Result<List<UserCollectionSimpleVO>> selectByCollection(Integer userId, String category) {
+    public Result<List<UserCollectionSimpleVO>> selectByCollection(Long userId, String category) {
 
         log.info(" " +userId+ " " + category);
 

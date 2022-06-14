@@ -43,8 +43,9 @@ public class UserCategoryServiceImpl implements UserCategoryService {
         return result;
     }
 
+
     @Override
-    public Result<List<UserCategorySimpleVO>> selectById(Integer userId) {
+    public Result<List<UserCategorySimpleVO>> selectById(Long userId) {
         Result<List<UserCategorySimpleVO>> result = new Result<>();
 
         List<UserCategorySimpleVO> list = userCategoryMapper.selectById(userId);

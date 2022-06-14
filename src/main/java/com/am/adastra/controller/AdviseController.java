@@ -60,7 +60,7 @@ public class AdviseController {
         Result<List<AdviseDTO>> result = new Result<>();
         log.info("查询建议");
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
         //调用业务层查询所有的用户历史信息
         List<AdviseDTO> adviseDTOList = adviseService.selectById(userId);
         result.setSuccess(adviseDTOList);

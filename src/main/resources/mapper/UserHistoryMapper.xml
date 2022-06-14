@@ -35,12 +35,11 @@
     </select>
     <resultMap id="getLimitMap" type="com.am.adastra.entity.vo.UserHistorySimpleVO">
         <result column="id" property="id"/>
-        <result column="history.pid" property="pid"/>
-        <result column="history.aid" property="aid"/>
+        <result column="uid" property="uid"/>
         <result column="create_time" property="createTime"/>
         <collection property="videoList" ofType="com.am.adastra.entity.Video">
-            <!--  <id column="videos.aid" property="aid"/>
-              <result column="videos.pid" property="pid"/>-->
+              <id column="aid" property="aid"/>
+              <result column="pid" property="pid"/>
             <result column="tid" property="tid"/>
             <result column="tname" property="tname"/>
             <result column="pic" property="pic"/>
@@ -60,8 +59,6 @@
         <if test="true">
             id,
             history.uid,
-            history.pid,
-            history.aid,
             create_time,
             state,
             videos.aid,

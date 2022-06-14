@@ -24,10 +24,10 @@ public interface UserCategoryMapper {
     /*
     通过用户id和收藏夹名字查询出收藏夹分类
      */
-    UserCategorySimpleVO selectByCategory(Integer uid,String CategoryName);
+    UserCategorySimpleVO selectByCategory(Long uid,String CategoryName);
 
     /*
     *  通过用户id查询出该用户所有的收藏夹分类
     * */
-    List<UserCategorySimpleVO> selectById(Integer uid);
+    List<UserCategorySimpleVO> selectById(long uid);
 }

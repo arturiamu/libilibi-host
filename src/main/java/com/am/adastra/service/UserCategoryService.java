@@ -15,5 +15,5 @@ import java.util.List;
 public interface UserCategoryService {
     Result<UserCategorySimpleVO> add(UserCategoryAddDTO userCategoryAddDTO);
 
-    Result<List<UserCategorySimpleVO>> selectById(Integer userId);
+    Result<List<UserCategorySimpleVO>> selectById(Long userId);
 }
