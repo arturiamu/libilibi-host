@@ -37,9 +37,9 @@
         <result column="id" property="id"/>
         <result column="uid" property="uid"/>
         <result column="create_time" property="createTime"/>
-        <collection property="videoList" ofType="com.am.adastra.entity.Video">
-              <id column="aid" property="aid"/>
-              <result column="pid" property="pid"/>
+        <collection property="video" ofType="com.am.adastra.entity.Video">
+            <id column="aid" property="aid"/>
+            <result column="pid" property="pid"/>
             <result column="tid" property="tid"/>
             <result column="tname" property="tname"/>
             <result column="pic" property="pic"/>
