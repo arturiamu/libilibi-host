@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class UserCategoryAddDTO implements Serializable {
     private Integer id;
 
-    private long uid;
+    private Long uid;
 
     @NotNull(message = "收藏夹名字不能为空！")
     private String categoryName;//收藏夹名字

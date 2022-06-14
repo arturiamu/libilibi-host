@@ -32,10 +32,10 @@ public class AdviseServiceImpl implements AdviseService {
     }
 
     @Override
-    public List<AdviseDTO> selectById(Long userId) {
+    public List<AdviseDTO> selectById(Long uid) {
         Result<List<AdviseDTO>> result = new Result<>();
         //调用mapper查询数据
-        List<AdviseDTO> list = adviseMapper.selectById(userId);
+        List<AdviseDTO> list = adviseMapper.selectById(uid);
         log.info(String.valueOf(list));
         result.setSuccess("查询成功", list);
         return list;

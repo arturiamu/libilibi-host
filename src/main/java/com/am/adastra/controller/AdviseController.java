@@ -47,7 +47,7 @@ public class AdviseController {
 
         User getUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         if (getUser != null) {
-            advise.setUserId(getUser.getId());
+            advise.setUid(getUser.getId());
         }
         adviseService.add(advise);
         result.setSuccess("意见反馈成功", null);
