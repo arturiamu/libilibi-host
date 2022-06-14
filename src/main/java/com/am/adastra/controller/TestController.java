@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -25,7 +26,7 @@ public class TestController {
     }
 
     @GetMapping("/get")
-    public void getTest(HttpServletRequest request) {
+    public void getTest(HttpServletRequest request,@PathParam("test") String test) {
         System.out.println(request.getSession().getId());
     }
 
