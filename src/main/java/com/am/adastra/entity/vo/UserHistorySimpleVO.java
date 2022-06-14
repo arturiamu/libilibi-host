@@ -18,6 +18,6 @@ public class UserHistorySimpleVO implements Serializable {
 //    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;//浏览时间时间
 
-    private Video videoList;
+    private Video video;
 
 }

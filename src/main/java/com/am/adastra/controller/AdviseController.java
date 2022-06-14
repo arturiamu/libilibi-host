@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -28,9 +29,9 @@ import java.util.List;
 @RequestMapping("/advise")
 public class AdviseController {
 
-    @Autowired
+    @Resource
     private AdviseService adviseService;
-    @Autowired
+    @Resource
     private UserService userService;
 
     //添加用户的建议

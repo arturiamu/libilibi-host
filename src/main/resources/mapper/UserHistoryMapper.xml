@@ -34,8 +34,8 @@
         <result column="id" property="id"/>
         <result column="history.pid" property="pid"/>
         <result column="history.aid" property="aid"/>
-        <result column="createTime" property="createTime"/>
-        <collection property="videoList" ofType="com.am.adastra.entity.Video">
+        <result column="create_time" property="createTime"/>
+        <collection property="video" ofType="com.am.adastra.entity.Video">
             <!--  <id column="videos.aid" property="aid"/>
               <result column="videos.pid" property="pid"/>-->
             <result column="tid" property="tid"/>

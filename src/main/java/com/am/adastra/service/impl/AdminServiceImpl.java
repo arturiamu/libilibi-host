@@ -7,9 +7,11 @@ import com.am.adastra.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component
 public class AdminServiceImpl implements AdminService {
-    @Autowired(required = false)
+    @Resource
     private AdminMapper adminMapper;
 
     /*
