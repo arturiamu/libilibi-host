@@ -10,7 +10,7 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE user_id = 11)
+            WHERE uid = 11)
     </select>
 
     <select id="getLimitByDate" resultType="com.am.adastra.entity.Video">
@@ -19,7 +19,7 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE user_id = 11
+            WHERE uid = 11
               and create_time > #{date})
     </select>
 
@@ -29,13 +29,12 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE user_id = #{user_id}
-            limit 0,#{ps}
+            WHERE uid = #{uid}
         )
     </select>
 
     <insert id="add">
-        insert into history(user_id, pid, aid)
-        values (#{user_id}, #{pid}, #{aid})
+        insert into history(uid, pid, aid)
+        values (#{uid}, #{pid}, #{aid})
     </insert>
 </mapper>
