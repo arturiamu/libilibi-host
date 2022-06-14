@@ -24,9 +24,12 @@
     </select>
 
     <select id="getLimit" resultMap="getLimitMap">
-        SELECT  *
-        FROM history JOIN videos ON history.aid=videos.aid
+        SELECT
+        <include refid="getLimitFields"/>
+        FROM history
+        JOIN videos ON history.aid = videos.aid
         WHERE uid = #{uid}
+        and state = 'normal'
         order by create_time desc
         limit 0,#{ps}
     </select>
@@ -35,7 +38,7 @@
         <result column="history.pid" property="pid"/>
         <result column="history.aid" property="aid"/>
         <result column="create_time" property="createTime"/>
-        <collection property="video" ofType="com.am.adastra.entity.Video">
+        <collection property="videoList" ofType="com.am.adastra.entity.Video">
             <!--  <id column="videos.aid" property="aid"/>
               <result column="videos.pid" property="pid"/>-->
             <result column="tid" property="tid"/>
@@ -52,6 +55,32 @@
             <result column="like" property="like"/>
         </collection>
     </resultMap>
+
+    <sql id="getLimitFields">
+        <if test="true">
+            id,
+            history.uid,
+            history.pid,
+            history.aid,
+            create_time,
+            state,
+            videos.aid,
+            videos.pid,
+            tid,
+            tname,
+            pic,
+            title,
+            `desc`,
+            view,
+            danmaku,
+            reply,
+            favorite,
+            coin,
+            share,
+            `like`
+        </if>
+    </sql>
+
 
     <insert id="add">
         insert into history(uid, pid, aid)
