@@ -25,18 +25,18 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     UserHistoryMapper userHistoryMapper;
 
     @Override
-    public List<Video> getAll(Integer user_id) {
-        return userHistoryMapper.getAll(user_id);
+    public List<Video> getAll(Integer uid) {
+        return userHistoryMapper.getAll(uid);
     }
 
     @Override
-    public List<Video> getLimitByDate(Integer user_id, Date date) {
-        return userHistoryMapper.getLimitByDate(user_id, date);
+    public List<Video> getLimitByDate(Integer uid, Date date) {
+        return userHistoryMapper.getLimitByDate(uid, date);
     }
 
     @Override
-    public List<UserHistorySimpleVO> getLimit(Integer user_id, Integer ps) {
-        return userHistoryMapper.getLimit(user_id, ps);
+    public List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps) {
+        return userHistoryMapper.getLimit(uid, ps);
     }
 
     @Override

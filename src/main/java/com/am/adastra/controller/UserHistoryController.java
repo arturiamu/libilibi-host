@@ -57,6 +57,7 @@ public class UserHistoryController {
 
     @GetMapping("/get/{ps}")
     public Result<List<UserHistorySimpleVO>> getAll(@PathVariable Integer ps, HttpServletRequest request) {
+        log.info("get history: {}", ps);
         Result<List<UserHistorySimpleVO>> result = new Result<>();
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
