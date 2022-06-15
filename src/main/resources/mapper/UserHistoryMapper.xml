@@ -10,7 +10,7 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE uid = 11)
+            WHERE uid = #{uid})
     </select>
 
     <select id="getLimitByDate" resultType="com.am.adastra.entity.Video">
@@ -19,7 +19,7 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE uid = 11
+            WHERE uid = #{uid}
               and create_time > #{date})
     </select>
 
