@@ -14,10 +14,11 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin {
-    private Integer id;
+
+    private Long id;
 
     @NotEmpty(message = "用户名不能为空！")
-    private String adminName;
+    private String username;
 
     @NotEmpty(message = "密码不能为空！")
     private String password;
