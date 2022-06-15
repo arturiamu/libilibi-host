@@ -12,7 +12,7 @@ public interface AdminService {
 
     Admin login(Admin admin);
 
-    User isLogin(HttpSession session);
+    Admin isLogin(HttpSession session);
 
     List<User> selectUser(int cur, int pageSize);
 }

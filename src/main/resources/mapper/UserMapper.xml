@@ -48,4 +48,13 @@
         from users
     </select>
 
+<!--    分页查询用户信息
+    List<User> selectPage(int cur, int pageSize);-->
+    <select id="selectPage" resultType="com.am.adastra.entity.User">
+        select id, username, password, account, items, state, create_time, update_time
+        from users
+        order by id
+        limit #{cur},#{pageSize};
+    </select>
+
 </mapper>

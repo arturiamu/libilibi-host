@@ -26,7 +26,7 @@ import java.util.Objects;
 @Slf4j
 public class AdminController {
     public static final String USER_INFO_SESSION = "userInfoSession";
-    public static final String SESSION_NAME = "userInfo";
+//    public static final String SESSION_NAME = "userInfo";
     @Autowired
     AdminService adminService;
 
@@ -43,8 +43,11 @@ public class AdminController {
             return result;
         }
         Admin getAdmin = adminService.login(admin);
+
         result.setSuccess(getAdmin);
-        request.getSession().setAttribute(SESSION_NAME, result.getData());
+
+        request.getSession().setAttribute(USER_INFO_SESSION, result.getData());
+
         return result;
     }
 
@@ -52,10 +55,11 @@ public class AdminController {
     * 判断当前用户是否登录
     * */
     @GetMapping("/isLogin")
-    public Result<User> isLogin(HttpServletRequest request) {
-        User getUser = adminService.isLogin(request.getSession());
-        Result<User> result = new Result<>();
-        result.setSuccess(getUser);
+    public Result<Admin> isLogin(HttpServletRequest request) {
+        log.info("判断用户是否登录 --->  ");
+        Admin getAdmin = adminService.isLogin(request.getSession());
+        Result<Admin> result = new Result<>();
+        result.setSuccess(getAdmin);
         return result;
     }
 
@@ -64,6 +68,7 @@ public class AdminController {
     * */
     @GetMapping("/logout")
     public Result<Void> logout(HttpServletRequest request) {
+        log.info("用户退出登录");
         Result<Void> result = new Result<>();
         result.setSuccess("用户退出登录成功！", null);
         request.getSession().setAttribute(USER_INFO_SESSION, null);
@@ -76,10 +81,11 @@ public class AdminController {
     * */
     @GetMapping("/selectUser/{cur}/{pageSize}")
     public Result<List<User>> selectUser(@RequestBody @PathVariable int cur, @PathVariable int pageSize, HttpServletRequest request){
+        log.info("分页查询");
         Result<List<User>> result = new Result<>();
         //1.先判断当前用户是否登录
-        User getUser = adminService.isLogin(request.getSession());
-        //2.获取所有用户数据
+        Admin getAdmin = adminService.isLogin(request.getSession());
+        //2.分页查询，获取所有部分用户数据
         List<User> userList = adminService.selectUser(cur, pageSize);
 
         result.setSuccess(userList);
@@ -99,6 +105,11 @@ public class AdminController {
     /*
     * 根据传来的数量，查询从今天开始，近几天的用户人数
     * 返回的内容包括每天的用户人数，和当天的日期
+    * */
+
+
+    /*
+    *
     * */
 
 

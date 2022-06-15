@@ -9,6 +9,7 @@ import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.mapper.AdminMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Component
+@Slf4j
 public class AdminServiceImpl implements AdminService {
     @Autowired(required = false)
     private AdminMapper adminMapper;
@@ -46,20 +48,31 @@ public class AdminServiceImpl implements AdminService {
     * 判断用户是否登录
     * */
     @Override
-    public User isLogin(HttpSession session) {
-        User sessionUser = (User) session.getAttribute(AdminController.USER_INFO_SESSION);
+    public Admin isLogin(HttpSession session) {
+        Admin sessionUser = (Admin) session.getAttribute(AdminController.USER_INFO_SESSION);
         if (sessionUser == null) {
             throw new UserNotLoginException("用户未登录");
         }
         return sessionUser;
     }
 
-    /*
-    * 分页查询用户信息
-    * */
+
+
+    /**
+     * 分页查询用户信息
+     * @param cur  第几页
+     * @param pageSize  每页有多少条信息
+     * @return
+     */
     @Override
     public List<User> selectUser(int cur, int pageSize) {
-        return null;
+        log.info("分页查询用户信息  selectUser() ---> ");
+
+        //调用userMapper层查询数据
+        List<User> userList = userMapper.selectPage(cur*pageSize,pageSize);
+
+        log.info("分页查询到的数据 -->" + userList);
+        return userList;
     }
 
 
