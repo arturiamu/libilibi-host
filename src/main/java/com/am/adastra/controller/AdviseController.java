@@ -36,7 +36,7 @@ public class AdviseController {
 
     //添加用户的建议
     @PostMapping("/add")
-    public Result<Void> advise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
+    public Result<Void> addAdvise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
         log.info("用户建议:{}", advise);
         Result<Void> result = new Result<>();
 

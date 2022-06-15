@@ -32,22 +32,12 @@ public class VideoController {
     }
 
     @GetMapping("/pid/{pid}/{ps}")
-    public Result<List<Video>> getPidVideo(@PathVariable int pid, @PathVariable int ps) {
+    public Result<List<Video>> getByPid(@PathVariable int pid, @PathVariable int ps) {
         Result<List<Video>> result = new Result<>();
         List<Video> getVideos = VideoPool.getPidVideo(pid, ps);
         log.info(String.valueOf(getVideos.size()));
         result.setSuccess(getVideos);
         return result;
-    }
-
-    @GetMapping("/personalized/recommend/{ps}")
-    public List<Video> recommend(@PathVariable int ps) {
-        return VideoPool.getPidVideo(1, ps);
-    }
-
-    @GetMapping("/general/{tid}/{ps}")
-    public List<Video> general(@PathVariable int tid, @PathVariable int ps) {
-        return VideoPool.getPidVideo(1, ps);
     }
 
     @GetMapping("/search/{keyword}/{ps}")

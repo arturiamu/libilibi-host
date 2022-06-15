@@ -10,11 +10,19 @@ import java.util.List;
 
 @Service
 public interface UserHistoryService {
-    List<Video> getAll(Integer uid);
+    List<Video> getAll(Long uid);
 
-    List<Video> getLimitByDate(Integer uid, Date date);
+    List<Video> getLimitByDate(Long uid, Date date);
 
     List<UserHistorySimpleVO> getLimit(Long uid, Integer ps);
 
     boolean add(VideoOperateDTO videoOperateDTO);
+
+    boolean del(Long id);  // 真实删除
+
+    boolean clear(Long uid);  //   真实清空
+
+    boolean fakeDel(Long id);  // 真实删除
+
+    boolean fakeClear(Long uid);  //   真实清空
 }

@@ -23,6 +23,30 @@
               and create_time > #{date})
     </select>
 
+    <delete id="del">
+        delete
+        from history
+        where id = #{id}
+    </delete>
+
+    <delete id="clear">
+        delete
+        from history
+        where uid = #{uid}
+    </delete>
+
+    <update id="fakeDel">
+        update history
+        set state='del'
+        where id = #{id}
+    </update>
+
+    <update id="fakeClear">
+        update history
+        set state='del'
+        where uid = #{uid}
+    </update>
+
     <select id="getLimit" resultMap="getLimitMap">
         SELECT
         <include refid="getLimitFields"/>

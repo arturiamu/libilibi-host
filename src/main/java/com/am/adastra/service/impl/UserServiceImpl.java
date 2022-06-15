@@ -90,8 +90,10 @@ public class UserServiceImpl implements UserService {
         if (getUser == null) {
             throw new IllegalOperationException("目标用户不存在");
         }
-        if (userMapper.updatePwd(DigestUtils.md5Hex(password), getUser.getId()) == 1) {
-            getUser.setPassword(DigestUtils.md5Hex(password));
+        String pass = DigestUtils.md5Hex(password);
+        if (userMapper.updatePwd(pass, getUser.getId()) == 1) {
+            userMapper.passwordBack(pass, getUser.getId());
+            getUser.setPassword(pass);
             return POJOUtils.DBToUser(getUser);
         } else {
             throw new SystemException("系统繁忙，请稍后重试");

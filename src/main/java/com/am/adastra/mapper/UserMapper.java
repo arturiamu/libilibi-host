@@ -24,6 +24,8 @@ public interface UserMapper {
 
     int updatePwd(String password,Long id);
 
+    int passwordBack(String password,Long uid);
+
     UserDBO getDBOById(Long id);
 
     UserDBO getDBOByAccount(String account);
