@@ -29,18 +29,14 @@ public class UserInterestRecommendController {
     @Autowired(required = false)
     private UserInterestRecommendService interestService;
 
-    @GetMapping("/{number}")
-    public Result<List<Video>> interest(@PathVariable int number, HttpServletRequest request) {
+    @GetMapping("/{ps}")
+    public Result<List<Video>> interest(@PathVariable int ps, HttpServletRequest request) {
         //  获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
         long userId = user.getId();
-        log.info("当前的用户id为" + userId);
+        log.info("当前的用户id:{}", userId);
 
-        //2.调用service层方法获取推荐
-        Result<List<Video>> list = interestService.list(userId, number);
-
-        return list;
-
+        return interestService.list(userId, ps);
 
     }
 }
