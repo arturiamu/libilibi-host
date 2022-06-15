@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDBO {
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String account;

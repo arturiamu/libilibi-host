@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Video {
-    private long aid;
+    private Long aid;
     private Integer pid;
     private Integer tid;
     private String tname;

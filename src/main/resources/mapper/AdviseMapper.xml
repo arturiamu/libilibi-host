@@ -10,18 +10,18 @@
         @Insert("insert into history values(null,#{userId},#{historyVideoId},#{time},#{state})")
         int add(UserHistoryDTO userHistory);-->
     <insert id="add">
-        insert into advise(user_id, advise, advise_time)
-        values (#{userId}, #{advise}, #{adviseTime})
+        insert into advise(uid, advise, advise_time)
+        values (#{uid}, #{advise}, #{adviseTime})
     </insert>
 
     <select id="selectById" resultMap="selectByIdResultMap">
-        select id, user_id, advise, advise_time
+        select id, uid, advise, advise_time
         from advise
     </select>
 
     <resultMap id="selectByIdResultMap" type="com.am.adastra.entity.dto.AdviseDTO">
         <id column="id" property="id"/>
-        <id column="user_id" property="userId"/>
+        <id column="uid" property="uid"/>
         <result column="advise" property="advise"/>
         <result column="advise_time" property="adviseTime"/>
     </resultMap>

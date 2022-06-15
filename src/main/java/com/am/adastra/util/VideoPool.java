@@ -4,10 +4,8 @@ import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
-import com.am.adastra.mapper.VideoMapper;
 import com.am.adastra.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,10 +24,8 @@ import java.util.*;
 @Component
 public class VideoPool {
     private static VideoPool that;
-    @Resource
-    public VideoMapper videoMapper;
 
-    @Autowired
+    @Resource
     public VideoService videoService;
 
     @Resource
@@ -38,17 +34,14 @@ public class VideoPool {
     @Resource
     public UserMapper userMapper;
 
-    @Resource
-    public VideosUtilsRedis videosUtilsRedis;
-
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
+    private static final List<Item> items = new ArrayList<>();
 
     @PostConstruct
     public void init() {
         log.info("init video pool");
         that = this;
-        that.videoMapper = this.videoMapper;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
         that.videoService = this.videoService;
@@ -57,7 +50,7 @@ public class VideoPool {
     public static void run() {
         log.info("start load videos...");
         long st = System.currentTimeMillis();
-        List<Item> items = that.itemMapper.getAll();
+        items.addAll(that.itemMapper.getAll());
         for (int i = 0; i < items.size(); i++) {
             PID_INDEX.put(items.get(i).getPid(), i);
         }

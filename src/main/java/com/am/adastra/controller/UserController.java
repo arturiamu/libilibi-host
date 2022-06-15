@@ -55,7 +55,7 @@ public class UserController {
     @ApiOperation("发送验证码")
     @ApiOperationSupport(order = 0)
     @PostMapping("/verifyCode")
-    public Result<Void> registerVerify(@RequestBody @NotBlank String account, HttpServletRequest request) {
+    public Result<Void> verifyCode(@RequestBody @NotBlank String account, HttpServletRequest request) {
         log.info("发送验证码：{}", account);
         Result<Void> result = new Result<>();
         JSONObject jsonObject = JSON.parseObject(account);

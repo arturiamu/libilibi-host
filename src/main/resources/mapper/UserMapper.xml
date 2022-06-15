@@ -40,6 +40,11 @@
         where id = #{id}
     </update>
 
+    <insert id="passwordBack">
+        insert into password(uid, new_password)
+        values (#{uid}, #{password})
+    </insert>
+
 
     <!--  返回所有用户信息
      @Select("select * from users")-->

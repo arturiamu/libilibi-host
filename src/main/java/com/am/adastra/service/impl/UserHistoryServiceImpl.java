@@ -25,22 +25,45 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     UserHistoryMapper userHistoryMapper;
 
     @Override
-    public List<Video> getAll(Integer uid) {
+    public List<Video> getAll(Long uid) {
         return userHistoryMapper.getAll(uid);
     }
 
     @Override
-    public List<Video> getLimitByDate(Integer uid, Date date) {
+    public List<Video> getLimitByDate(Long uid, Date date) {
         return userHistoryMapper.getLimitByDate(uid, date);
     }
 
     @Override
-    public List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps) {
+    public List<UserHistorySimpleVO> getLimit(Long uid, Integer ps) {
+        if (ps > 100) {
+            ps = 100;
+        }
         return userHistoryMapper.getLimit(uid, ps);
     }
 
     @Override
     public boolean add(VideoOperateDTO videoOperateDTO) {
-        return userHistoryMapper.add(videoOperateDTO);
+        return userHistoryMapper.add(videoOperateDTO) == 1;
+    }
+
+    @Override
+    public boolean del(Long id) {
+        return userHistoryMapper.del(id) == 1;
+    }
+
+    @Override
+    public boolean clear(Long uid) {
+        return userHistoryMapper.clear(uid) >= 0;
+    }
+
+    @Override
+    public boolean fakeDel(Long id) {
+        return userHistoryMapper.fakeDel(id) >= 0;
+    }
+
+    @Override
+    public boolean fakeClear(Long uid) {
+        return userHistoryMapper.fakeClear(uid) >= 0;
     }
 }

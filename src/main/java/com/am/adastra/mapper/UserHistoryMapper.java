@@ -18,11 +18,19 @@ import java.util.List;
  */
 @Mapper
 public interface UserHistoryMapper {
-    List<Video> getAll(Integer uid);
+    List<Video> getAll(Long uid);
 
-    List<Video> getLimitByDate(Integer uid, Date date);
+    List<Video> getLimitByDate(Long uid, Date date);
 
-    List<UserHistorySimpleVO> getLimit(Integer uid, Integer ps);
+    List<UserHistorySimpleVO> getLimit(Long uid, Integer ps);
 
-    boolean add(VideoOperateDTO videoOperateDTO);
+    int add(VideoOperateDTO videoOperateDTO);
+
+    int del(Long id);  // 真实删除
+
+    int clear(Long uid);  //   真实清空
+
+    int fakeDel(Long id);  // 真实删除
+
+    int fakeClear(Long uid);  //   真实清空
 }

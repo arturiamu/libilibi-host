@@ -18,5 +18,5 @@ public interface AdviseService {
 
     int add(AdviseDTO advise);
 
-    List<AdviseDTO> selectById(Integer userId);
+    List<AdviseDTO> selectById(Long uid);
 }

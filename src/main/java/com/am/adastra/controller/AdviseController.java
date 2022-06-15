@@ -36,7 +36,7 @@ public class AdviseController {
 
     //添加用户的建议
     @PostMapping("/add")
-    public Result<Void> advise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
+    public Result<Void> addAdvise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
         log.info("用户建议:{}", advise);
         Result<Void> result = new Result<>();
 
@@ -47,7 +47,7 @@ public class AdviseController {
 
         User getUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         if (getUser != null) {
-            advise.setUserId(getUser.getId());
+            advise.setUid(getUser.getId());
         }
         adviseService.add(advise);
         result.setSuccess("意见反馈成功", null);
@@ -61,7 +61,7 @@ public class AdviseController {
         Result<List<AdviseDTO>> result = new Result<>();
         log.info("查询建议");
         User user = userService.isLogin(request.getSession());
-        Integer userId = user.getId();
+        Long userId = user.getId();
         //调用业务层查询所有的用户历史信息
         List<AdviseDTO> adviseDTOList = adviseService.selectById(userId);
         result.setSuccess(adviseDTOList);

@@ -10,7 +10,7 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE uid = 11)
+            WHERE uid = #{uid})
     </select>
 
     <select id="getLimitByDate" resultType="com.am.adastra.entity.Video">
@@ -19,21 +19,47 @@
         WHERE aid IN (
             SELECT aid
             FROM history
-            WHERE uid = 11
+            WHERE uid = #{uid}
               and create_time > #{date})
     </select>
 
+    <delete id="del">
+        delete
+        from history
+        where id = #{id}
+    </delete>
+
+    <delete id="clear">
+        delete
+        from history
+        where uid = #{uid}
+    </delete>
+
+    <update id="fakeDel">
+        update history
+        set state='del'
+        where id = #{id}
+    </update>
+
+    <update id="fakeClear">
+        update history
+        set state='del'
+        where uid = #{uid}
+    </update>
+
     <select id="getLimit" resultMap="getLimitMap">
-        SELECT *
+        SELECT
+        <include refid="getLimitFields"/>
         FROM history
-                 JOIN videos ON history.aid = videos.aid
+        JOIN videos ON history.aid = videos.aid
         WHERE uid = #{uid}
+        and state = 'normal'
         order by create_time desc
         limit 0,#{ps}
     </select>
     <resultMap id="getLimitMap" type="com.am.adastra.entity.vo.UserHistorySimpleVO">
         <result column="id" property="id"/>
-
+        <result column="uid" property="uid"/>
         <result column="create_time" property="createTime"/>
         <collection property="video" ofType="com.am.adastra.entity.Video">
             <id column="aid" property="aid"/>
@@ -52,6 +78,30 @@
             <result column="like" property="like"/>
         </collection>
     </resultMap>
+
+    <sql id="getLimitFields">
+        <if test="true">
+            id,
+            history.uid,
+            create_time,
+            state,
+            videos.aid,
+            videos.pid,
+            tid,
+            tname,
+            pic,
+            title,
+            `desc`,
+            view,
+            danmaku,
+            reply,
+            favorite,
+            coin,
+            share,
+            `like`
+        </if>
+    </sql>
+
 
     <insert id="add">
         insert into history(uid, pid, aid)

@@ -54,7 +54,7 @@ class AdAstraApplicationTests {
 
     @Test
     void history() {
-        System.out.println(userHistoryService.getAll(11));
+        System.out.println(userHistoryService.getAll(11L));
     }
 
     @Test
@@ -63,7 +63,7 @@ class AdAstraApplicationTests {
         long dis = 16 * 60 * 60 * 1000;
         long c = System.currentTimeMillis();
         Date date = new Date(c - dis);
-        List<Video> limitByDate = userHistoryMapper.getLimitByDate(11, date);
+        List<Video> limitByDate = userHistoryMapper.getLimitByDate(11L, date);
         for (Video video : limitByDate) {
             System.out.println(video.getAid());
         }
