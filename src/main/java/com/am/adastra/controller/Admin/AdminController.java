@@ -12,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,11 +91,8 @@ public class AdminController {
     * 获将用户状态设置为禁用
     * */
     @RequestMapping("/{userId}")
-    public String disableUser(@RequestBody @PathVariable int userId, HttpServletRequest request){
-
-
-//        return "redirect:/user/update";
-        return "redirect:/history/get/5";
+    public void disableUser(@RequestBody @PathVariable int userId, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/history/get/5");
     }
 
 
