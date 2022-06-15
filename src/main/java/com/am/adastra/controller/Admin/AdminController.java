@@ -92,13 +92,13 @@ public class AdminController {
     * */
     @RequestMapping("/{userId}")
     public void disableUser(@RequestBody @PathVariable int userId, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/history/get/5");
+//        response.sendRedirect("/history/"+userId);
     }
 
 
     /*
     * 根据传来的数量，查询从今天开始，近几天的用户人数
-    * 返回的内容包括每天的用户人数，
+    * 返回的内容包括每天的用户人数，和当天的日期
     * */
 
 
