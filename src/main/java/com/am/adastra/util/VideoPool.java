@@ -38,6 +38,7 @@ public class VideoPool {
 
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
+    private static final List<Item> items = new ArrayList<>();
 
     @PostConstruct
     public void init() {
@@ -51,7 +52,7 @@ public class VideoPool {
     public static void run() {
         log.info("start load videos...");
         long st = System.currentTimeMillis();
-        List<Item> items = that.itemMapper.getAll();
+        items.addAll(that.itemMapper.getAll());
         for (int i = 0; i < items.size(); i++) {
             PID_INDEX.put(items.get(i).getPid(), i);
         }

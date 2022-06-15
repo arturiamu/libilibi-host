@@ -5,6 +5,7 @@ import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.mapper.ItemMapper;
+import com.am.adastra.util.VideoPool;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.List;
 public class InterestRecommendation {
     @Autowired
     private ItemMapper itemMapper;//通过pid随机获取aid
+
+    @Autowired
+    VideoPool videoPool;
 
     @Autowired
     private DataAnalysis dataAnalysis;
