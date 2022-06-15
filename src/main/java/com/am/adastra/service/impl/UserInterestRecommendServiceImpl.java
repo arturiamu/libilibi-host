@@ -60,13 +60,13 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         int avg = number / integers.size();//平均每个视频分类中取多少条数据
         List<Video> videoList = new ArrayList<>();
         for (int i = integers.size() - 1; i >= 0; i--) {
-            List<Video> voides;
+            List<Video> videos;
             if (i == 0) {
-                voides = videoPool.getPidVideo(integers.get(i), number - videoList.size());
+                videos = videoPool.getPidVideo(integers.get(i), number - videoList.size());
             } else {
-                voides = videoPool.getPidVideo(integers.get(i), avg);
+                videos = videoPool.getPidVideo(integers.get(i), avg);
             }
-            videoList.addAll(voides);
+            videoList.addAll(videos);
         }
         result.setSuccess(videoList);
         return result;

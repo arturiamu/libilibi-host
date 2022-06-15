@@ -67,7 +67,6 @@ public class DataAnalysis {
         }
 
 
-
 //        4.计算USER和list之间，两两之间的相似度
         double[] num = new double[list.size()];
         for (int i = 0; i < num.length; i++) {
@@ -114,13 +113,11 @@ public class DataAnalysis {
                     number = j;
                 }
             }
-            if (number != -1 ) {
+            if (number != -1) {
                 ans.add(number);
                 recommend[number] = 0;
             }
         }
-
-
         return ans;
     }
 }

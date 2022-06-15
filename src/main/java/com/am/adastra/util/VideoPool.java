@@ -4,10 +4,8 @@ import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
-import com.am.adastra.mapper.VideoMapper;
 import com.am.adastra.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

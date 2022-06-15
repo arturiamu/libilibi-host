@@ -23,7 +23,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/category")
-public class UserCategoryAController {
+public class UserCategoryController {
     @Autowired(required = false)
     private UserCategoryService userCategoryService;
 
