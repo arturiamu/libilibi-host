@@ -6,7 +6,6 @@ import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
-import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserInterestRecommendService;
 import com.am.adastra.util.Interest.InterestRecommendation;
 import com.am.adastra.util.Result;
@@ -55,25 +54,20 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
             allUserCollection.add(collectionMapper.selectById(id));
         }
 
-//        4.将得到的数据传入数据处理工具，分析后返回推荐的视频大分类pid
         List<Integer> integers = interestRecommendation.ProcessingData(number, userHistory, userCollection, allUserHistory, allUserCollection);
         log.info("获取到的视频大分类id:{}", integers.toString());
 
-//        5.从获取到的视频大分类pid中随机取出具体的视频aid，并查询该条视频的详细信息
         int avg = number / integers.size();//平均每个视频分类中取多少条数据
         List<Video> videoList = new ArrayList<>();
         for (int i = integers.size() - 1; i >= 0; i--) {
             List<Video> voides;
             if (i == 0) {
                 voides = videoPool.getPidVideo(integers.get(i), number - videoList.size());
-//                videoList .addAll(videoPool.getPidVideo(integers.get(i),number - videoList.size()));
             } else {
                 voides = videoPool.getPidVideo(integers.get(i), avg);
-//                videoList .addAll(videoPool.getPidVideo(integers.get(i),avg));
             }
             videoList.addAll(voides);
         }
-
         result.setSuccess(videoList);
         return result;
     }

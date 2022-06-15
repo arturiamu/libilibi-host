@@ -26,10 +26,8 @@ import java.util.*;
 @Component
 public class VideoPool {
     private static VideoPool that;
-    @Resource
-    public VideoMapper videoMapper;
 
-    @Autowired
+    @Resource
     public VideoService videoService;
 
     @Resource
@@ -38,9 +36,6 @@ public class VideoPool {
     @Resource
     public UserMapper userMapper;
 
-    @Resource
-    public VideosUtilsRedis videosUtilsRedis;
-
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
 
@@ -48,7 +43,6 @@ public class VideoPool {
     public void init() {
         log.info("init video pool");
         that = this;
-        that.videoMapper = this.videoMapper;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
         that.videoService = this.videoService;
