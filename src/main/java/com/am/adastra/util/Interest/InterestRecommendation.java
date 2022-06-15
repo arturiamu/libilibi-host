@@ -5,13 +5,10 @@ import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.mapper.ItemMapper;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
