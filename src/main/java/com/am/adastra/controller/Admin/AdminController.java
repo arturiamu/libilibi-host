@@ -3,8 +3,10 @@ package com.am.adastra.controller.Admin;
 
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
-import com.am.adastra.entity.Video;
+import com.am.adastra.entity.UserDBO;
 import com.am.adastra.service.AdminService;
+import com.am.adastra.service.UserService;
+import com.am.adastra.util.POJOUtils;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -94,11 +94,22 @@ public class AdminController {
 
 
     /*
-    * 获将用户状态设置为禁用
+    * 管理员修改用户信息
     * */
-    @RequestMapping("/{userId}")
-    public void disableUser(@RequestBody @PathVariable int userId, HttpServletResponse response) throws IOException {
-//        response.sendRedirect("/history/"+userId);
+    @PostMapping ("/updataUser")
+    public Result<User> updataUser(@RequestBody User user) {
+        Result<User> result = new Result<>();
+        System.out.println(user);
+        UserDBO userDBO = POJOUtils.userToDB(user);
+        System.out.println(userDBO);
+        int i = adminService.updataUser(userDBO);
+        if (i>0){
+            result.setMessage("用户信息修改成功");
+            return result;
+        }
+        log.info("用户信息修改失败");
+        result.setMessage("用户信息修改失败");
+        return result;
     }
 
 
@@ -111,11 +122,6 @@ public class AdminController {
     /*
     *
     * */
-
-
-
-
-
 
 
 

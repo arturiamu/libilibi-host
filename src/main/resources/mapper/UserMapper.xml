@@ -16,6 +16,7 @@
         where id = #{id}
     </update>
 
+
     <select id="getDBOById" resultType="com.am.adastra.entity.UserDBO">
         select id, username, password, account, items as jsItems, state
         from users

@@ -4,12 +4,14 @@ import com.am.adastra.controller.Admin.AdminController;
 import com.am.adastra.controller.UserController;
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.UserDBO;
 import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.mapper.AdminMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -73,6 +75,14 @@ public class AdminServiceImpl implements AdminService {
 
         log.info("分页查询到的数据 -->" + userList);
         return userList;
+    }
+
+    @Override
+    public int updataUser(UserDBO userDBO) {
+        String password = userDBO.getPassword();
+        userDBO.setPassword(DigestUtils.md5Hex(password));
+        int i = adminMapper.updataUser(userDBO);
+        return i;
     }
 
 

@@ -18,5 +18,8 @@
         <result column="password" property="password"/>
     </resultMap>
 
+    <update id="updataUser" parameterType="com.am.adastra.entity.UserDBO">
+        update users set username=#{username},password=#{password},account=#{account},items=#{jsItems},state=#{state} where id=#{id}
+    </update>
 
 </mapper>
