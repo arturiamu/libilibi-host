@@ -1,9 +1,11 @@
 package com.am.adastra.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.annotation.Resource;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -16,10 +18,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @SuppressWarnings("deprecation")
 @SpringBootConfiguration
 public class SpringMVCConfig extends WebMvcConfigurerAdapter {
-    @Autowired
+    @Resource
     private FilterConfig filterConfig;
 
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(filterConfig).addPathPatterns("/**");
+//                .excludePathPatterns("/static/**");
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//    }
 }
