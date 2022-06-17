@@ -54,7 +54,7 @@ class AdAstraApplicationTests {
 
     @Test
     void history() {
-        System.out.println(userHistoryService.getAll(11));
+        System.out.println(userHistoryService.getAll(11L));
     }
 
     @Test

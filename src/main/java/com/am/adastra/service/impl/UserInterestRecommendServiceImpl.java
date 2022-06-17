@@ -7,6 +7,7 @@ import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserCollectionService;
+import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserInterestRecommendService;
 import com.am.adastra.util.Interest.InterestRecommendation;
 import com.am.adastra.util.Result;
@@ -23,10 +24,14 @@ import java.util.List;
 public class UserInterestRecommendServiceImpl implements UserInterestRecommendService {
     @Autowired
     UserMapper userMapper;
+//    @Autowired
+//    UserHistoryMapper historyMapper;
+//    @Autowired(required = false)
+//    UserCollectionMapper collectionMapper;
     @Autowired
-    UserHistoryMapper historyMapper;
-    @Autowired(required = false)
-    UserCollectionMapper collectionMapper;
+    UserHistoryService userHistoryService;
+    @Autowired
+    UserCollectionService userCollectionService;
     @Autowired
     InterestRecommendation interestRecommendation;
     @Autowired
@@ -38,8 +43,10 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         Result<List<Video>> result = new Result<>();
 
 //        1.找到该用户的历史记录和收藏记录的大分类pid
-        List<Video> userHistory = historyMapper.getAll(uid);
-        List<UserCollectionSimpleVO> userCollection = collectionMapper.selectById(uid);
+//        List<Video> userHistory = historyMapper.getAll(uid);
+        List<Video> userHistory = userHistoryService.getAll(uid);
+//        List<UserCollectionSimpleVO> userCollection = collectionMapper.selectById(uid);
+        List<UserCollectionSimpleVO> userCollection = userCollectionService.selectById(uid);
         log.info("当前用户历史" + userHistory);
         log.info("当前用户收藏信息" + userCollection);
 
@@ -51,8 +58,10 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         List<List<UserCollectionSimpleVO>> allUserCollection = new ArrayList<>();
         for (int i = 0; i < allUser.size(); i++) {
             Long id = allUser.get(i).getId();
-            allUserHistory.add(historyMapper.getAll(id));
-            allUserCollection.add(collectionMapper.selectById(id));
+//            allUserHistory.add(historyMapper.getAll(id));
+            allUserHistory.add(userHistoryService.getAll(id));
+//            allUserCollection.add(collectionMapper.selectById(id));
+            allUserCollection.add(userCollectionService.selectById(id));
         }
 
 //        4.将得到的数据传入数据处理工具，分析后返回推荐的视频大分类pid
