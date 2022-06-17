@@ -1,6 +1,7 @@
 package com.am.adastra.mapper;
 
 import com.am.adastra.entity.Admin;
+import com.am.adastra.entity.UserDBO;
 import org.apache.ibatis.annotations.Mapper;
 
 /*
@@ -14,6 +15,7 @@ public interface AdminMapper {
     * */
     Admin getByUsername(String username);
 
+    int updataUser(UserDBO userDBO);
 
 
 }

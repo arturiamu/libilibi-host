@@ -99,4 +99,14 @@ public class UserServiceImpl implements UserService {
             throw new SystemException("系统繁忙，请稍后重试");
         }
     }
+
+    @Override
+    public UserDBO getDBOById(Long id) {
+        UserDBO dboById = userMapper.getDBOById(id);
+        return dboById;
+    }
+
+
+
+
 }
