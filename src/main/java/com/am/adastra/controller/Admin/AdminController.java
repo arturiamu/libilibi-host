@@ -87,7 +87,6 @@ public class AdminController {
         Admin getAdmin = adminService.isLogin(request.getSession());
         //2.分页查询，获取所有部分用户数据
         List<User> userList = adminService.selectUser(cur, pageSize);
-
         result.setSuccess(userList);
         return result;
     }
@@ -99,9 +98,11 @@ public class AdminController {
     @PostMapping ("/updataUser")
     public Result<User> updataUser(@RequestBody User user) {
         Result<User> result = new Result<>();
-        System.out.println(user);
+        log.info(user.toString());
+
         UserDBO userDBO = POJOUtils.userToDB(user);
-        System.out.println(userDBO);
+        log.info(userDBO.toString());
+
         int i = adminService.updataUser(userDBO);
         if (i>0){
             result.setMessage("用户信息修改成功");
@@ -119,8 +120,10 @@ public class AdminController {
     * */
 
 
+
+
     /*
-    *
+    *分页查询所有视频
     * */
 
 

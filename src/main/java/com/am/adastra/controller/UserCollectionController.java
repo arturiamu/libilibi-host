@@ -8,7 +8,6 @@ import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 
 /*
@@ -52,7 +51,8 @@ public class UserCollectionController {
         log.info("当前的用户id为" + userId);
 
         //调用逻辑层将信息添加到用户的收藏夹中
-        result = userCollectionService.add(videoOperateDTO);
+        userCollectionService.add(videoOperateDTO);
+        result.setSuccess();
         return result;
 
     }
@@ -60,9 +60,10 @@ public class UserCollectionController {
 
     /*  通过用户分类的查看用户的收藏
      */
-    @GetMapping("/selectByCollection")
-    public Result<List<UserCollectionSimpleVO>> selectByCollection( String category, HttpServletRequest request) {
+    @GetMapping("/selectByCategory")
+    public Result<List<UserCollectionSimpleVO>> selectByCategory( String category, HttpServletRequest request) {
 
+        Result<List<UserCollectionSimpleVO>> result = new Result<>();
 //        1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
         Long userId = user.getId();
@@ -71,7 +72,32 @@ public class UserCollectionController {
         log.info("用户分类：  " + category);
 
         //2.调用逻辑层获取到此用户的视频分类信息  将用户id和分类信息传递过去
-        return userCollectionService.selectByCollection(userId, category);
+        List<UserCollectionSimpleVO> list = userCollectionService.selectByCollection(userId, category);
+
+        result.setSuccess(list);
+        return result;
+    }
+
+
+    /**
+     * 查询该用户的所有的收藏记录
+     * @param request
+     * @return
+     */
+    @GetMapping("/selectCategory")
+    public Result<Map<String,List<UserCollectionSimpleVO>>>  selectCategory(HttpServletRequest request){
+        Result<Map<String ,List<UserCollectionSimpleVO>>> result = new Result<>();
+
+        //1.获取当前用户的用户 id
+        User user = userService.isLogin(request.getSession());
+        Long userId = user.getId();
+        log.info("用户id ===》 " + userId);
+
+        Map<String, List<UserCollectionSimpleVO>> stringListMap = userCollectionService.selectCategory(userId);
+        result.setSuccess(stringListMap);
+        return result;
+
+
     }
 
 
