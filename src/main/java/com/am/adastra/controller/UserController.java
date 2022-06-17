@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * @Description ：
  */
 @Slf4j
-@Api(tags = "用户模块")
+//@Api(tags = "用户模块")
 @RestController
 @RequestMapping(value = "/user", produces = "application/json;charset=utf-8")
 public class UserController {
@@ -52,8 +52,8 @@ public class UserController {
     @Resource
     private EmailUtil emailUtil;
 
-    @ApiOperation("发送验证码")
-    @ApiOperationSupport(order = 0)
+//    @ApiOperation("发送验证码")
+//    @ApiOperationSupport(order = 0)
     @PostMapping("/verifyCode")
     public Result<Void> verifyCode(@RequestBody @NotBlank String account, HttpServletRequest request) {
         log.info("发送验证码：{}", account);
