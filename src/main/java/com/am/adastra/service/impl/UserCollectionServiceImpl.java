@@ -1,6 +1,5 @@
 package com.am.adastra.service.impl;
 
-import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.ex.RepeatException;
@@ -9,12 +8,10 @@ import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Component
