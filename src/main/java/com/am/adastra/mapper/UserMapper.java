@@ -40,7 +40,15 @@ public interface UserMapper {
      * 分页查询用户
      * @param cur
      * @param pageSize
+     * @param username
      * @return
      */
-    List<User> selectPage(int cur, int pageSize);
+    List<User> selectPage(int cur, int pageSize, String username);
+
+    /**
+     * 修改用户状态
+     * @param uid
+     * @return
+     */
+    int changeState(Long uid);
 }

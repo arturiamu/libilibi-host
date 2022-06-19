@@ -6,6 +6,7 @@ import com.am.adastra.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -29,5 +30,6 @@ public interface UserService {
 
     UserDBO getDBOById(Long id);
 
+    List<User> list();
 
 }
