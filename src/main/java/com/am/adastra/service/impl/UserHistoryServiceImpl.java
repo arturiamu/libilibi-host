@@ -39,9 +39,6 @@ public class UserHistoryServiceImpl implements UserHistoryService {
      * @param uid
      * @return
      */
-    @Override
-    public List<Video> getAll(Long uid) {
-        return userHistoryMapper.getAll(uid);
     public List<Video> getAll(Long uid) {
         //1.先判断该用户的历史记录是否在缓存中
         Boolean exists = userHistoryRedisRepository.exists(uid);
