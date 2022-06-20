@@ -15,16 +15,17 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Component
 @Slf4j
 public class AdminServiceImpl implements AdminService {
-    @Autowired(required = false)
+    @Resource
     private AdminMapper adminMapper;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     /*
@@ -81,8 +82,7 @@ public class AdminServiceImpl implements AdminService {
     public int updataUser(UserDBO userDBO) {
         String password = userDBO.getPassword();
         userDBO.setPassword(DigestUtils.md5Hex(password));
-        int i = adminMapper.updataUser(userDBO);
-        return i;
+        return adminMapper.updataUser(userDBO);
     }
 
 

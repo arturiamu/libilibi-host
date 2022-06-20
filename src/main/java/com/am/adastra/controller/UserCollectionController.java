@@ -61,7 +61,7 @@ public class UserCollectionController {
     /*  通过用户分类的查看用户的收藏
      */
     @GetMapping("/selectByCategory")
-    public Result<List<UserCollectionSimpleVO>> selectByCategory( String category, HttpServletRequest request) {
+    public Result<List<UserCollectionSimpleVO>> selectByCategory(String category, HttpServletRequest request) {
 
         Result<List<UserCollectionSimpleVO>> result = new Result<>();
 //        1.获取当前用户的用户 id
@@ -81,12 +81,13 @@ public class UserCollectionController {
 
     /**
      * 查询该用户的所有的收藏记录
+     *
      * @param request
      * @return
      */
     @GetMapping("/selectCategory")
-    public Result<Map<String,List<UserCollectionSimpleVO>>>  selectCategory(HttpServletRequest request){
-        Result<Map<String ,List<UserCollectionSimpleVO>>> result = new Result<>();
+    public Result<Map<String, List<UserCollectionSimpleVO>>> selectCategory(HttpServletRequest request) {
+        Result<Map<String, List<UserCollectionSimpleVO>>> result = new Result<>();
 
         //1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
