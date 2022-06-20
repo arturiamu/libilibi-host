@@ -23,8 +23,8 @@ public class UserCollectionRedisRepositoryImpl implements UserCollectionRedisRep
      */
     @Override
     public void save(List<UserCollectionSimpleVO> collectionSimpleVOS) {
-        if (collectionSimpleVOS.size() == 0)return;
-        String key = KEY_COLLECTION +collectionSimpleVOS.get(0).getUid();
+        if (collectionSimpleVOS.size() == 0) return;
+        String key = KEY_COLLECTION + collectionSimpleVOS.get(0).getUid();
         redisTemplate.opsForValue().set(key, (Serializable) collectionSimpleVOS);
     }
 
