@@ -8,6 +8,9 @@ https://api.bilibili.com/x/web-interface/search/all/v2?__refresh__=true&page=1&p
 
 https://www.bilibili.com/index/ding.json
 
+git 强制推送：
+git push -u origin master -f
+
 动画：
 https://api.bilibili.com/x/web-interface/dynamic/region?ps=12&pn=2&rid=1
 音乐：

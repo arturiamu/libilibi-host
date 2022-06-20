@@ -40,7 +40,7 @@
 
     <!--<include refid="selectByCollectionFields"/>
      通过用户id和分类信息查询出用户的收藏信息
-     List<UserCollectionSimpleVO> selectByCollection(Integer uid, String categoryName);-->
+     UserCollectionSimpleVO selectByCollection(Integer uid, String categoryName);-->
     <select id="selectByCollection" resultMap="selectByUserIdMap">
         SELECT *
         FROM collection JOIN videos ON collection.aid=videos.aid

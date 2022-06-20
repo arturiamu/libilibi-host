@@ -10,6 +10,7 @@ package com.am.adastra.ex;
  */
 public class SystemException extends ServiceException{
     public SystemException() {
+        super("系统繁忙，请稍后重试");
     }
 
     public SystemException(String message) {

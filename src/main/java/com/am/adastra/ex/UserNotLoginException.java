@@ -10,6 +10,7 @@ package com.am.adastra.ex;
  */
 public class UserNotLoginException extends ServiceException{
     public UserNotLoginException() {
+        super("用户未登录");
     }
 
     public UserNotLoginException(String message) {

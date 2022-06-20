@@ -16,6 +16,7 @@
         where id = #{id}
     </update>
 
+
     <select id="getDBOById" resultType="com.am.adastra.entity.UserDBO">
         select id, username, password, account, items as jsItems, state
         from users
@@ -52,5 +53,23 @@
         select id, username, account, items, state
         from users
     </select>
+
+<!--    分页查询用户信息
+    List<User> selectPage(int cur, int pageSize);-->
+    <select id="selectPage" resultType="com.am.adastra.entity.User">
+        select id, username, password, account, items, state, create_time, update_time
+        from users
+        where username like #{username}
+        order by id
+        limit #{cur},#{pageSize};
+    </select>
+
+   <!-- 修改用户状态
+    int changeState(Long uid);-->
+    <update id="changeState" >
+        update users
+        set state=(if(state='normal','UN_normal','normal'))
+        where id=#{uid}
+    </update>
 
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -99,4 +100,17 @@ public class UserServiceImpl implements UserService {
             throw new SystemException("系统繁忙，请稍后重试");
         }
     }
+
+    @Override
+    public UserDBO getDBOById(Long id) {
+        UserDBO dboById = userMapper.getDBOById(id);
+        return dboById;
+    }
+
+    @Override
+    public List<User> list() {
+        return userMapper.list();
+    }
+
+
 }

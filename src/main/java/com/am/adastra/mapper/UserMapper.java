@@ -32,9 +32,25 @@ public interface UserMapper {
 
     UserDBO getDBOByUsername(String username);
 
-    /*
+    /**
      * 返回所有用户信息
-     * */
-//    @Select("select * from users")
+     * @return
+     */
     List<User> list();
+
+    /**
+     * 分页查询用户
+     * @param cur
+     * @param pageSize
+     * @param username
+     * @return
+     */
+    List<User> selectPage(int cur, int pageSize, String username);
+
+    /**
+     * 修改用户状态
+     * @param uid
+     * @return
+     */
+    int changeState(Long uid);
 }
