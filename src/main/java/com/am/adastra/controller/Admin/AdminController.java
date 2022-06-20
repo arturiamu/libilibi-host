@@ -1,9 +1,13 @@
 package com.am.adastra.controller.Admin;
 
 
+
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
@@ -13,9 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /*
@@ -28,21 +37,23 @@ public class AdminController {
     public static final String USER_INFO_SESSION = "userInfoSession";
 //    public static final String SESSION_NAME = "userInfo";
     @Autowired
+    UserService userService;
+    @Autowired
     AdminService adminService;
 
     /*
      * 管理员登录
      * */
-    @PostMapping("/reg")
-    public Result<Admin> login(@RequestBody @Valid Admin admin, BindingResult errors, HttpServletRequest request) {
+    @PostMapping("/login")
+    public Result<AdminVO> login(@RequestBody @Valid Admin admin, BindingResult errors, HttpServletRequest request) {
         log.info("管理员的登录信息 : {}", admin);
-        Result<Admin> result = new Result<>();
+        Result<AdminVO> result = new Result<>();
         if (errors.hasErrors()) {
             log.info("用户信息输入错误");
             result.setSuccess(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage(), null);
             return result;
         }
-        Admin getAdmin = adminService.login(admin);
+        AdminVO getAdmin = adminService.login(admin);
 
         result.setSuccess(getAdmin);
 
@@ -80,14 +91,21 @@ public class AdminController {
     * 分页查询
     * */
     @GetMapping("/selectUser/{cur}/{pageSize}")
-    public Result<List<User>> selectUser(@RequestBody @PathVariable int cur, @PathVariable int pageSize, HttpServletRequest request){
+    public Result<Map<String,Object>> selectUser(@RequestBody @PathVariable int cur, @PathVariable int pageSize, String username, HttpServletRequest request){
         log.info("分页查询");
-        Result<List<User>> result = new Result<>();
+        Result<Map<String,Object>> result = new Result<>();
+        Map<String,Object> map =new  HashMap<>();
         //1.先判断当前用户是否登录
-        Admin getAdmin = adminService.isLogin(request.getSession());
-        //2.分页查询，获取所有部分用户数据
-        List<User> userList = adminService.selectUser(cur, pageSize);
-        result.setSuccess(userList);
+//        Admin getAdmin = adminService.isLogin(request.getSession());
+        log.info("参数用户名 === > "+username);
+        if (username != null) username = "%"+username+"%";
+        //2.分页查询，获取部分用户数据
+        List<User> userList = adminService.selectUser(cur, pageSize,username);
+        //3.获取用户总数量
+        Integer total = adminService.selectTotal();
+        map.put("data",userList);
+        map.put("total",total);
+        result.setSuccess(map);
         return result;
     }
 
@@ -110,6 +128,48 @@ public class AdminController {
         }
         log.info("用户信息修改失败");
         result.setMessage("用户信息修改失败");
+        return result;
+    }
+
+    /**
+     * 改变用户的状态，正常设置为禁用，禁用设置为正常
+     * @param uid
+     * @return
+     */
+    @GetMapping("/changeState/{uid}")
+    public Result<Void> changeState(@PathVariable Long uid){
+        Result<Void> result = new Result<>();
+        log.info("用户id为 ---> " + uid);
+        adminService.changeState(uid);
+        result.setSuccess("修改成功",null);
+        return result;
+    }
+
+    @GetMapping("/export")
+    public Result<Void> export(HttpServletResponse response) throws Exception{
+        Result<Void> result = new Result<>();
+        //1.从数据库查出所有用户数据
+        List<User> userList = userService.list();
+        //2.操作内存，写出到浏览器
+        ExcelWriter writer = ExcelUtil.getWriter(true);
+        //3.自定义标题别名
+        writer.addHeaderAlias("username","用户名");
+
+        //4.一次性写list内的对象到excel中，使用默认样式，强制输出标题
+        writer.write(userList,true);
+
+        // 5.设置浏览器响应的格式
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+        String fileName = URLEncoder.encode("用户信息", "UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        out.close();
+        writer.close();
+
+        //6.操作成功
+        result.setSuccess();
         return result;
     }
 

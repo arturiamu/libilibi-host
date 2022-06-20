@@ -1,5 +1,4 @@
-package com.am.adastra.entity;
-
+package com.am.adastra.entity.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,22 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
-/*
-* 管理员实体
-* */
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Admin {
+public class AdminVO {
 
     private Long id;
-
-    @NotEmpty(message = "用户名不能为空！")
     private String username;
-
-    @NotEmpty(message = "密码不能为空！")
     private String password;
-
     private String nickname;//昵称
     private String avatar;//头像
 }

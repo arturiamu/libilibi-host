@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -106,7 +107,10 @@ public class UserServiceImpl implements UserService {
         return dboById;
     }
 
-
+    @Override
+    public List<User> list() {
+        return userMapper.list();
+    }
 
 
 }

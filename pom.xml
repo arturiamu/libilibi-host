@@ -135,6 +135,26 @@
             <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
             <version>2.0.9</version>
         </dependency>
+
+        <!-- hutool  操作文件，写出到excel中-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.10.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>
