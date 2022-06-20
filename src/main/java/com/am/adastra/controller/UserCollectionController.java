@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,8 +88,8 @@ public class UserCollectionController {
      * @return
      */
     @GetMapping("/selectCategory")
-    public Result<Map<String, List<UserCollectionSimpleVO>>> selectCategory(HttpServletRequest request) {
-        Result<Map<String, List<UserCollectionSimpleVO>>> result = new Result<>();
+    public Result<List<Map<String,Object>>> selectCategory(HttpServletRequest request) {
+        Result<List<Map<String,Object>>> result = new Result<>();
 
         //1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
@@ -95,7 +97,16 @@ public class UserCollectionController {
         log.info("用户id ===》 " + userId);
 
         Map<String, List<UserCollectionSimpleVO>> stringListMap = userCollectionService.selectCategory(userId);
-        result.setSuccess(stringListMap);
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        for (String key : stringListMap.keySet()){
+            Map<String,Object> map = new HashMap<>();
+            map.put("category",key);
+            log.info("============>>>>" + key);
+            map.put("data",stringListMap.get(key));
+            list.add(map);
+        }
+        result.setSuccess(list);
         return result;
 
 
