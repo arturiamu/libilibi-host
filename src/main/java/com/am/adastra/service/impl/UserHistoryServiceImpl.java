@@ -4,6 +4,7 @@ import com.am.adastra.entity.User;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserHistorySimpleVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.repository.UserHistoryRedisRepository;
@@ -103,10 +104,10 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         userHistoryRedisRepository.deleteAllHistory();
         //2.从数据库中查询出用户的收藏夹记录，添加到缓存中
         //2.1查询出所有用户
-        List<User> userList = userMapper.list();
+        List<UserVO> userList = userMapper.list();
         log.info("缓存预热,将所有用户历史添加到缓存中 ");
         //2.2通过所有用户的uid将他们的收藏记录写入到缓存中
-        for (User user : userList) {
+        for (UserVO user : userList) {
             Long uid = user.getId();
             List<Video> userHistory = userHistoryMapper.getAll(uid);
             userHistoryRedisRepository.save(user.getId(),userHistory);

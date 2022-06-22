@@ -2,9 +2,9 @@ package com.am.adastra.service.impl;
 
 import com.am.adastra.controller.Admin.AdminController;
 import com.am.adastra.entity.Admin;
-import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.vo.AdminVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.ex.UserNotLoginException;
@@ -75,14 +75,14 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public List<User> selectUser(int cur, int pageSize, String username) {
+    public List<UserVO> selectUser(int cur, int pageSize, String username) {
         log.info("分页查询用户信息  selectUser() ---> ");
         log.info("第几页"+cur);
         log.info("每页有多少"+pageSize);
 
         cur = cur <=1 ? 0 : cur-1;
         //调用userMapper层查询数据
-        List<User> userList = userMapper.selectPage(cur*pageSize,pageSize,username);
+        List<UserVO> userList = userMapper.selectPage(cur*pageSize,pageSize,username);
 
         log.info("分页查询到的数据 -->" + userList);
         return userList;

@@ -3,6 +3,7 @@ package com.am.adastra.service.impl;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
@@ -51,7 +52,7 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         log.info("当前用户收藏信息" + userCollection);
 
 //        2.找到所有用户
-        List<User> allUser = userMapper.list();
+        List<UserVO> allUser = userMapper.list();
 
 //        3.通过所有用户查询出所有用户的历史信息和收藏记录，取出大分类pid
         List<List<Video>> allUserHistory = new ArrayList<>();

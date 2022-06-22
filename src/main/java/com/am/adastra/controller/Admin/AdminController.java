@@ -8,6 +8,7 @@ import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.vo.AdminVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
@@ -100,7 +101,7 @@ public class AdminController {
         log.info("参数用户名 === > "+username);
         if (username != null) username = "%"+username+"%";
         //2.分页查询，获取部分用户数据
-        List<User> userList = adminService.selectUser(cur, pageSize,username);
+        List<UserVO> userList = adminService.selectUser(cur, pageSize,username);
         //3.获取用户总数量
         Integer total = adminService.selectTotal();
         map.put("data",userList);
@@ -149,7 +150,7 @@ public class AdminController {
     public Result<Void> export(HttpServletResponse response) throws Exception{
         Result<Void> result = new Result<>();
         //1.从数据库查出所有用户数据
-        List<User> userList = userService.list();
+        List<UserVO> userList = userService.list();
         //2.操作内存，写出到浏览器
         ExcelWriter writer = ExcelUtil.getWriter(true);
         //3.自定义标题别名

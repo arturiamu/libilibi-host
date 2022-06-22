@@ -2,6 +2,7 @@ package com.am.adastra.mapper;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -36,7 +37,7 @@ public interface UserMapper {
      * 返回所有用户信息
      * @return
      */
-    List<User> list();
+    List<UserVO> list();
 
     /**
      * 分页查询用户
@@ -45,7 +46,7 @@ public interface UserMapper {
      * @param username
      * @return
      */
-    List<User> selectPage(int cur, int pageSize, String username);
+    List<UserVO> selectPage(int cur, int pageSize, String username);
 
     /**
      * 修改用户状态

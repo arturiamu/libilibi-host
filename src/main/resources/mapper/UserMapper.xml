@@ -49,15 +49,25 @@
 
     <!--  返回所有用户信息
      @Select("select * from users")-->
-    <select id="list" resultType="com.am.adastra.entity.User">
-        select id, username, account, items, state
+    <select id="list" resultMap="listMap">
+        select id, username, account, items, state, create_time, update_time
         from users
     </select>
+    <resultMap id="listMap" type="com.am.adastra.entity.vo.UserVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="account" property="account"/>
+        <result column="items" property="items"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
 
 <!--    分页查询用户信息
     List<User> selectPage(int cur, int pageSize);-->
-    <select id="selectPage" resultType="com.am.adastra.entity.User">
-        select id, username, password, account, items, state, create_time, update_time
+    <select id="selectPage" resultMap="listMap">
+        select id, username, account, items, state, create_time, update_time
         from users
         where username like #{username}
         order by id
