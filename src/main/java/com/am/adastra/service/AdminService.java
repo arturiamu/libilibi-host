@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface AdminService {
@@ -23,4 +24,8 @@ public interface AdminService {
     Integer selectTotal();
 
     void changeState(Long uid);
+
+    Map<String ,Object> members();
+
+    Map<String, Object> videoHeat();
 }

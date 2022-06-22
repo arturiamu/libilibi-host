@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.Quarter;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.vo.UserVO;
+import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import lombok.Data;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/echarts")
 public class EchartsController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/ss")
     public Result<Map<String , Object>> get(){
@@ -32,22 +36,33 @@ public class EchartsController {
         return result;
     }
 
+    /**
+     * 获取每个月新增的人数，返回给前端
+     * @return
+     */
     @GetMapping("/members")
-    public Result members() {
-        Result<List<int[]>> result = new Result<>();
-        List<UserVO> userList = userService.list();
-        int[] q = new int[12];
-        for (UserVO user : userList){
-            Date createTime = user.getCreateTime();
-            int month = DateUtil.month(createTime);
-            if (month>0 && month<13){
-                q[month-1] ++ ;
-            }
-        }
+    public Result<Map<String,Object>> members() {
+        Result<Map<String,Object>> result = new Result<>();
 
-        ArrayList<int[]> ints = CollUtil.newArrayList(q);
-        result.setSuccess(ints);
+        Map<String,Object> map = adminService.members();
+
+        result.setSuccess(map);
+
         return result;
 
+    }
+
+    /**
+     * 获取21个视频大分类的观看次数，返回给前端
+     */
+    @GetMapping("/videoHeat")
+    public Result<Map<String,Object>> videoHeat(){
+        Result<Map<String,Object>> result = new Result<>();
+
+        Map<String,Object> map = adminService.videoHeat();
+
+        result.setSuccess(map);
+
+        return result;
     }
 }
