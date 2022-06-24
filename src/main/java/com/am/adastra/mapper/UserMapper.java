@@ -61,4 +61,11 @@ public interface UserMapper {
      * @return
      */
     List<UserLoginLogVO> loginList();
+
+    /**
+     * 获取指定uid用户的登录日志
+     * @param uid
+     * @return
+     */
+    List<UserLoginLogVO> loginListByUid(Long uid);
 }

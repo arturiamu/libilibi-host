@@ -154,6 +154,15 @@ public class AdminUserController {
      * 获取指定uid用户的登录日志
      *
      */
+    @GetMapping("/UserLog/{uid}")
+    public Result<List<UserLoginLogVO>> UserLog(@PathVariable Long uid){
+        Result<List<UserLoginLogVO>> result = new Result<>();
+        log.info("用户id为 ---> " + uid);
+        //1.从数据库中得到所有的信息
+        List<UserLoginLogVO> userLoginLogVOList = userService.loginListByUid(uid);
+        result.setSuccess(userLoginLogVOList);
+        return result;
+    }
 
 
     /**
