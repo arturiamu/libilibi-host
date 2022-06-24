@@ -6,6 +6,7 @@ import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.Video;
+import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import com.am.adastra.entity.vo.UserVO;
@@ -223,6 +224,16 @@ public class AdminServiceImpl implements AdminService {
 
 
         return resultMap;
+    }
+
+
+    /**
+     * 修改管理员的个人信息
+     * @param adminDTO
+     */
+    @Override
+    public void updateAdmin(AdminDTO adminDTO) {
+        adminMapper.updateAdmin(adminDTO);
     }
 
 

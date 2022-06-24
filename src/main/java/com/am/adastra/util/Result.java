@@ -28,13 +28,18 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
+    public void setSuccess(String message) {
+        this.message = message;
+        this.state = State.OK.getValve();
+    }
+
     public void setSuccess(String message, T data) {
         this.setSuccess(data);
         this.message = message;
     }
 
     public void setSuccess() {
-        this.setSuccess(null);
+        this.setSuccess((T) null);
     }
 
     public void setFail(String message, State state) {
