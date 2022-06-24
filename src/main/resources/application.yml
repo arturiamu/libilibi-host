@@ -66,7 +66,7 @@ aliyun:
       endpoint: oss-cn-hangzhou.aliyuncs.com
       keyId: LTAI5tJTSkD8cSxk1dazEqLV
       keysecret: 0iN9FRV610rfHP5bfzKVuZxIcCdlc5
-      bucketname: guli-imge
+      bucketname: libilibi-host
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
