@@ -5,6 +5,7 @@ import com.am.adastra.controller.UserController;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
@@ -108,7 +109,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> list() {
+    public List<UserVO> list() {
         return userMapper.list();
     }
 

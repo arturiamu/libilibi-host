@@ -7,7 +7,9 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
@@ -86,6 +88,21 @@ public class AdminController {
         return result;
     }
 
+    /**
+     * 修改管理员的个人信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/updateAdmin")
+    public Result<Void> updateAdmin(@RequestBody AdminDTO AdminDTO, HttpServletRequest request){
+
+        //1.获取当前管理员的id
+        //2.调用adminServer修改管理员信息
+
+
+        return null;
+    }
+
     /*
     * 获取所有用户的基本信息
     * 分页查询
@@ -100,7 +117,7 @@ public class AdminController {
         log.info("参数用户名 === > "+username);
         if (username != null) username = "%"+username+"%";
         //2.分页查询，获取部分用户数据
-        List<User> userList = adminService.selectUser(cur, pageSize,username);
+        List<UserVO> userList = adminService.selectUser(cur, pageSize,username);
         //3.获取用户总数量
         Integer total = adminService.selectTotal();
         map.put("data",userList);
@@ -113,15 +130,14 @@ public class AdminController {
     /*
     * 管理员修改用户信息
     * */
-    @PostMapping ("/updataUser")
-    public Result<User> updataUser(@RequestBody User user) {
+    @PostMapping ("/updateUser")
+    public Result<User> updateUser(@RequestBody UserDBO userDBO) {
         Result<User> result = new Result<>();
-        log.info(user.toString());
-
-        UserDBO userDBO = POJOUtils.userToDB(user);
+        log.info(userDBO.toString());
+//        UserDBO userDBO = POJOUtils.userToDB(user);
         log.info(userDBO.toString());
 
-        int i = adminService.updataUser(userDBO);
+        int i = adminService.updateUser(userDBO);
         if (i>0){
             result.setMessage("用户信息修改成功");
             return result;
@@ -145,11 +161,17 @@ public class AdminController {
         return result;
     }
 
+    /**
+     * 管理员下载所有用户信息
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/export")
     public Result<Void> export(HttpServletResponse response) throws Exception{
         Result<Void> result = new Result<>();
         //1.从数据库查出所有用户数据
-        List<User> userList = userService.list();
+        List<UserVO> userList = userService.list();
         //2.操作内存，写出到浏览器
         ExcelWriter writer = ExcelUtil.getWriter(true);
         //3.自定义标题别名

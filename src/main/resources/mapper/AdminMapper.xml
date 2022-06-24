@@ -8,7 +8,7 @@
     <!-- * 通过用户名查询用户信息
      Admin getByUsername(String username);-->
     <select id="getByUsername" resultMap="getByUsernameMap">
-        select username, password, nickname, avatar
+        select id, username, password, nickname, avatar
         from admin
         where username = #{username}
     </select>

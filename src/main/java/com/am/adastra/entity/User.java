@@ -39,5 +39,10 @@ public class User implements Serializable {
 
     private Item[] items;
 
+//    //用户注册时间
+//    private Data createTime;
+//    //用户上次修改的时间
+//    private Data updateTime;
+
     private String state;
 }

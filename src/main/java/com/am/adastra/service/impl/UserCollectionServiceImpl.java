@@ -1,9 +1,9 @@
 package com.am.adastra.service.impl;
 
-import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserCategorySimpleVO;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
+import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.RepeatException;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.mapper.UserCategoryMapper;
@@ -148,10 +148,10 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         userCollectionRedisRepository.deleteAllCollection();
         //2.从数据库中查询出用户的收藏夹记录，添加到缓存中
         //2.1查询出所有用户
-        List<User> userList = userMapper.list();
+        List<UserVO> userList = userMapper.list();
         //2.2通过所有用户的uid将他们的收藏记录写入到缓存中
         log.info("将所有用户的收藏记录写入到缓存中");
-        for (User user : userList) {
+        for (UserVO user : userList) {
             List<UserCollectionSimpleVO> list = userCollectionMapper.selectById(user.getId());
             userCollectionRedisRepository.save(list);
         }
