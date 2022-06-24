@@ -60,6 +60,14 @@ sms:
     sign: isamumu
   size: 6
 
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-hangzhou.aliyuncs.com
+      keyId: LTAI5tJTSkD8cSxk1dazEqLV
+      keysecret: 0iN9FRV610rfHP5bfzKVuZxIcCdlc5
+      bucketname: guli-imge
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
