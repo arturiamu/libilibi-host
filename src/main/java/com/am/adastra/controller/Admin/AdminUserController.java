@@ -136,9 +136,12 @@ public class AdminUserController {
     /**
      * 获取所有用户的登录日志
      */
+//    @GetMapping("/allUserLog")
+
 
     /**
      * 获取指定uid用户的登录日志
+     *
      */
 
     /**
