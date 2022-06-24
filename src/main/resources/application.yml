@@ -76,7 +76,7 @@ alipay:
   #支付网关配置，这一项是写死的，正式环境是openapi.alipay.com
   gateway: openapi.alipaydev.com
   #支付成功之后的回调页面，只是一个友好页面。主要换成你自己映射的临时域名
-  returnUrl: http://10.2.36.25:8080/
+  returnUrl:
   #支付成功的接口回调，我们还没写，先空着
-  notifyUrl:
+  notifyUrl: http://localhost:8080/UserVip/notify
 
