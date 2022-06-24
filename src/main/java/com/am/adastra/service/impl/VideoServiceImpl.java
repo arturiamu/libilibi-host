@@ -27,6 +27,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public List<Video> search(String keyword, int st, int ps) {
+        return videoMapper.search(keyword, st, ps);
+    }
+
+    @Override
     public Video getByAId(Integer aid) {
         return videoMapper.getByAId(aid);
     }

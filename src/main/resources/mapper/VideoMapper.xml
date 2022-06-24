@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.am.adastra.mapper.VideoMapper">
+
+    <select id="search" resultType="com.am.adastra.entity.Video">
+        select *
+        from videos
+        where title like ('%' + #{keyword} + '%')
+        order by `like`
+        limit 0,100
+    </select>
+
     <select id="getAll">
         select *
         from videos

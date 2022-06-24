@@ -17,6 +17,8 @@ import java.util.List;
 public interface VideoService {
     List<Video> getAll();
 
+    List<Video> search(String keyword, int st, int ps);
+
     Video getByAId(Integer aid);
 
     List<Video> getByTIds(String typeList);

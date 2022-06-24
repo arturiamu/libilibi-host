@@ -22,6 +22,8 @@ public interface VideoMapper {
 
     Video getByAId(Integer aid);
 
+    List<Video> search(String keyword, int st, int ps);
+
     List<Video> getByTIds(String typeList);
 
     List<Video> getByTId(Integer tid);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserMessageMapper">
+
+    <resultMap id="message" type="com.am.adastra.entity.dto.MessageDTO">
+        <result column="id" property="id"/>
+        <result column="send_user_id" property="sendUserId"/>
+        <result column="target_user_id" property="targetUserId"/>
+        <result column="text" property="text"/>
+        <result column="time" property="date"/>
+        <result column="read" property="read"/>
+        <result column="del" property="del"/>
+        <result column="send_user_name" property="sendUserName"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="message">
+        select *
+        from message
+        where target_user_id = #{aid}
+          and del = 0
+    </select>
+
+    <insert id="sendMessage">
+        insert into message(send_user_id, target_user_id, text, send_user_name)
+        VALUES ()
+    </insert>
+
+    <update id="fakeDel">
+        update message
+        set del=1
+        where id = #{id}
+    </update>
+
+    <update id="fakeDelAll">
+        update message
+        set del=1
+        where target_user_id = #{aid}
+    </update>
+
+    <update id="fakeRead">
+        update message
+        set `read`=1
+        where id = #{id}
+    </update>
+    <update id="fakeReadAll">
+        update message
+        set `read`=1
+        where target_user_id = #{aid}
+    </update>
+
+</mapper>
