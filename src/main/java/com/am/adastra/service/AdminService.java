@@ -2,6 +2,7 @@ package com.am.adastra.service;
 
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.entity.vo.UserVO;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,6 @@ public interface AdminService {
     Map<String ,Object> members();
 
     Map<String, Object> videoHeat();
+
+    void updateAdmin(AdminDTO adminDTO);
 }
