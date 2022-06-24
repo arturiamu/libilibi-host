@@ -46,7 +46,7 @@ public class UserCategoryController {
         userCategory.setUid(userId);
 
         if (userCategoryService.add(userCategory)) {
-            result.setSuccess(null);
+            result.setSuccess();
         }
         return result;
     }
@@ -66,7 +66,7 @@ public class UserCategoryController {
         Result<Void> result = new Result<>();
         User user = userService.isLogin(request.getSession());
         userCategoryService.clear(user.getId(), categoryName);
-        result.setSuccess(null);
+        result.setSuccess();
         return result;
     }
 
@@ -75,7 +75,7 @@ public class UserCategoryController {
         Result<Void> result = new Result<>();
         User user = userService.isLogin(request.getSession());
         userCategoryService.del(user.getId(), categoryName);
-        result.setSuccess(null);
+        result.setSuccess();
         return result;
     }
 }
