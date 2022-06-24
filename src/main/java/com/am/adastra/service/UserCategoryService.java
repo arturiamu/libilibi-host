@@ -13,7 +13,11 @@ import java.util.List;
 * */
 @Service
 public interface UserCategoryService {
-    Result<UserCategorySimpleVO> add(UserCategoryAddDTO userCategoryAddDTO);
+    boolean add(UserCategoryAddDTO userCategoryAddDTO);
 
-    Result<List<UserCategorySimpleVO>> selectById(Long userId);
+    boolean clear(Long uid,String cName);
+
+    boolean del(Long uid,String cName);
+
+    List<UserCategorySimpleVO> selectById(Long userId);
 }

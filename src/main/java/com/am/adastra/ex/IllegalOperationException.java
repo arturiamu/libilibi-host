@@ -10,6 +10,7 @@ package com.am.adastra.ex;
  */
 public class IllegalOperationException extends ServiceException{
     public IllegalOperationException() {
+        super("非法操作");
     }
 
     public IllegalOperationException(String message) {

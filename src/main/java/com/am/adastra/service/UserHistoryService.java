@@ -25,4 +25,10 @@ public interface UserHistoryService {
     boolean fakeDel(Long id);  // 真实删除
 
     boolean fakeClear(Long uid);  //   真实清空
+
+    /**
+     * 预热类别数据的缓存
+     * 将用户的收藏记录预加载到缓存中
+     */
+    void preloadCache();
 }

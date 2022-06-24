@@ -6,6 +6,8 @@ import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.VideoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +24,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
-public class VideoPool {
+public class VideoPool implements ApplicationRunner {
     private static VideoPool that;
 
     @Resource
@@ -40,30 +42,11 @@ public class VideoPool {
 
     @PostConstruct
     public void init() {
-        log.info("init video pool");
+        log.error("init video pool");
         that = this;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
         that.videoService = this.videoService;
-    }
-
-    public static void run() {
-        log.info("start load videos...");
-        long st = System.currentTimeMillis();
-        items.addAll(that.itemMapper.getAll());
-        for (int i = 0; i < items.size(); i++) {
-            PID_INDEX.put(items.get(i).getPid(), i);
-        }
-        int total = 0;
-        for (Item item : items) {
-            List<Video> videoList = that.videoService.getByPId(item.getPid());
-            log.info("{} size {}", item, videoList.size());
-            total += videoList.size();
-            VIDEO_POOL.add(videoList);
-        }
-        log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
-        log.info("total videos:{}", total);
-        log.info("end load videos...");
     }
 
     public static int indexPid(int pid) {
@@ -85,5 +68,25 @@ public class VideoPool {
             res.add(VIDEO_POOL.get(pidIdx).get(st++));
         }
         return new ArrayList<>(res);
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        log.error("start load videos...");
+        long st = System.currentTimeMillis();
+        items.addAll(that.itemMapper.getAll());
+        for (int i = 0; i < items.size(); i++) {
+            PID_INDEX.put(items.get(i).getPid(), i);
+        }
+        int total = 0;
+        for (Item item : items) {
+            List<Video> videoList = that.videoService.getByPId(item.getPid());
+            log.error("{} size {}", item, videoList.size());
+            total += videoList.size();
+            VIDEO_POOL.add(videoList);
+        }
+        log.error("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.error("total videos:{}", total);
+        log.error("end load videos...");
     }
 }

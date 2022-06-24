@@ -20,6 +20,9 @@ public interface UserCategoryMapper {
      */
     int add(UserCategoryAddDTO userCategoryAddDTO);
 
+    int clear(Long uid,String cName);
+
+    int del(Long uid,String cName);
 
     /*
     通过用户id和收藏夹名字查询出收藏夹分类

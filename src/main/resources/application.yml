@@ -5,8 +5,9 @@ server:
     encoding:
       force: true
       charset: UTF-8
-
 spring:
+  mvc:
+    static-path-pattern: /static/**
   jackson:
     defaultPropertyInclusion: non_null
     deserialization:
@@ -18,17 +19,21 @@ spring:
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 47.113.222.20
+    host: localhost
     port: 6379
-    password: 123
+#    password: 123
     database: 0
     timeout: 1800000
     lettuce:
+      cluster:
+        refresh:
+          adaptive: true
+          period: 60s
       pool:
         max-active: 20
         max-wait: -1
         max-idle: 5
-        min-idle: 0
+        min-idle: 1
   mail:
     host: smtp.qq.com
     username: 2762404119@qq.com
