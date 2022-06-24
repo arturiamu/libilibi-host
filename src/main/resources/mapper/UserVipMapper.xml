@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.UserVipMapper">
+
+    <!--UserVip selectById(long id);-->
+    <!--resultType和resultMap只保留一个-->
+    <select id="selectById" resultType="com.am.adastra.entity.UserVip">
+        select
+        *
+        from user_vip
+        where id=#{id}
+    </select>
+
+    <insert id="addVip" parameterType="com.am.adastra.entity.UserVip">
+        insert into
+        user_vip(id, startVipTime, endVipTime)
+        values (#{id},#{startVipTime},#{endVipTime})
+    </insert>
+
+    <update id="updataVip" parameterType="com.am.adastra.entity.UserVip">
+        update user_vip
+        set startVipTime=#{startVipTime},endVipTime=#{endVipTime}
+        where id=#{id}
+    </update>
+</mapper>
