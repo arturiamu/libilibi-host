@@ -40,7 +40,8 @@ public class UserController {
     public static final String USER_INFO_SESSION = "userInfoSession";
     public static final Pattern patternMail = Pattern.compile("^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$");
     public static final Pattern patternPhone = Pattern.compile("^1[3|4|5|8|9][0-9]\\d{8}$");
-
+    public static final String AD_ASTRA = "ad-astra 官方团队";
+    public static final String WELCOME = "hi，欢迎加入ad astra，让我们开始愉快的探索之旅吧~";
 
     @Resource
     private UserService userService;
