@@ -62,8 +62,8 @@ public class UserCollectionController {
 
     /*  通过用户分类的查看用户的收藏
      */
-    @GetMapping("/selectByCategory")
-    public Result<List<UserCollectionSimpleVO>> selectByCategory(String category, HttpServletRequest request) {
+    @GetMapping("/selectByCategory/{category}")
+    public Result<List<UserCollectionSimpleVO>> selectByCategory(@PathVariable String category, HttpServletRequest request) {
 
         Result<List<UserCollectionSimpleVO>> result = new Result<>();
 //        1.获取当前用户的用户 id
