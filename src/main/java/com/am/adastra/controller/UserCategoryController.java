@@ -31,12 +31,11 @@ public class UserCategoryController {
     private UserService userService;
 
     @PostMapping("/add")
-    public Result<UserCategorySimpleVO> add(@RequestBody @Valid UserCategoryAddDTO userCategory, BindingResult errors, HttpServletRequest request){
-        System.out.println("收藏夹名称---------->" + userCategory.getCategoryName());
-        Result<UserCategorySimpleVO> result = new Result<>();
-
-        if (errors.hasErrors()){
-            result.setSuccess(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage(),null);
+    public Result<Void> add(@RequestBody @Valid UserCategoryAddDTO userCategory, BindingResult errors, HttpServletRequest request) {
+        log.info("收藏夹名称---------->{}", userCategory.getCategoryName());
+        Result<Void> result = new Result<>();
+        if (errors.hasErrors()) {
+            result.setSuccess(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage(), null);
             return result;
         }
 
@@ -46,18 +45,37 @@ public class UserCategoryController {
         log.info("用户id:" + userId);
         userCategory.setUid(userId);
 
-        //调用逻辑层将信息添加到用户的收藏夹中
-        result = userCategoryService.add(userCategory);
+        if (userCategoryService.add(userCategory)) {
+            result.setSuccess(null);
+        }
         return result;
     }
 
     @GetMapping("/selectByCategory")
-    public Result<List<UserCategorySimpleVO>> selectById(HttpServletRequest request){
+    public Result<List<UserCategorySimpleVO>> selectById(HttpServletRequest request) {
+        Result<List<UserCategorySimpleVO>> result = new Result<>();
         User user = userService.isLogin(request.getSession());
         Long userId = user.getId();
+        log.info("用户ID： " + userId);
+        result.setSuccess(userCategoryService.selectById(userId));
+        return result;
+    }
 
-        log.info("用户ID： "+userId);
+    @GetMapping("/clear/{categoryName}")
+    public Result<Void> clear(HttpServletRequest request, @PathVariable String categoryName) {
+        Result<Void> result = new Result<>();
+        User user = userService.isLogin(request.getSession());
+        userCategoryService.clear(user.getId(), categoryName);
+        result.setSuccess(null);
+        return result;
+    }
 
-        return userCategoryService.selectById(userId);
+    @GetMapping("/del/{categoryName}")
+    public Result<Void> del(HttpServletRequest request, @PathVariable String categoryName) {
+        Result<Void> result = new Result<>();
+        User user = userService.isLogin(request.getSession());
+        userCategoryService.del(user.getId(), categoryName);
+        result.setSuccess(null);
+        return result;
     }
 }

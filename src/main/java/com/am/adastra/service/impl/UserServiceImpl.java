@@ -5,9 +5,11 @@ import com.am.adastra.controller.UserController;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.dto.UserCategoryAddDTO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private UserCategoryService userCategoryService;
+
     @Override
     public User register(User user) {
         log.info("user register:{}", user);
@@ -50,7 +55,13 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         if (userMapper.addDBO(POJOUtils.userToDB(user)) == 1) {
-            return user;
+            UserDBO userDBO = userMapper.getDBOByUsername(user.getUsername());
+            UserCategoryAddDTO userCategoryAddDTO = new UserCategoryAddDTO();
+            userCategoryAddDTO.setCategoryName("默认收藏夹");
+            userCategoryAddDTO.setUid(userDBO.getId());
+            userCategoryService.add(userCategoryAddDTO);
+            log.info("新用户注册：{}",userDBO);
+            return POJOUtils.DBToUser(userDBO);
         }
         throw new SystemException("系统繁忙，请稍后重试");
     }

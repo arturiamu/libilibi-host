@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
+import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserService;
@@ -59,6 +60,18 @@ public class UserCollectionController {
 
     }
 
+    @GetMapping("/cancel/{id}")
+    public Result<Void> del(HttpServletRequest request, @PathVariable Long id) {
+        Result<Void> result = new Result<>();
+        User user = userService.isLogin(request.getSession());
+        if (user == null) {
+            throw new UserNotLoginException("请先登录");
+        }
+        userCollectionService.cancel(id);
+        result.setSuccess(null);
+        return result;
+    }
+
 
     /*  通过用户分类的查看用户的收藏
      */
@@ -88,8 +101,8 @@ public class UserCollectionController {
      * @return
      */
     @GetMapping("/selectCategory")
-    public Result<List<Map<String,Object>>> selectCategory(HttpServletRequest request) {
-        Result<List<Map<String,Object>>> result = new Result<>();
+    public Result<List<Map<String, Object>>> selectCategory(HttpServletRequest request) {
+        Result<List<Map<String, Object>>> result = new Result<>();
 
         //1.获取当前用户的用户 id
         User user = userService.isLogin(request.getSession());
@@ -98,12 +111,12 @@ public class UserCollectionController {
 
         Map<String, List<UserCollectionSimpleVO>> stringListMap = userCollectionService.selectCategory(userId);
 
-        List<Map<String,Object>> list = new ArrayList<>();
-        for (String key : stringListMap.keySet()){
-            Map<String,Object> map = new HashMap<>();
-            map.put("category",key);
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (String key : stringListMap.keySet()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("category", key);
             log.info("============>>>>" + key);
-            map.put("data",stringListMap.get(key));
+            map.put("data", stringListMap.get(key));
             list.add(map);
         }
         result.setSuccess(list);

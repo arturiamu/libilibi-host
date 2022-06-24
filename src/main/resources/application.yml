@@ -67,6 +67,6 @@ logging:
   level:
     com:
       am:
-        adastra: error
+        adastra: info
 knife4j:
   enable: true

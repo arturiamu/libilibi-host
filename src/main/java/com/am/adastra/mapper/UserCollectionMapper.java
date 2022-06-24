@@ -28,7 +28,7 @@ public interface UserCollectionMapper {
      * */
     List<UserCollectionSimpleVO> selectByCollection(Long uid, String categoryName);
 
-
+    int cancel(Long id);
 
     /*
      * 通过用户id查询出用户所有的收藏信息

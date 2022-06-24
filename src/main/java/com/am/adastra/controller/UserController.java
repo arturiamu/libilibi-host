@@ -13,9 +13,6 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -91,6 +88,7 @@ public class UserController {
         if (rp.getVerCode().equals(request.getSession().getAttribute(VERIFICATION_CODE_SESSION))) {
             User getUser = userService.register(rp.getUser());
             result.setSuccess("注册成功，已为您自动登录", getUser);
+            request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         } else {
             throw new ValidException("验证码错误");
         }
