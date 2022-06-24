@@ -7,6 +7,7 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.service.AdminService;
@@ -87,6 +88,21 @@ public class AdminController {
         return result;
     }
 
+    /**
+     * 修改管理员的个人信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/updateAdmin")
+    public Result<Void> updateAdmin(@RequestBody AdminDTO AdminDTO, HttpServletRequest request){
+
+        //1.获取当前管理员的id
+        //2.调用adminServer修改管理员信息
+
+
+        return null;
+    }
+
     /*
     * 获取所有用户的基本信息
     * 分页查询
@@ -114,15 +130,14 @@ public class AdminController {
     /*
     * 管理员修改用户信息
     * */
-    @PostMapping ("/updataUser")
-    public Result<User> updataUser(@RequestBody User user) {
+    @PostMapping ("/updateUser")
+    public Result<User> updateUser(@RequestBody UserDBO userDBO) {
         Result<User> result = new Result<>();
-        log.info(user.toString());
-
-        UserDBO userDBO = POJOUtils.userToDB(user);
+        log.info(userDBO.toString());
+//        UserDBO userDBO = POJOUtils.userToDB(user);
         log.info(userDBO.toString());
 
-        int i = adminService.updataUser(userDBO);
+        int i = adminService.updateUser(userDBO);
         if (i>0){
             result.setMessage("用户信息修改成功");
             return result;

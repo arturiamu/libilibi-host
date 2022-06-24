@@ -7,12 +7,14 @@ import com.am.adastra.entity.Item;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.vo.AdminVO;
+import com.am.adastra.entity.vo.UserHistorySimpleVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.mapper.AdminMapper;
 import com.am.adastra.mapper.ItemMapper;
+import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserHistoryService;
@@ -33,6 +35,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserHistoryMapper userHistoryMapper;
 
     @Autowired
     private UserService userService;
@@ -104,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int updataUser(UserDBO userDBO) {
+    public int updateUser(UserDBO userDBO) {
         String password = userDBO.getPassword();
         userDBO.setPassword(DigestUtils.md5Hex(password));
         int i = adminMapper.updateUser(userDBO);
@@ -160,6 +165,9 @@ public class AdminServiceImpl implements AdminService {
         //标题
         map.put("title",year+"年");
 
+        //用户总人数
+        map.put("totalUsers",userList.size());
+
         return map;
     }
 
@@ -182,19 +190,37 @@ public class AdminServiceImpl implements AdminService {
             itemName.add(itemMapper.get(i).getName());
         }
         int[] items = new int[itemMapper.size()];
+        Long dailyActivity = 0L;//日活跃量  今日所有用户观看的视频数量
+
         //3.查询这些用户观看的视频数据，将对应的观看数据添加到视频大分类pid上
         for (int i = 0; i < allUser.size(); i++) {
             Long id = allUser.get(i).getId();
             //得到当前用户所有的历史记录
-            List<Video> userHistoryServiceAll = userHistoryService.getAll(id);
-            for (int j = 0; j < userHistoryServiceAll.size(); j++) {
+            List<UserHistorySimpleVO> userHistoryVideo = userHistoryMapper.getLimit(id, 1000);
+//            List<Video> userHistoryServiceAll = userHistoryService.getAll(id);
+            for (int j = 0; j < userHistoryVideo.size(); j++) {
+                dailyActivity++;
                 //将对应的观看数据添加到视频大分类pid上
-                items[map.get(userHistoryServiceAll.get(j).getPid())] ++;
+                items[map.get(userHistoryVideo.get(j).getVideo().getPid())] ++;
             }
         }
 
+        //4.获取今日热点视频大分类的名字
+        String hotVideo = ""; //今日热点视频
+        int maxHotVideo = -1;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] > maxHotVideo){
+                maxHotVideo = items[i];
+                hotVideo = itemName.get(i);
+            }
+        }
+
+
         resultMap.put("itemName",itemName);
         resultMap.put("data",items);
+        resultMap.put("dailyActivity",dailyActivity);
+        resultMap.put("hotVideo",hotVideo);
+
 
         return resultMap;
     }

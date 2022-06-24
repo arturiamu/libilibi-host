@@ -19,7 +19,7 @@ public interface AdminService {
 
     List<UserVO> selectUser(int cur, int pageSize, String username);
 
-    int updataUser(UserDBO userDBO);
+    int updateUser(UserDBO userDBO);
 
     Integer selectTotal();
 

@@ -38,6 +38,7 @@ public class EchartsController {
 
     /**
      * 获取每个月新增的人数，返回给前端
+     * 还有总人数
      * @return
      */
     @GetMapping("/members")
