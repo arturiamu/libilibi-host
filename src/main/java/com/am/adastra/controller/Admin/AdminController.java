@@ -161,6 +161,12 @@ public class AdminController {
         return result;
     }
 
+    /**
+     * 管理员下载所有用户信息
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/export")
     public Result<Void> export(HttpServletResponse response) throws Exception{
         Result<Void> result = new Result<>();
