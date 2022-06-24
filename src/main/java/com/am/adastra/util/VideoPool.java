@@ -25,7 +25,7 @@ import java.util.*;
 @Slf4j
 @Component
 public class VideoPool implements ApplicationRunner {
-    private static VideoPool that;
+    public static VideoPool that;
 
     @Resource
     public VideoService videoService;
@@ -70,8 +70,19 @@ public class VideoPool implements ApplicationRunner {
         return new ArrayList<>(res);
     }
 
+    public static List<Video> getRandom(int ps) {
+        List<Video> list = new ArrayList<>();
+        while (ps-- > 0) {
+            Random random = new Random();
+            int idx = random.nextInt(items.size());
+            int cnt = random.nextInt(VIDEO_POOL.get(idx).size());
+            list.add(VIDEO_POOL.get(idx).get(cnt));
+        }
+        return list;
+    }
+
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         log.error("start load videos...");
         long st = System.currentTimeMillis();
         items.addAll(that.itemMapper.getAll());
