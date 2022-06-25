@@ -101,11 +101,11 @@ public class UserMessageController {
 
     @PostMapping("/send")
     public Result<Void> send(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
-        log.info("发送消息：");
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
         User sessionUser = userService.isLogin(request.getSession());
+        log.info("发送消息：{}",sessionUser);
         if (sessionUser == null) {
             throw new UserNotLoginException("请先登录");
         }

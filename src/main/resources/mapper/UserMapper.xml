@@ -11,8 +11,7 @@
     <update id="updateDBO">
         update users
         set username=#{username},
-            password=#{password},
-            account=#{account}
+            items=#{jsItems}
         where id = #{id}
     </update>
 

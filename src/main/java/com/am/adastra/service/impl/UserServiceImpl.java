@@ -14,10 +14,12 @@ import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.ClassExamine;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.util.VideoPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -99,7 +101,6 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
-        log.info("getUser");
         return POJOUtils.DBToUser(getUser);
     }
 
@@ -139,9 +140,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateDBO(User old, User new_) {
+        old.setUsername(new_.getUsername());
+        old.setItems(new_.getItems());
+        int i = userMapper.updateDBO(POJOUtils.userToDB(old));
+        if (i == 1) {
+            return old;
+        }
+        throw new SystemException("系统繁忙，请稍后再试");
+    }
+
+    @Override
     public UserDBO getDBOById(Long id) {
-        UserDBO dboById = userMapper.getDBOById(id);
-        return dboById;
+        return userMapper.getDBOById(id);
     }
 
     @Override

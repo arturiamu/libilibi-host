@@ -29,6 +29,8 @@ public interface UserService {
 
     User updatePwd(String password,String account);
 
+    User updateDBO(User old,User new_);
+
     UserDBO getDBOById(Long id);
 
     List<UserVO> list();

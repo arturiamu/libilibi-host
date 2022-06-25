@@ -21,7 +21,7 @@ public interface UserMapper {
 
     int addDBO(UserDBO user);
 
-    int updateDBO(User user);
+    int updateDBO(UserDBO user);
 
     int updatePwd(String password,Long id);
 
