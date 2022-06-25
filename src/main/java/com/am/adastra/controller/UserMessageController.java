@@ -115,17 +115,18 @@ public class UserMessageController {
         }
 
         if (messageDTO.getIsAdmin() != null){
+            log.info("管理员发布消息");
             Admin adminServiceLogin = adminService.isLogin(request.getSession());
             if (adminServiceLogin == null) {
                 throw new UserNotLoginException("请先登录");
             }
-
             messageDTO.setSendUserId(adminServiceLogin.getId());
             messageDTO.setSendUserName(adminServiceLogin.getUsername());
             userMessageService.sendMessage(messageDTO);
             result.setSuccess();
             return result;
         }else {
+            log.info("用户间互相发布消息");
             User userServiceLogin = userService.isLogin(request.getSession());
             if (userServiceLogin == null) {
                 throw new UserNotLoginException("请先登录");
