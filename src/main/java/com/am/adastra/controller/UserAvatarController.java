@@ -1,15 +1,13 @@
 package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.Video;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.oss.OssUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -25,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/avatar")
+@CrossOrigin
 public class UserAvatarController {
 
     @Resource
@@ -46,14 +45,34 @@ public class UserAvatarController {
 
 
     @PostMapping("/updateAvatar")
-    public Result<Void> updateAvatar(HttpServletRequest request,MultipartFile file) {
+    public Result<Void> updateAvatar(HttpServletRequest request,@RequestBody String url) {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
         Result<Void> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        userAvatarService.updateAvatar(sessionUser.getId(),new OssUtils().uploadFileAvatar(file));
+        userAvatarService.updateAvatar(sessionUser.getId(),url);
         result.setSuccess();
+        return result;
+    }
+
+    @PostMapping("/addAvatar")
+    public Result<Video> addAvatar(HttpServletRequest request, @RequestBody String url) {
+        if (userService.isLogin(request.getSession()) == null) {
+            throw new UserNotLoginException("用户未登录");
+        }
+        Result<Video> result = new Result<>();
+        User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        userAvatarService.addAvatar(sessionUser.getId(),url);
+        result.setSuccess();
+        return result;
+    }
+
+    @PostMapping("/ossfile")
+    public Result<String> addAvatar(MultipartFile file) {
+        String url = new OssUtils().uploadFileAvatar(file);
+        Result<String> result = new Result<>();
+        result.setSuccess("ImageUrl",url);
         return result;
     }
 }
