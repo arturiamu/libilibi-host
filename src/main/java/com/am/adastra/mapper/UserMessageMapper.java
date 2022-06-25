@@ -1,6 +1,7 @@
 package com.am.adastra.mapper;
 
 import com.am.adastra.entity.dto.MessageDTO;
+import com.am.adastra.entity.vo.MessageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,4 +27,10 @@ public interface UserMessageMapper {
     int fakeRead(Long id);
 
     int fakeReadAll(Long aid);
+
+    /**
+     * 获取所有管理员的信息
+     * @return
+     */
+    List<MessageVO> getAllMessage(Integer isAdmin);
 }

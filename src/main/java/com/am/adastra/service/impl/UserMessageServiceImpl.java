@@ -1,6 +1,7 @@
 package com.am.adastra.service.impl;
 
 import com.am.adastra.entity.dto.MessageDTO;
+import com.am.adastra.entity.vo.MessageVO;
 import com.am.adastra.mapper.UserMessageMapper;
 import com.am.adastra.service.UserMessageService;
 import org.springframework.stereotype.Component;
@@ -49,5 +50,11 @@ public class UserMessageServiceImpl implements UserMessageService {
     @Override
     public int fakeReadAll(Long aid) {
         return userMessageMapper.fakeReadAll(aid);
+    }
+
+    @Override
+    public List<MessageVO> getAllMessage(Integer isAdmin) {
+        isAdmin = 1;
+        return userMessageMapper.getAllMessage(isAdmin);
     }
 }

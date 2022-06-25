@@ -49,5 +49,12 @@
         set `read`=1
         where target_user_id = #{aid}
     </update>
+    
+    <!--List<MessageVO> getAllMessage(Integer isAdmin);-->
+    <select id="getAllMessage" resultType="com.am.adastra.entity.vo.MessageVO">
+        select *
+        from message
+        where is_admin = 1
+    </select>
 
 </mapper>

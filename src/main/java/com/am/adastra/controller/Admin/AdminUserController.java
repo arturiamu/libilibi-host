@@ -4,10 +4,12 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.MessageVO;
 import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
+import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,8 @@ public class AdminUserController {
     UserService userService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    UserMessageService userMessageService;
     @Autowired
     UserMapper userMapper;
 
@@ -164,6 +168,17 @@ public class AdminUserController {
         return result;
     }
 
+    /**
+     * 获取所有管理员发送信息
+     */
+    @GetMapping("/getMessage")
+    public Result<List<MessageVO>> getMessage(Integer isAdmin){
+        Result<List<MessageVO>> result = new Result<>();
+        //1.从数据库中获取信息
+        List<MessageVO> messageList = userMessageService.getAllMessage(isAdmin);
+        result.setSuccess(messageList);
+        return result;
+    }
 
     /**
      * 发送通知给全体成员
