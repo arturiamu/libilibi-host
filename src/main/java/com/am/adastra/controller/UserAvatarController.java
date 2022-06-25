@@ -1,5 +1,7 @@
 package com.am.adastra.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.Video;
 import com.am.adastra.ex.UserNotLoginException;
@@ -51,7 +53,9 @@ public class UserAvatarController {
         }
         Result<Void> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        userAvatarService.updateAvatar(sessionUser.getId(),url);
+        JSONObject jsonObject = JSON.parseObject(url);
+        String string = jsonObject.getString("url");
+        userAvatarService.updateAvatar(sessionUser.getId(),string);
         result.setSuccess();
         return result;
     }
