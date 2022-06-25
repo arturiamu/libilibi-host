@@ -52,9 +52,9 @@
     
     <!--List<MessageVO> getAllMessage(Integer isAdmin);-->
     <select id="getAllMessage" resultType="com.am.adastra.entity.vo.MessageVO">
-        select *
-        from message
-        where is_admin = 1
+        SELECT DISTINCT `text`
+        FROM message
+        WHERE is_admin = 1
     </select>
 
 </mapper>
