@@ -7,6 +7,7 @@ import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.dto.MessageDTO;
 import com.am.adastra.entity.dto.UserCategoryAddDTO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
@@ -137,5 +138,13 @@ public class UserServiceImpl implements UserService {
         return userMapper.list();
     }
 
+    @Override
+    public List<UserLoginLogVO> loginList() {
+        return userMapper.loginList();
+    }
 
+    @Override
+    public List<UserLoginLogVO> loginListByUid(Long uid) {
+        return userMapper.loginListByUid(uid);
+    }
 }
