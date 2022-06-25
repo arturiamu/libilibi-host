@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -234,6 +236,73 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateAdmin(AdminDTO adminDTO) {
         adminMapper.updateAdmin(adminDTO);
+    }
+
+    /**
+     * 获取用户各个时间段的观看数据
+     * 从00：00 到 23：59
+     * 每一个小时作为一个分隔
+     * 数据分为3组，今天  一天前  七天前
+     * @return
+     */
+    @Override
+    public Map<String, Object> viewingPeriod() {
+        Map<String, Object> map = new HashMap<>();
+        long[] today = new long[24];//今天
+        long[] dayBefore = new long[24];//一天前
+        long[] sevenDaysAgo = new long[24];//七天前
+        //1.获取所有用户的用户id
+        List<UserVO> userVOList = userMapper.list();
+        //2.通过用户id获取用户的历史记录
+        for (UserVO user : userVOList) {
+            List<UserHistorySimpleVO> userHistoryList = userHistoryMapper.getLimit(user.getId(), 5000);
+            //3.遍历所有的历史记录，记录每个时间段的观看人数
+            for (UserHistorySimpleVO videoHistory : userHistoryList) {
+                LocalDateTime createTime = videoHistory.getCreateTime();
+                if (createTime == null) continue;
+                //获取是第几个小时
+                int historyHour = createTime.getHour();
+                //得到当前时间
+                LocalDateTime nowTime = LocalDateTime.now();
+                //获取时间差
+                Duration duration = Duration.between(createTime,nowTime);
+                long hours = duration.toHours();//相差的小时数
+//
+//                log.info("历史时间为："+createTime);
+//                log.info("历史时间的小时为" + historyHour);
+//                log.info("当前时间为：" + nowTime);
+//                log.info("相差的小时数：" + hours);
+//
+//                log.info("----------------------------");
+//
+                if (hours < 24){//说明是今天
+                    today[historyHour]++;
+                }
+                if (hours > 24){//说明是一天前
+                    dayBefore[historyHour]++;
+                }
+                if (hours > 24*7){//说明是七天前
+                    sevenDaysAgo[historyHour]++;
+                }
+            }
+        }
+
+        map.put("today",today);
+        map.put("dayBefore",dayBefore);
+        map.put("sevenDaysAgo",sevenDaysAgo);
+        map.put("nowTime",LocalDateTime.now());//当前时间
+        String[] XTitle = new String[24];//X轴的标题
+        for (int i = 0; i < XTitle.length; i++) {
+            if (i<10){
+                XTitle[i] = "0"+i+":00";
+            }else {
+                XTitle[i] = i+":00";
+            }
+
+        }
+        map.put("XTitle",XTitle);
+
+        return map;
     }
 
 

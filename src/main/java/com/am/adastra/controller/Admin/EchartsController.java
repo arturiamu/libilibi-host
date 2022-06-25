@@ -25,6 +25,10 @@ public class EchartsController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 测试数据
+     * @return
+     */
     @GetMapping("/ss")
     public Result<Map<String , Object>> get(){
         Result<Map<String , Object>> result = new Result<>();
@@ -61,6 +65,24 @@ public class EchartsController {
         Result<Map<String,Object>> result = new Result<>();
 
         Map<String,Object> map = adminService.videoHeat();
+
+        result.setSuccess(map);
+
+        return result;
+    }
+
+    /**
+     * 获取用户各个时间段的观看数据
+     * 从00：00 到 23：59
+     * 每一个小时作为一个分隔
+     * 数据分为3组，今天  一天前  七天前
+     * @return
+     */
+    @GetMapping("/viewingPeriod")
+    public Result<Map<String,Object>> viewingPeriod(){
+        Result<Map<String,Object>> result = new Result<>();
+
+        Map<String,Object> map = adminService.viewingPeriod();
 
         result.setSuccess(map);
 
