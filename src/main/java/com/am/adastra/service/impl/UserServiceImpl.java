@@ -15,13 +15,10 @@ import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
-import com.am.adastra.util.ClassExamine;
 import com.am.adastra.util.POJOUtils;
-import com.am.adastra.util.VideoPool;
+import com.am.adastra.app.VideoPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
