@@ -2,6 +2,8 @@ package com.am.adastra.service.impl;
 
 import com.am.adastra.entity.dto.MessageDTO;
 import com.am.adastra.entity.vo.MessageVO;
+import com.am.adastra.entity.vo.UserVO;
+import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.mapper.UserMessageMapper;
 import com.am.adastra.service.UserMessageService;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ import java.util.Set;
 public class UserMessageServiceImpl implements UserMessageService {
     @Resource
     UserMessageMapper userMessageMapper;
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public List<MessageDTO> getAll(Long uid) {
@@ -34,6 +38,20 @@ public class UserMessageServiceImpl implements UserMessageService {
     public int sendMessage(MessageDTO messageDTO) {
         return userMessageMapper.sendMessage(messageDTO);
     }
+
+    @Override
+    public void sendAllMessage(MessageDTO messageDTO) {
+        //1.得到所有的用户信息
+        List<UserVO> list = userMapper.list();
+        //2.发送信息给所有用户
+        for (int i = 0; i < list.size(); i++) {
+            messageDTO.setTargetUserId(list.get(i).getId());
+            //发送消息
+            userMessageMapper.sendMessage(messageDTO);
+        }
+
+    }
+
 
     @Override
     public int fakeDel(Long id) {
@@ -69,4 +87,6 @@ public class UserMessageServiceImpl implements UserMessageService {
 
         return allMessageCopy;
     }
+
+
 }

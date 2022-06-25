@@ -22,4 +22,14 @@ public class UserDBO {
     private String account;
     private String jsItems;
     private String state;
+    private String createTime;
+
+    public UserDBO(Long id, String username, String password, String account, String jsItems, String state) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.account = account;
+        this.jsItems = jsItems;
+        this.state = state;
+    }
 }
