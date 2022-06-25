@@ -4,8 +4,13 @@ import com.am.adastra.entity.User;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.Result;
+import com.am.adastra.util.oss.OssUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +26,34 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/avatar")
 public class UserAvatarController {
+
     @Resource
     UserAvatarService userAvatarService;
     @Resource
     UserService userService;
 
-
-
-    public void getAvatar(HttpServletRequest request) {
+    @GetMapping("/getAvatar")
+    public Result<String> getAvatar(HttpServletRequest request) {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
+        Result<String> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        userAvatarService.getByUid(sessionUser.getId());
+        String url = userAvatarService.getByUid(sessionUser.getId());
+        result.setSuccess("获取成功",url);
+        return result;
+    }
+
+
+    @PostMapping("/updateAvatar")
+    public Result<Void> updateAvatar(HttpServletRequest request,MultipartFile file) {
+        if (userService.isLogin(request.getSession()) == null) {
+            throw new UserNotLoginException("用户未登录");
+        }
+        Result<Void> result = new Result<>();
+        User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        userAvatarService.updateAvatar(sessionUser.getId(),new OssUtils().uploadFileAvatar(file));
+        result.setSuccess();
+        return result;
     }
 }

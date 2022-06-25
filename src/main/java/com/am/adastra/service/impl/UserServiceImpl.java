@@ -10,10 +10,12 @@ import com.am.adastra.entity.dto.UserCategoryAddDTO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
+import com.am.adastra.util.VideoPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -38,10 +41,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Resource
+    VideoPool videoPool;
+
+    @Resource
     private UserCategoryService userCategoryService;
 
     @Resource
     private UserMessageService userMessageService;
+
+    @Resource
+    private UserAvatarService userAvatarService;
 
     @Override
     public User register(User user) {
@@ -67,12 +76,15 @@ public class UserServiceImpl implements UserService {
             userCategoryService.add(userCategoryAddDTO);
             log.info("新用户注册：{}", userDBO);
 
+            int idx = new Random().nextInt(VideoPool.DEFAULT_AVATAR.size());
+            userAvatarService.addAvatar(userDBO.getId(), VideoPool.DEFAULT_AVATAR.get(idx));
             MessageDTO messageDTO = new MessageDTO();
             messageDTO.setSendUserName(UserController.AD_ASTRA);
             messageDTO.setText(UserController.WELCOME);
             messageDTO.setTargetUserId(userDBO.getId());
             messageDTO.setSendUserId(0L);
             userMessageService.sendMessage(messageDTO);
+
             return POJOUtils.DBToUser(userDBO);
         }
         throw new SystemException("系统繁忙，请稍后重试");
@@ -87,7 +99,7 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
-
+        log.info("getUser");
         return POJOUtils.DBToUser(getUser);
     }
 

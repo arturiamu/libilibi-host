@@ -24,7 +24,7 @@
 
     <insert id="sendMessage">
         insert into message(send_user_id, target_user_id, text, send_user_name)
-        VALUES ()
+        VALUES (#{sendUserId},#{targetUserId},#{text},#{sendUserName})
     </insert>
 
     <update id="fakeDel">

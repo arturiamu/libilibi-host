@@ -3,14 +3,14 @@ package com.am.adastra.controller;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.MessageDTO;
 import com.am.adastra.ex.UserNotLoginException;
+import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -95,6 +95,24 @@ public class UserMessageController {
         }
         Result<Void> result = new Result<>();
         userMessageService.fakeReadAll(sessionUser.getId());
+        result.setSuccess();
+        return result;
+    }
+
+    @PostMapping("/send")
+    public Result<Void> send(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
+        log.info("发送消息：");
+        if (errors.hasErrors()) {
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
+        }
+        User sessionUser = userService.isLogin(request.getSession());
+        if (sessionUser == null) {
+            throw new UserNotLoginException("请先登录");
+        }
+        Result<Void> result = new Result<>();
+        messageDTO.setSendUserId(sessionUser.getId());
+        messageDTO.setSendUserName(sessionUser.getUsername());
+        userMessageService.sendMessage(messageDTO);
         result.setSuccess();
         return result;
     }
