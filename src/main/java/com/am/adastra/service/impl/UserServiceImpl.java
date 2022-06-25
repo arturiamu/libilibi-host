@@ -5,10 +5,13 @@ import com.am.adastra.controller.UserController;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
-import com.am.adastra.entity.vo.UserLoginLogVO;
+import com.am.adastra.entity.dto.MessageDTO;
+import com.am.adastra.entity.dto.UserCategoryAddDTO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserCategoryService;
+import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,12 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private UserCategoryService userCategoryService;
+
+    @Resource
+    private UserMessageService userMessageService;
+
     @Override
     public User register(User user) {
         log.info("user register:{}", user);
@@ -51,7 +60,20 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         if (userMapper.addDBO(POJOUtils.userToDB(user)) == 1) {
-            return user;
+            UserDBO userDBO = userMapper.getDBOByUsername(user.getUsername());
+            UserCategoryAddDTO userCategoryAddDTO = new UserCategoryAddDTO();
+            userCategoryAddDTO.setCategoryName("默认收藏夹");
+            userCategoryAddDTO.setUid(userDBO.getId());
+            userCategoryService.add(userCategoryAddDTO);
+            log.info("新用户注册：{}", userDBO);
+
+            MessageDTO messageDTO = new MessageDTO();
+            messageDTO.setSendUserName(UserController.AD_ASTRA);
+            messageDTO.setText(UserController.WELCOME);
+            messageDTO.setTargetUserId(userDBO.getId());
+            messageDTO.setSendUserId(0L);
+            userMessageService.sendMessage(messageDTO);
+            return POJOUtils.DBToUser(userDBO);
         }
         throw new SystemException("系统繁忙，请稍后重试");
     }
@@ -65,6 +87,7 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
+
         return POJOUtils.DBToUser(getUser);
     }
 
@@ -114,13 +137,5 @@ public class UserServiceImpl implements UserService {
         return userMapper.list();
     }
 
-    @Override
-    public List<UserLoginLogVO> loginList() {
-        return userMapper.loginList();
-    }
 
-    @Override
-    public List<UserLoginLogVO> loginListByUid(Long uid) {
-        return userMapper.loginListByUid(uid);
-    }
 }

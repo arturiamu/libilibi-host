@@ -5,7 +5,6 @@ server:
     encoding:
       force: true
       charset: UTF-8
-
 spring:
   mvc:
     static-path-pattern: /static/**
@@ -20,12 +19,16 @@ spring:
     password: mlb20000102
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
-    host: 127.0.0.1
+    host: localhost
     port: 6379
 #    password: 123
     database: 0
     timeout: 1800000
     lettuce:
+      cluster:
+        refresh:
+          adaptive: true
+          period: 60s
       pool:
         max-active: 20
         max-wait: -1
@@ -56,6 +59,14 @@ sms:
       universal: 1419186
     sign: isamumu
   size: 6
+
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-hangzhou.aliyuncs.com
+      keyId: LTAI5tJTSkD8cSxk1dazEqLV
+      keysecret: 0iN9FRV610rfHP5bfzKVuZxIcCdlc5
+      bucketname: libilibi-host
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml

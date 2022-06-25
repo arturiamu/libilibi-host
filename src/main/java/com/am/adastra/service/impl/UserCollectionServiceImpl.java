@@ -137,6 +137,11 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         return collectionSimpleVOS;
     }
 
+    @Override
+    public boolean cancel(Long id) {
+        return userCollectionMapper.cancel(id) == 1;
+    }
+
     /**
      * 预热类别数据的缓存
      * 将所有用户的收藏记录预加载到缓存中

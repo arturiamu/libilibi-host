@@ -25,7 +25,7 @@ import java.util.*;
 @Slf4j
 @Component
 public class VideoPool implements ApplicationRunner {
-    private static VideoPool that;
+    public static VideoPool that;
 
     @Resource
     public VideoService videoService;
@@ -42,7 +42,7 @@ public class VideoPool implements ApplicationRunner {
 
     @PostConstruct
     public void init() {
-        log.info("init video pool");
+        log.error("init video pool");
         that = this;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
@@ -70,9 +70,20 @@ public class VideoPool implements ApplicationRunner {
         return new ArrayList<>(res);
     }
 
+    public static List<Video> getRandom(int ps) {
+        List<Video> list = new ArrayList<>();
+        while (ps-- > 0) {
+            Random random = new Random();
+            int idx = random.nextInt(items.size());
+            int cnt = random.nextInt(VIDEO_POOL.get(idx).size());
+            list.add(VIDEO_POOL.get(idx).get(cnt));
+        }
+        return list;
+    }
+
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        log.info("start load videos...");
+    public void run(ApplicationArguments args) {
+        log.error("start load videos...");
         long st = System.currentTimeMillis();
         items.addAll(that.itemMapper.getAll());
         for (int i = 0; i < items.size(); i++) {
@@ -81,12 +92,12 @@ public class VideoPool implements ApplicationRunner {
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoService.getByPId(item.getPid());
-            log.info("{} size {}", item, videoList.size());
+            log.error("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
-        log.info("total time:{}", (System.currentTimeMillis() - st) / 1000);
-        log.info("total videos:{}", total);
-        log.info("end load videos...");
+        log.error("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.error("total videos:{}", total);
+        log.error("end load videos...");
     }
 }

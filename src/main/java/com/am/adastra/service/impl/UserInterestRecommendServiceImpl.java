@@ -48,8 +48,8 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         List<Video> userHistory = userHistoryService.getAll(uid);
 //        List<UserCollectionSimpleVO> userCollection = collectionMapper.selectById(uid);
         List<UserCollectionSimpleVO> userCollection = userCollectionService.selectById(uid);
-        log.info("当前用户历史" + userHistory);
-        log.info("当前用户收藏信息" + userCollection);
+        log.info("当前用户历史" + userHistory.size());
+        log.info("当前用户收藏信息" + userCollection.size());
 
 //        2.找到所有用户
         List<UserVO> allUser = userMapper.list();
@@ -81,7 +81,7 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
                     voides = videoPool.getPidVideo(integers.get(i),avg);
 //                videoList .addAll(videoPool.getPidVideo(integers.get(i),avg));
             }
-            log.info("当前获取的视频" + voides.toString());
+            log.info("当前获取的视频" + voides.size());
             videoList.addAll(voides);
         }
 

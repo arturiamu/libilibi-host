@@ -38,13 +38,22 @@
         </collection>
     </resultMap>
 
+    <update id="cancel">
+        update collection
+        set state='del'
+        where id = #{id}
+    </update>
+
     <!--<include refid="selectByCollectionFields"/>
      通过用户id和分类信息查询出用户的收藏信息
      UserCollectionSimpleVO selectByCollection(Integer uid, String categoryName);-->
     <select id="selectByCollection" resultMap="selectByUserIdMap">
         SELECT *
-        FROM collection JOIN videos ON collection.aid=videos.aid
-        WHERE collection.uid = #{uid} AND collection.category_name = #{categoryName}
+        FROM collection
+                 JOIN videos ON collection.aid = videos.aid
+        WHERE collection.uid = #{uid}
+          AND collection.category_name = #{categoryName}
+          and collection.state = 'normal'
 
     </select>
     <sql id="selectByCollectionFields">
@@ -90,8 +99,10 @@
         List<UserCollectionSimpleVO> selectById(Integer userId);-->
     <select id="selectById" resultMap="selectByUserIdMap">
         select *
-        from collection,videos
-        where collection.aid = videos.aid and collection.uid=#{uid}
+        from collection,
+             videos
+        where collection.aid = videos.aid
+          and collection.uid = #{uid}
     </select>
 
 
