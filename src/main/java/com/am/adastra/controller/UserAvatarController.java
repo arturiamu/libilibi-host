@@ -1,6 +1,7 @@
 package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.Video;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserService;
@@ -44,27 +45,26 @@ public class UserAvatarController {
 
 
     @PostMapping("/updateAvatar")
-    public Result<Void> updateAvatar(HttpServletRequest request,MultipartFile file) {
+    public Result<Void> updateAvatar(HttpServletRequest request,@RequestBody String url) {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
         Result<Void> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        userAvatarService.updateAvatar(sessionUser.getId(),new OssUtils().uploadFileAvatar(file));
+        userAvatarService.updateAvatar(sessionUser.getId(),url);
         result.setSuccess();
         return result;
     }
 
     @PostMapping("/addAvatar")
-    public Result<String> addAvatar(HttpServletRequest request,MultipartFile file) {
+    public Result<Video> addAvatar(HttpServletRequest request, @RequestBody String url) {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
-        Result<String> result = new Result<>();
+        Result<Video> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        String url = new OssUtils().uploadFileAvatar(file);
-        userAvatarService.addAvatar(sessionUser.getId(),new OssUtils().uploadFileAvatar(file));
-        result.setSuccess("ImageUrl",url);
+        userAvatarService.addAvatar(sessionUser.getId(),url);
+        result.setSuccess();
         return result;
     }
 
