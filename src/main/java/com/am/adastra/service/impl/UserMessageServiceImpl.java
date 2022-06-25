@@ -7,7 +7,10 @@ import com.am.adastra.service.UserMessageService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -55,6 +58,15 @@ public class UserMessageServiceImpl implements UserMessageService {
     @Override
     public List<MessageVO> getAllMessage(Integer isAdmin) {
         isAdmin = 1;
-        return userMessageMapper.getAllMessage(isAdmin);
+        List<MessageVO> allMessage = userMessageMapper.getAllMessage(isAdmin);
+        List<MessageVO> allMessageCopy = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < allMessage.size(); i++) {
+            if (set.add(allMessage.get(i).getText())){
+                allMessageCopy.add(allMessage.get(i));
+            }
+        }
+
+        return allMessageCopy;
     }
 }
