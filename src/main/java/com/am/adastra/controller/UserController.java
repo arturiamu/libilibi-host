@@ -12,6 +12,7 @@ import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
+import com.am.adastra.util.IPUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +105,9 @@ public class UserController {
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
-        User getUser = userService.login(user);
+        String ip = IPUtil.getIP(request);
+        log.info(ip);
+        User getUser = userService.login(user,ip);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         result.setSuccess(getUser);
         return result;
@@ -165,7 +168,7 @@ public class UserController {
         }
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        log.info("修改信息：{}  -->  {}",sessionUser, user);
+        log.info("修改信息：{}  -->  {}", sessionUser, user);
         User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;

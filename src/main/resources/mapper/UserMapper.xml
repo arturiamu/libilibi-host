@@ -56,15 +56,15 @@
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="account" property="account"/>
-<!--        <result column="items" property="items"/>-->
+        <!--        <result column="items" property="items"/>-->
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="state" property="state"/>
     </resultMap>
 
 
-<!--    分页查询用户信息
-    List<User> selectPage(int cur, int pageSize);-->
+    <!--    分页查询用户信息
+        List<User> selectPage(int cur, int pageSize);-->
     <select id="selectPage" resultMap="listMap">
         select id, username, account, items, state, create_time, update_time
         from users
@@ -73,17 +73,17 @@
         limit #{cur},#{pageSize};
     </select>
 
-   <!-- 修改用户状态
-    int changeState(Long uid);-->
-    <update id="changeState" >
+    <!-- 修改用户状态
+     int changeState(Long uid);-->
+    <update id="changeState">
         update users
-        set state=(if(state='normal','UN_normal','normal'))
-        where id=#{uid}
+        set state=(if(state = 'normal', 'UN_normal', 'normal'))
+        where id = #{uid}
     </update>
 
     <!--List<UserLoginLogVO> loginList();-->
     <select id="loginList" resultMap="loginListMap">
-        select id,uid,time,ip
+        select id, uid, time, ip
         from user_login_log
     </select>
     <resultMap id="loginListMap" type="com.am.adastra.entity.vo.UserLoginLogVO">
@@ -97,6 +97,11 @@
     <select id="loginListByUid" resultType="com.am.adastra.entity.vo.UserLoginLogVO">
         select id, uid, time, ip
         from user_login_log
-        where uid=#{uid}
+        where uid = #{uid}
     </select>
+
+    <insert id="addLoginLog">
+        insert into user_login_log(uid, ip)
+        values (#{uid}, #{ip})
+    </insert>
 </mapper>

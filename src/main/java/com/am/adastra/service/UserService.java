@@ -22,7 +22,7 @@ import java.util.List;
 public interface UserService {
     User register(User user);
 
-    User login(User user);
+    User login(User user,String ip);
 
     User update(User user);
 
@@ -39,5 +39,7 @@ public interface UserService {
     List<UserLoginLogVO> loginList();
 
     List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 
 }

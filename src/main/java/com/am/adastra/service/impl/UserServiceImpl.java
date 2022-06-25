@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(User user) {
+    public User login(User user,String ip) {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser == null) {
             throw new LoginException("该账号不存在");
@@ -102,6 +102,11 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
+        UserLoginLogVO userLoginLogVO = new UserLoginLogVO();
+        userLoginLogVO.setUid(getUser.getId());
+        userLoginLogVO.setIp(ip);
+
+        this.addLoginLog(userLoginLogVO);
         return POJOUtils.DBToUser(getUser);
     }
 
@@ -171,5 +176,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.loginListByUid(uid);
     }
 
+    @Override
+    public int addLoginLog(UserLoginLogVO userLoginLogVO) {
+        return userMapper.addLoginLog(userLoginLogVO);
+    }
 
 }

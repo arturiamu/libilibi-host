@@ -68,4 +68,6 @@ public interface UserMapper {
      * @return
      */
     List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 }
