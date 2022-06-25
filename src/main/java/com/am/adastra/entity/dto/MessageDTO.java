@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,13 +20,16 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDTO {
+public class MessageDTO implements Serializable {
     private Long id;
     private String sendUserName;
     private Long sendUserId;
+    @NotNull
     private Long targetUserId;
+    @NotBlank
     private String text;
     private Date date;
     private int read;
     private int del;
+    private Boolean isAdmin;
 }

@@ -2,6 +2,7 @@ package com.am.adastra.mapper;
 
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,4 +24,6 @@ public interface AdminMapper {
      * @return
      */
     Integer selectTotal();
+
+    void updateAdmin(AdminDTO adminDTO);
 }

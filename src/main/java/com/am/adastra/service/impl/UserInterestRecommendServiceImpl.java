@@ -1,18 +1,15 @@
 package com.am.adastra.service.impl;
 
-import com.am.adastra.entity.User;
 import com.am.adastra.entity.Video;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
 import com.am.adastra.entity.vo.UserVO;
-import com.am.adastra.mapper.UserCollectionMapper;
-import com.am.adastra.mapper.UserHistoryMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserInterestRecommendService;
 import com.am.adastra.util.Interest.InterestRecommendation;
 import com.am.adastra.util.Result;
-import com.am.adastra.util.VideoPool;
+import com.am.adastra.app.VideoPool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

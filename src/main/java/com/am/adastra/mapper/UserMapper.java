@@ -2,6 +2,7 @@ package com.am.adastra.mapper;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -21,7 +22,7 @@ public interface UserMapper {
 
     int addDBO(UserDBO user);
 
-    int updateDBO(User user);
+    int updateDBO(UserDBO user);
 
     int updatePwd(String password,Long id);
 
@@ -54,4 +55,19 @@ public interface UserMapper {
      * @return
      */
     int changeState(Long uid);
+
+    /**
+     * 返回所有登录信息
+     * @return
+     */
+    List<UserLoginLogVO> loginList();
+
+    /**
+     * 获取指定uid用户的登录日志
+     * @param uid
+     * @return
+     */
+    List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 }

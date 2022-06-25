@@ -2,6 +2,7 @@ package com.am.adastra.service;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.util.Result;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.List;
 public interface UserService {
     User register(User user);
 
-    User login(User user);
+    User login(User user,String ip);
 
     User update(User user);
 
@@ -29,8 +30,16 @@ public interface UserService {
 
     User updatePwd(String password,String account);
 
+    User updateDBO(User old,User new_);
+
     UserDBO getDBOById(Long id);
 
     List<UserVO> list();
+
+    List<UserLoginLogVO> loginList();
+
+    List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 
 }

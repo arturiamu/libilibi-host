@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.am.adastra.mapper.AvatarMapper">
+
+    <select id="getByUid" resultType="String">
+        select url
+        from avatar
+        where uid = #{uid}
+    </select>
+
+    <select id="getAllDefault" resultType="String">
+        select url
+        from avatar
+        where uid = 0
+    </select>
+
+    <insert id="addAvatar">
+        insert into avatar(uid, url)
+        values (#{uid}, #{url})
+    </insert>
+
+    <update id="updateAvatar">
+        update avatar
+        set url=#{url}
+        where uid = #{uid}
+    </update>
+</mapper>

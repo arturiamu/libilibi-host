@@ -1,7 +1,8 @@
-package com.am.adastra.util;
+package com.am.adastra.app;
 
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
+import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.VideoService;
@@ -25,7 +26,7 @@ import java.util.*;
 @Slf4j
 @Component
 public class VideoPool implements ApplicationRunner {
-    private static VideoPool that;
+    public static VideoPool that;
 
     @Resource
     public VideoService videoService;
@@ -36,13 +37,17 @@ public class VideoPool implements ApplicationRunner {
     @Resource
     public UserMapper userMapper;
 
+    @Resource
+    public AvatarMapper avatarMapper;
+
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
-    private static final List<Item> items = new ArrayList<>();
+    public static final List<Item> items = new ArrayList<>();
+    public static final List<String> DEFAULT_AVATAR = new ArrayList<>();
 
     @PostConstruct
     public void init() {
-        log.error("init video pool");
+        log.warn("init video pool");
         that = this;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
@@ -70,23 +75,37 @@ public class VideoPool implements ApplicationRunner {
         return new ArrayList<>(res);
     }
 
+    public static List<Video> getRandom(int ps) {
+        List<Video> list = new ArrayList<>();
+        Random random = new Random();
+        while (ps-- > 0) {
+            int idx = random.nextInt(items.size());
+            int cnt = random.nextInt(VIDEO_POOL.get(idx).size());
+            list.add(VIDEO_POOL.get(idx).get(cnt));
+        }
+        return list;
+    }
+
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        log.error("start load videos...");
+    public void run(ApplicationArguments args) {
+        log.warn("start load videos...");
         long st = System.currentTimeMillis();
         items.addAll(that.itemMapper.getAll());
         for (int i = 0; i < items.size(); i++) {
             PID_INDEX.put(items.get(i).getPid(), i);
         }
+        log.warn("total items:{}",items.size());
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoService.getByPId(item.getPid());
-            log.error("{} size {}", item, videoList.size());
+            log.warn("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
-        log.error("total time:{}", (System.currentTimeMillis() - st) / 1000);
-        log.error("total videos:{}", total);
-        log.error("end load videos...");
+        log.warn("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.warn("total videos:{}", total);
+        log.warn("end load videos...");
+        List<String> allDefault = avatarMapper.getAllDefault();
+        DEFAULT_AVATAR.addAll(allDefault);
     }
 }

@@ -37,4 +37,13 @@
         from users
     </select>
 
+    <update id="updateAdmin">
+        update admin
+        set username=#{username},
+            nickname=#{nickname},
+            avatar=#{avatar}
+        where id=#{id}
+    </update>
+
+
 </mapper>

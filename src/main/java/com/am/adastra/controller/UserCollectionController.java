@@ -68,7 +68,7 @@ public class UserCollectionController {
             throw new UserNotLoginException("请先登录");
         }
         userCollectionService.cancel(id);
-        result.setSuccess(null);
+        result.setSuccess();
         return result;
     }
 

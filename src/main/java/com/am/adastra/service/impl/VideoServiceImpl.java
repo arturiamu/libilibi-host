@@ -27,8 +27,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<Video> search(String keyword, int st, int ps) {
-        return videoMapper.search(keyword, st, ps);
+    public List<Video> search(String keyword, int offset, int ps) {
+        return videoMapper.search("%" + keyword + "%", offset, ps);
     }
 
     @Override

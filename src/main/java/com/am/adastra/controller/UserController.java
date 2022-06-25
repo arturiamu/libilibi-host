@@ -8,9 +8,11 @@ import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
 import com.am.adastra.ex.IllegalOperationException;
 import com.am.adastra.ex.SystemException;
+import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
+import com.am.adastra.util.IPUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,7 @@ public class UserController {
     @Resource
     private EmailUtil emailUtil;
 
-//    @ApiOperation("发送验证码")
+    //    @ApiOperation("发送验证码")
 //    @ApiOperationSupport(order = 0)
     @PostMapping("/verifyCode")
     public Result<Void> verifyCode(@RequestBody @NotBlank String account, HttpServletRequest request) {
@@ -103,7 +105,9 @@ public class UserController {
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
-        User getUser = userService.login(user);
+        String ip = IPUtil.getIP(request);
+        log.info(ip);
+        User getUser = userService.login(user,ip);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         result.setSuccess(getUser);
         return result;
@@ -157,14 +161,15 @@ public class UserController {
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/update")
+    @PostMapping("/update")
     public Result<User> update(@RequestBody User user, HttpServletRequest request) {
+        if (userService.isLogin(request.getSession()) == null) {
+            throw new UserNotLoginException("用户未登录");
+        }
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        if (!sessionUser.getId().equals(user.getId())) {
-            throw new IllegalOperationException("系统繁忙，请稍后重试");
-        }
-        User getUser = userService.update(user);
+        log.info("修改信息：{}  -->  {}", sessionUser, user);
+        User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;
     }

@@ -7,9 +7,9 @@
     <select id="search" resultType="com.am.adastra.entity.Video">
         select *
         from videos
-        where title like ('%' + #{keyword} + '%')
+        where title like #{keyword}
         order by `like`
-        limit 0,100
+        limit #{offset},#{ps}
     </select>
 
     <select id="getAll">

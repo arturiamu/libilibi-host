@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class AdminDTO {
 
+    private Long id;
     private String username;//用户名
     private String nickname;//昵称
     private String avatar;//头像
