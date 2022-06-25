@@ -181,6 +181,19 @@ public class AdminUserController {
     }
 
     /**
+     * 通过用户id得到用户的完整信息
+     * @param uid
+     * @return
+     */
+    @GetMapping("/getDBOById/{uid}")
+    public Result<UserDBO> getDBOById(@PathVariable Long uid){
+        Result<UserDBO> result = new Result<>();
+        UserDBO dboById = userService.getDBOById(uid);
+        result.setSuccess(dboById);
+        return result;
+    }
+
+    /**
      * 发送通知给全体成员
      */
 
