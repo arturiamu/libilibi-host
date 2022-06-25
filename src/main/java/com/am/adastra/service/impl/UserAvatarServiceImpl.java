@@ -5,6 +5,7 @@ import com.am.adastra.service.UserAvatarService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -22,6 +23,11 @@ public class UserAvatarServiceImpl implements UserAvatarService {
     @Override
     public int addAvatar(Long uid, String url) {
         return avatarMapper.addAvatar(uid, url);
+    }
+
+    @Override
+    public List<String> getAllDefault() {
+        return avatarMapper.getAllDefault();
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -22,7 +23,9 @@ public class MessageDTO {
     private Long id;
     private String sendUserName;
     private Long sendUserId;
+    @NotNull
     private Long targetUserId;
+    @NotBlank
     private String text;
     private Date date;
     private int read;
