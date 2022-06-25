@@ -29,4 +29,6 @@ public interface UserMessageService {
     int fakeReadAll(Long aid);
 
     List<MessageVO> getAllMessage(Integer isAdmin);
+
+    void sendAllMessage(MessageDTO messageDTO);
 }
