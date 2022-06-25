@@ -2,6 +2,7 @@ package com.am.adastra.util;
 
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
+import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.VideoService;
@@ -36,9 +37,13 @@ public class VideoPool implements ApplicationRunner {
     @Resource
     public UserMapper userMapper;
 
+    @Resource
+    public AvatarMapper avatarMapper;
+
     private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
-    private static final List<Item> items = new ArrayList<>();
+    public static final List<Item> items = new ArrayList<>();
+    public static final List<String> DEFAULT_AVATAR = new ArrayList<>();
 
     @PostConstruct
     public void init() {
@@ -99,5 +104,7 @@ public class VideoPool implements ApplicationRunner {
         log.error("total time:{}", (System.currentTimeMillis() - st) / 1000);
         log.error("total videos:{}", total);
         log.error("end load videos...");
+        List<String> allDefault = avatarMapper.getAllDefault();
+        DEFAULT_AVATAR.addAll(allDefault);
     }
 }

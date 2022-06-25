@@ -4,10 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.am.adastra.mapper.AvatarMapper">
 
-    <select id="getByUid">
+    <select id="getByUid" resultType="String">
         select url
         from avatar
         where uid = #{uid}
+    </select>
+
+    <select id="getAllDefault" resultType="String">
+        select url
+        from avatar
+        where uid = 0
     </select>
 
     <insert id="addAvatar">
