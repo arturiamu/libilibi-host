@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
-
+        log.info("getUser");
         return POJOUtils.DBToUser(getUser);
     }
 
