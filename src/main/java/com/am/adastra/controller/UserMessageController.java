@@ -1,9 +1,11 @@
 package com.am.adastra.controller;
 
+import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.dto.MessageDTO;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
+import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
@@ -28,6 +30,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/message")
 public class UserMessageController {
+
+    @Resource
+    private AdminService adminService;
+
     @Resource
     private UserService userService;
 
@@ -99,21 +105,38 @@ public class UserMessageController {
         return result;
     }
 
+
     @PostMapping("/send")
     public Result<Void> send(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
+        log.info("发送消息：");
+        Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
-        User sessionUser = userService.isLogin(request.getSession());
-        log.info("发送消息：{}",sessionUser);
-        if (sessionUser == null) {
-            throw new UserNotLoginException("请先登录");
+
+        if (messageDTO.getIsAdmin() != null){
+            Admin adminServiceLogin = adminService.isLogin(request.getSession());
+            if (adminServiceLogin == null) {
+                throw new UserNotLoginException("请先登录");
+            }
+
+            messageDTO.setSendUserId(adminServiceLogin.getId());
+            messageDTO.setSendUserName(adminServiceLogin.getUsername());
+            userMessageService.sendMessage(messageDTO);
+            result.setSuccess();
+            return result;
+        }else {
+            User userServiceLogin = userService.isLogin(request.getSession());
+            if (userServiceLogin == null) {
+                throw new UserNotLoginException("请先登录");
+            }
+            messageDTO.setSendUserId(userServiceLogin.getId());
+            messageDTO.setSendUserName(userServiceLogin.getUsername());
+            userMessageService.sendMessage(messageDTO);
+            result.setSuccess();
+            return result;
         }
-        Result<Void> result = new Result<>();
-        messageDTO.setSendUserId(sessionUser.getId());
-        messageDTO.setSendUserName(sessionUser.getUsername());
-        userMessageService.sendMessage(messageDTO);
-        result.setSuccess();
-        return result;
+
+
     }
 }

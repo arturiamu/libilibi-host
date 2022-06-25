@@ -2,6 +2,7 @@ package com.am.adastra.service;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.util.Result;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,9 @@ public interface UserService {
     UserDBO getDBOById(Long id);
 
     List<UserVO> list();
+
+    List<UserLoginLogVO> loginList();
+
+    List<UserLoginLogVO> loginListByUid(Long uid);
 
 }

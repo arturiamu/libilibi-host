@@ -4,7 +4,9 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
+import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
@@ -29,6 +31,8 @@ public class AdminUserController {
     UserService userService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    UserMapper userMapper;
 
 
 
@@ -136,10 +140,30 @@ public class AdminUserController {
     /**
      * 获取所有用户的登录日志
      */
+    @GetMapping("/allUserLog")
+    public Result<List<UserLoginLogVO>> allUserLog(){
+        log.info("获取所有用户登录信息");
+        Result<List<UserLoginLogVO>> result = new Result<>();
+        //1.从数据库中得到所有的信息
+        List<UserLoginLogVO> userLoginLogVOList = userService.loginList();
+        result.setSuccess(userLoginLogVOList);
+        return result;
+    }
 
     /**
      * 获取指定uid用户的登录日志
+     *
      */
+    @GetMapping("/UserLog/{uid}")
+    public Result<List<UserLoginLogVO>> UserLog(@PathVariable Long uid){
+        Result<List<UserLoginLogVO>> result = new Result<>();
+        log.info("用户id为 ---> " + uid);
+        //1.从数据库中得到所有的信息
+        List<UserLoginLogVO> userLoginLogVOList = userService.loginListByUid(uid);
+        result.setSuccess(userLoginLogVOList);
+        return result;
+    }
+
 
     /**
      * 发送通知给全体成员
