@@ -6,14 +6,15 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class test {
     public static void main(String[] args) {
-        Calendar calendarLogTime = Calendar.getInstance();
-        calendarLogTime.setTime(new Date());
-        int hourNow = calendarLogTime.get(Calendar.HOUR_OF_DAY);
-//        calendarLogTime.setTime();
-        int hourLog = calendarLogTime.get(Calendar.HOUR_OF_DAY);
-        System.out.println(hourNow);
+        Map<String , Integer> map = new HashMap<>();
+        map.put("lyy",1);
+        System.out.println(map.get("lyy"));
+        map.put("lyy",map.get("lyy")+2);
+        System.out.println(map.get("lyy"));
     }
 }

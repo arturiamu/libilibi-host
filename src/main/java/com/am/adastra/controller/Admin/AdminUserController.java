@@ -196,11 +196,10 @@ public class AdminUserController {
     /**
      * 获取用户最新一次的ip
      */
-    @GetMapping("/getNewestIp/{uid}")
-    public Result<List<UserLoginLogVO>> getNewestIp(@PathVariable Long uid){
-        Result<List<UserLoginLogVO>> result = new Result<>();
-        log.info("用户id为 ---> " + uid);
-        List<UserLoginLogVO> ipList = userService.ipList(uid);
+    @GetMapping("/getNewestIp")
+    public Result<Map<String,Integer>> getNewestIp(){
+        Result<Map<String,Integer>> result = new Result<>();
+        Map<String,Integer> ipList = userService.ipList();
         result.setSuccess(ipList);
         return result;
     }

@@ -14,6 +14,7 @@ import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.GetIpInfo;
 import com.am.adastra.util.POJOUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -22,7 +23,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -149,7 +152,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserLoginLogVO> ipList(Long uid) {
-        return userMapper.ipList(uid);
+    public Map<String,Integer> ipList() {
+        List<UserVO> userVOList = userMapper.list();
+        Map<String,Integer> map = new HashMap<>();
+        for(UserVO user : userVOList){
+            log.info(user.getUsername());
+            Long userId = user.getId();
+            UserLoginLogVO userLoginLogVOList = userMapper.ipList(userId);
+            if (userLoginLogVOList == null) continue;
+//            https://www.ip138.com/iplookup.asp?ip=116.249.112.73&action=2
+            String ip = userLoginLogVOList.getIp();
+            String city = GetIpInfo.getCity(ip);
+            if (!map.containsKey(city)){
+                map.put(city,1);
+            }else {
+                map.put(city,map.get(city)+1);
+            }
+            Integer city1 = city.indexOf("市");
+            Integer city2 = city.indexOf("省");
+            String cityMunicipal = city.substring(city2+1,city1);
+            log.info(cityMunicipal);
+        }
+        return map;
     }
+
 }

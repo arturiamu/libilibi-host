@@ -110,7 +110,7 @@
         where uid=#{uid}
     </select>
 
-    <!--List<UserLoginLogVO> ipList(Long uid);-->
+    <!--List<UserLoginLogVO> ipList();-->
     <select id="ipList" resultType="com.am.adastra.entity.vo.UserLoginLogVO">
         select ip
         from user_login_log

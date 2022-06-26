@@ -74,5 +74,5 @@ public interface UserMapper {
      * @param uid
      * @return
      */
-    List<UserLoginLogVO> ipList(Long uid);
+    UserLoginLogVO ipList(Long uid);
 }
