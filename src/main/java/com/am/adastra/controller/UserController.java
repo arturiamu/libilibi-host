@@ -166,6 +166,7 @@ public class UserController {
         if (userService.isLogin(request.getSession()) == null) {
             throw new UserNotLoginException("用户未登录");
         }
+        log.info("修改信息：{}", user);
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
         log.info("修改信息：{}  -->  {}", sessionUser, user);
