@@ -9,6 +9,7 @@ import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.entity.vo.UserHistorySimpleVO;
+import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.SystemException;
@@ -20,6 +21,7 @@ import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.GetDatePoor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -284,6 +286,64 @@ public class AdminServiceImpl implements AdminService {
                 if (hours > 24*7){//说明是七天前
                     sevenDaysAgo[historyHour]++;
                 }
+            }
+        }
+
+        map.put("today",today);
+        map.put("dayBefore",dayBefore);
+        map.put("sevenDaysAgo",sevenDaysAgo);
+        map.put("nowTime",LocalDateTime.now());//当前时间
+        String[] XTitle = new String[24];//X轴的标题
+        for (int i = 0; i < XTitle.length; i++) {
+            if (i<10){
+                XTitle[i] = "0"+i+":00";
+            }else {
+                XTitle[i] = i+":00";
+            }
+
+        }
+        map.put("XTitle",XTitle);
+
+        return map;
+    }
+
+
+
+    /**
+     * 获取各个时间段的访问人数
+     * @return
+     */
+    @Override
+    public Map<String, Object> numberPersons() {
+        Map<String, Object> map = new HashMap<>();
+        long[] today = new long[24];//今天
+        long[] dayBefore = new long[24];//一天前
+        long[] sevenDaysAgo = new long[24];//七天前
+
+        //1.获取所有用户的登录信息
+        List<UserLoginLogVO> userLoginLogList = userMapper.loginList();
+        for (UserLoginLogVO loginLog : userLoginLogList){
+            //2.遍历所有的登录日志，记录每个时间段的观看人数
+            Date logTime = loginLog.getTime();
+            if (logTime == null)continue;
+
+            Date dateNow = new Date();//得到当前时间
+            //计算相差多少个小时
+            long datePoor = GetDatePoor.getDatePoor(dateNow, logTime);
+            //得到历史时间是当天的第几个小时
+            Calendar calendarLogTime = Calendar.getInstance();
+            calendarLogTime.setTime(new Date());
+            calendarLogTime.setTime(logTime);
+            int hourLog = calendarLogTime.get(Calendar.HOUR_OF_DAY);
+
+            if (datePoor < 24){//说明是今天
+                today[hourLog]++;
+            }
+            if (datePoor > 24){//说明是一天前
+                dayBefore[hourLog]++;
+            }
+            if (datePoor > 24*7){//说明是七天前
+                sevenDaysAgo[hourLog]++;
             }
         }
 

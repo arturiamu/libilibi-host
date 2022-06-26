@@ -88,4 +88,20 @@ public class EchartsController {
 
         return result;
     }
+
+    /**
+     * 获取各个时间段的访问人数
+     * @return
+     */
+    @GetMapping("/numberPersons")
+    public Result<Map<String,Object>> numberPersons(){
+        Result<Map<String,Object>> result = new Result<>();
+
+        Map<String,Object> map = adminService.numberPersons();
+
+        result.setSuccess(map);
+
+        return result;
+    }
+
 }

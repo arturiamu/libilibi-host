@@ -33,4 +33,6 @@ public interface AdminService {
     void updateAdmin(AdminDTO adminDTO);
 
     Map<String, Object> viewingPeriod();
+
+    Map<String, Object> numberPersons();
 }
