@@ -147,4 +147,9 @@ public class UserServiceImpl implements UserService {
     public List<UserLoginLogVO> loginListByUid(Long uid) {
         return userMapper.loginListByUid(uid);
     }
+
+    @Override
+    public List<UserLoginLogVO> ipList(Long uid) {
+        return userMapper.ipList(uid);
+    }
 }

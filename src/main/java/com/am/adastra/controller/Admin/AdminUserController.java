@@ -194,6 +194,17 @@ public class AdminUserController {
     }
 
     /**
+     * 获取用户最新一次的ip
+     */
+    @GetMapping("/getNewestIp/{uid}")
+    public Result<List<UserLoginLogVO>> getNewestIp(@PathVariable Long uid){
+        Result<List<UserLoginLogVO>> result = new Result<>();
+        log.info("用户id为 ---> " + uid);
+        List<UserLoginLogVO> ipList = userService.ipList(uid);
+        result.setSuccess(ipList);
+        return result;
+    }
+    /**
      * 发送通知给全体成员
      */
 

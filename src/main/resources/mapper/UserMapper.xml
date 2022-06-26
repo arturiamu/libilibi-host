@@ -109,4 +109,13 @@
         from user_login_log
         where uid=#{uid}
     </select>
+
+    <!--List<UserLoginLogVO> ipList(Long uid);-->
+    <select id="ipList" resultType="com.am.adastra.entity.vo.UserLoginLogVO">
+        select ip
+        from user_login_log
+        where uid=#{uid}
+        order by `time` desc
+        limit 1
+    </select>
 </mapper>

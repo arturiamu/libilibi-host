@@ -68,4 +68,11 @@ public interface UserMapper {
      * @return
      */
     List<UserLoginLogVO> loginListByUid(Long uid);
+
+    /**
+     * 获取uid最新一次登录ip
+     * @param uid
+     * @return
+     */
+    List<UserLoginLogVO> ipList(Long uid);
 }

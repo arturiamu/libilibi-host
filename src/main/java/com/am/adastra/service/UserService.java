@@ -38,4 +38,6 @@ public interface UserService {
 
     List<UserLoginLogVO> loginListByUid(Long uid);
 
+    List<UserLoginLogVO> ipList(Long uid);
+
 }
