@@ -55,6 +55,7 @@
         SELECT id, send_user_id, target_user_id, text, time, `read`, del, send_user_name, is_admin
         FROM message
         WHERE is_admin = 1
+        ORDER BY TIME DESC
     </select>
 
 </mapper>
