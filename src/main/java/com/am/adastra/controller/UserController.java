@@ -169,7 +169,6 @@ public class UserController {
         log.info("修改信息：{}", user);
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        log.info("修改信息：{}  -->  {}", sessionUser, user);
         User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;
