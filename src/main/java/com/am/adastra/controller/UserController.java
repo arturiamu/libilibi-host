@@ -107,7 +107,7 @@ public class UserController {
         }
         String ip = IPUtil.getIP(request);
         log.info(ip);
-        User getUser = userService.login(user,ip);
+        User getUser = userService.login(user, ip);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         result.setSuccess(getUser);
         return result;
