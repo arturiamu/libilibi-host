@@ -21,7 +21,7 @@ spring:
   redis:
     host: localhost
     port: 6379
-#    password: 123
+    password:
     database: 0
     timeout: 1800000
     lettuce:
@@ -71,6 +71,10 @@ aliyun:
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
     com:
@@ -78,3 +82,5 @@ logging:
         adastra: warn
 knife4j:
   enable: true
+
+

@@ -107,7 +107,7 @@ public class UserController {
         }
         String ip = IPUtil.getIP(request);
         log.info(ip);
-        User getUser = userService.login(user,ip);
+        User getUser = userService.login(user, ip);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         result.setSuccess(getUser);
         return result;
@@ -169,7 +169,6 @@ public class UserController {
         log.info("修改信息：{}", user);
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        log.info("修改信息：{}  -->  {}", sessionUser, user);
         User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;

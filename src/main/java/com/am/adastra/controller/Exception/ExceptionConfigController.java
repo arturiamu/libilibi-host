@@ -33,6 +33,7 @@ public class ExceptionConfigController {
         } else {
             result.setFail(e.getMessage(), State.SYS_EX_CODE);
         }
+        System.out.println(result);
         return result;
     }
 }

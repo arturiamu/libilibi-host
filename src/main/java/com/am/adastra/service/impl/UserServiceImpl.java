@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(User user,String ip) {
+    public User login(User user, String ip) {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser == null) {
             throw new LoginException("该账号不存在");
@@ -144,6 +144,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateDBO(User old, User new_) {
+        log.info("new:{}", new_);
+        log.info("old:{}", old);
         old.setUsername(new_.getUsername());
         old.setItems(new_.getItems());
         int i = userMapper.updateDBO(POJOUtils.userToDB(old));

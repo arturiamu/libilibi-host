@@ -197,4 +197,5 @@ class AdAstraApplicationTests {
         String jsonStr = JSONObject.toJSONString(map);
         return JSONObject.parseObject(jsonStr, clazz);
     }
+
 }

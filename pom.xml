@@ -135,6 +135,14 @@
             <version>2.0.9</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-easysdk -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-easysdk</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+
         <!-- hutool  操作文件，写出到excel中-->
         <dependency>
             <groupId>cn.hutool</groupId>
