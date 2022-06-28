@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Random;
 
 
@@ -19,15 +20,26 @@ import java.util.Random;
 @Slf4j
 public class CachePreLoad implements ApplicationRunner {
     @Autowired
-    private static UserCollectionService userCollectionService;
+    UserCollectionService userCollectionService;
     @Autowired
-    private static UserHistoryService userHistoryService;
+    UserHistoryService userHistoryService;
+    public static CachePreLoad that;
+
+    @PostConstruct
+    public void init() {
+        log.warn("init video CachePreLoad");
+        that = this;
+        that.userCollectionService = this.userCollectionService;
+        that.userHistoryService = this.userHistoryService;
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
 
         System.out.println("CachePreLoad.run() 缓存预热启动");
+
+
         new Thread(new Cate()).start();
 
 
@@ -40,21 +52,23 @@ public class CachePreLoad implements ApplicationRunner {
 
         @Override
         public void run() {
-            while (true){
-                log.debug("准备执行收藏夹缓存预热....");
-                userCollectionService.preloadCache();
+            while (true) {
+
+                log.info("准备执行收藏夹缓存预热....");
+                that.userCollectionService.preloadCache();
                 log.info("收藏夹缓存预热执行完成....");
 
-                log.debug("准备执行历史记录缓存预热....");
-                userHistoryService.preloadCache();
+                log.info("准备执行历史记录缓存预热....");
+                that.userHistoryService.preloadCache();
                 log.info("历史记录缓存预热执行完成....");
 
-                //程序睡眠10分钟然后重新获取用户的爱好内容
+                //线程睡眠10分钟然后重新获取用户的爱好内容
                 try {
                     Thread.sleep(1 * 1000 * 60 * 10);
                 } catch (InterruptedException ignored) {
 
                 }
+
             }
         }
     }

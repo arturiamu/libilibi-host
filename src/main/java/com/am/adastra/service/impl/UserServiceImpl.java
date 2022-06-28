@@ -18,6 +18,7 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.util.GetIpInfo;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.app.VideoPool;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
@@ -98,6 +99,9 @@ public class UserServiceImpl implements UserService {
         }
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
+        }
+        if ( ! "normal".equals(getUser.getState())){
+            throw new LoginException("该账户已冻结，请联系管理员");
         }
         UserLoginLogVO userLoginLogVO = new UserLoginLogVO();
         userLoginLogVO.setUid(getUser.getId());
@@ -180,9 +184,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.addLoginLog(userLoginLogVO);
     }
     @Override
-    public List<Map<String,Integer>> ipList() {
+    public List<Map<String,Object>> ipList() {
         List<UserVO> userVOList = userMapper.list();
-        List<Map<String,Integer>> litMap = new ArrayList<>();
+        List<Map<String,Object>> litMap = new ArrayList<>();
         for(UserVO user : userVOList){
             log.info(user.getUsername());
             Long userId = user.getId();
@@ -191,23 +195,33 @@ public class UserServiceImpl implements UserService {
 //            https://www.ip138.com/iplookup.asp?ip=116.249.112.73&action=2
             String ip = userLoginLogVOList.getIp();
             String city = GetIpInfo.getCity(ip);
+            if (city == null) continue;
 
+            System.out.println(city);
             Integer city1 = city.indexOf("市");
             Integer city2 = city.indexOf("省");
             String cityMunicipal = city.substring(city2+1,city1);
             log.info(cityMunicipal);
 
-            Map<String,Object> map = new HashMap<>();
-            //判断城市是否已存在list集合中
+            /*
+            * 先将所有城市的人员信息放到map中，然后再遍历一遍，将他们放入list<Map<String,Integer>>中
+            * */
+            Map<String,Integer> map = new HashMap<>();
             if (!map.containsKey(cityMunicipal)){
-                map.put("name",cityMunicipal);
-                map.put("value",1);
+                map.put(cityMunicipal,1);
             }else {
-//                map.put(cityMunicipal,map.get(cityMunicipal)+1);
+                map.put(cityMunicipal,map.get(cityMunicipal)+1);
             }
-//            litMap.add(map);
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                String mapKey = entry.getKey();
+                Integer mapValue = entry.getValue();
+                Map<String,Object> cityMap = new HashMap<>();
+                cityMap.put("name",mapKey);
+                cityMap.put("value",mapValue);
+                litMap.add(cityMap);
+            }
         }
-        return null;
+        return litMap;
     }
 
 }
