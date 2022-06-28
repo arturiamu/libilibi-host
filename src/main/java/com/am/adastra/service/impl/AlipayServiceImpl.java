@@ -51,35 +51,6 @@ public class AlipayServiceImpl implements AlipayService {
 
         UserVip userVip = new UserVip();
         userVip.setOutTradeNo(outTradeNo);
-//        UserVip existUserVip = alipayService.selectByOutTradeNo(outTradeNo);
-//        //如果用户重复购买会员
-//        if (existUserVip != null){
-//            startVipTime = existUserVip.getEndVipTime();
-//            switch (subject){
-//                case "mouthvip":
-//                    endVipTime = startVipTime.plusMonths(1); // 目前时间加1个月
-//                    break;
-//                case "halfYearVip":
-//                    endVipTime = startVipTime.plusMonths(6);//目前时间加6个月
-//                    break;
-//                case "yearVip":
-//                    endVipTime = startVipTime.plusYears(1);//目前时间加1年
-//                    break;
-//            }
-//            log.info("已经存在用户id为:"+id);
-//            log.info("订单号:"+outTradeNo);
-//            log.info("购买的vip类型为:"+subject);
-//            log.info("startVipTime:"+startVipTime);
-//            log.info("endVipTime:"+endVipTime);
-//            userVip.setOutTradeNo(outTradeNo);
-//            userVip.setId(id);
-//            userVip.setVipType(subject);
-//            userVip.setStartVipTime(startVipTime);
-//            userVip.setEndVipTime(endVipTime);
-//            userVip.setIsPaySuccess("false");
-//            alipayService.insertVipInfo(userVip);
-//
-//        }else{
             log.info("存在用户id为:"+id);
             log.info("订单号:"+outTradeNo);
             log.info("购买的vip类型为:"+subject);

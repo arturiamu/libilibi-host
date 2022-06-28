@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.sql.Date;
+
 import java.time.LocalDate;
 
 
@@ -24,7 +24,7 @@ public class UserVip {
     private String outTradeNo;
     private long id;
     private String vipType;
-    private Date startVipTime;
-    private Date endVipTime;
+    private LocalDate startVipTime;
+    private LocalDate endVipTime;
     private String isPaySuccess;
 }

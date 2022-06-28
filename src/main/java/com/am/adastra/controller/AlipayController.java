@@ -7,13 +7,12 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.service.AlipayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.sql.Date;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -89,11 +88,9 @@ public class AlipayController {
                     endVipTime = startVipTime.plusYears(1);//目前时间加1年
                     break;
             }
-            Date start_vip_time = Date.valueOf(startVipTime);
-            Date end_vip_time = Date.valueOf(endVipTime);
             userVip.setOutTradeNo(out_trade_no);
-            userVip.setStartVipTime(start_vip_time);
-            userVip.setEndVipTime(end_vip_time);
+            userVip.setStartVipTime(startVipTime);
+            userVip.setEndVipTime(endVipTime);
             userVip.setIsPaySuccess(trade_status);
             System.out.println(userVip);
             alipayService.updataInfo(userVip);
