@@ -11,6 +11,7 @@ import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.ex.*;
 import com.am.adastra.mapper.UserMapper;
+import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
@@ -23,10 +24,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -44,6 +42,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     VideoPool videoPool;
+
+    @Resource
+    UserAvatarService userAvatarService;
 
     @Resource
     private UserCategoryService userCategoryService;

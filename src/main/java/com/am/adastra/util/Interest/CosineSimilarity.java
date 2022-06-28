@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 /*
+系统过滤算法
 * 余弦相似度公式
 * 通过计算两个向量的夹角余弦值来得到两个用户的相似度。
 *
