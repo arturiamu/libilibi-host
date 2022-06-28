@@ -7,6 +7,9 @@ import com.am.adastra.entity.vo.UserCategorySimpleVO;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -23,6 +26,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/category")
+@Api(tags = "收藏夹模块")
 public class UserCategoryController {
     @Autowired(required = false)
     private UserCategoryService userCategoryService;
@@ -30,6 +34,8 @@ public class UserCategoryController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation("新建收藏夹")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> add(@RequestBody @Valid UserCategoryAddDTO userCategory, BindingResult errors, HttpServletRequest request) {
         log.info("收藏夹名称---------->{}", userCategory.getCategoryName());
@@ -51,6 +57,8 @@ public class UserCategoryController {
         return result;
     }
 
+    @ApiOperation("获取收藏夹")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/selectByCategory")
     public Result<List<UserCategorySimpleVO>> selectById(HttpServletRequest request) {
         Result<List<UserCategorySimpleVO>> result = new Result<>();
@@ -61,6 +69,8 @@ public class UserCategoryController {
         return result;
     }
 
+    @ApiOperation("清空收藏夹")
+    @ApiOperationSupport(order = 10)
     @GetMapping("/clear/{categoryName}")
     public Result<Void> clear(HttpServletRequest request, @PathVariable String categoryName) {
         Result<Void> result = new Result<>();
@@ -70,6 +80,8 @@ public class UserCategoryController {
         return result;
     }
 
+    @ApiOperation("删除收藏夹")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/del/{categoryName}")
     public Result<Void> del(HttpServletRequest request, @PathVariable String categoryName) {
         Result<Void> result = new Result<>();

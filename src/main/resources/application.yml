@@ -15,8 +15,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: adastra
-    password: mlb20000102
+    username: teacher
+    password: teacher
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: localhost
@@ -74,7 +74,7 @@ mybatis:
   configuration:
     cache-enabled: true
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
     com:

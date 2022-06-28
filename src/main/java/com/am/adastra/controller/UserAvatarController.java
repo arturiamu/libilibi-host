@@ -9,6 +9,9 @@ import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.oss.OssUtils;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Return :
  * @Description ：
  */
+@Api(tags = "头像模块")
 @RestController
 @RequestMapping("/avatar")
 @CrossOrigin
@@ -33,6 +37,8 @@ public class UserAvatarController {
     @Resource
     UserService userService;
 
+    @ApiOperation("获取用户头像")
+    @ApiOperationSupport(order = 0)
     @GetMapping("/getAvatar")
     public Result<String> getAvatar(HttpServletRequest request) {
         if (userService.isLogin(request.getSession()) == null) {
@@ -46,6 +52,8 @@ public class UserAvatarController {
     }
 
 
+    @ApiOperation("更新用户头像")
+    @ApiOperationSupport(order = 5)
     @PostMapping("/updateAvatar")
     public Result<Void> updateAvatar(HttpServletRequest request,@RequestBody String url) {
         if (userService.isLogin(request.getSession()) == null) {
@@ -60,6 +68,8 @@ public class UserAvatarController {
         return result;
     }
 
+    @ApiOperation("添加用户头像")
+    @ApiOperationSupport(order = 10)
     @PostMapping("/addAvatar")
     public Result<Video> addAvatar(HttpServletRequest request, @RequestBody String url) {
         if (userService.isLogin(request.getSession()) == null) {
@@ -72,6 +82,8 @@ public class UserAvatarController {
         return result;
     }
 
+    @ApiOperation("持久化用户头像到oss")
+    @ApiOperationSupport(order = 15)
     @PostMapping("/ossfile")
     public Result<String> addAvatar(MultipartFile file) {
         String url = new OssUtils().uploadFileAvatar(file);

@@ -8,6 +8,9 @@ import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +29,7 @@ import java.util.Map;
  * */
 @Slf4j
 @RestController
+@Api(tags = "收藏模块")
 @RequestMapping("/collection")
 public class UserCollectionController {
     @Resource
@@ -34,8 +38,8 @@ public class UserCollectionController {
     private UserCollectionService userCollectionService;
 
 
-    /*
-            用户添加视频到收藏夹中*/
+    @ApiOperation("添加收藏")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> add(@RequestBody @Validated VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         //先判断传递的信息是否有误
@@ -60,6 +64,8 @@ public class UserCollectionController {
 
     }
 
+    @ApiOperation("取消收藏")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/cancel/{id}")
     public Result<Void> del(HttpServletRequest request, @PathVariable Long id) {
         Result<Void> result = new Result<>();
@@ -75,6 +81,8 @@ public class UserCollectionController {
 
     /*  通过用户分类的查看用户的收藏
      */
+    @ApiOperation("获取收藏夹下的视频")
+    @ApiOperationSupport(order = 10)
     @GetMapping("/selectByCategory/{category}")
     public Result<List<UserCollectionSimpleVO>> selectByCategory(@PathVariable String category, HttpServletRequest request) {
 
@@ -100,6 +108,8 @@ public class UserCollectionController {
      * @param request
      * @return
      */
+    @ApiOperation("查询用户所有收藏记录")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/selectCategory")
     public Result<List<Map<String, Object>>> selectCategory(HttpServletRequest request) {
         Result<List<Map<String, Object>>> result = new Result<>();
