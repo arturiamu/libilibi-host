@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
+import java.time.LocalDate;
+
+
 /**
  * @PackagePathcom.am.adastra.entity
  * @Classname UserVip
@@ -16,7 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVip {
+    private String outTradeNo;
     private long id;
-    private long startVipTime;
-    private long endVipTime;
+    private String vipType;
+    private LocalDate startVipTime;
+    private LocalDate endVipTime;
+    private String isPaySuccess;
 }
