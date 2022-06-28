@@ -6,13 +6,17 @@ import com.am.adastra.entity.dto.UpdatePwdDTO;
 import com.am.adastra.entity.param.ValidationRules;
 import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
-import com.am.adastra.ex.IllegalOperationException;
 import com.am.adastra.ex.SystemException;
+import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.EmailUtil;
+import com.am.adastra.util.IPUtil;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.SMSUtil;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +36,7 @@ import java.util.regex.Pattern;
  * @Description ：
  */
 @Slf4j
-//@Api(tags = "用户模块")
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping(value = "/user", produces = "application/json;charset=utf-8")
 public class UserController {
@@ -50,8 +54,8 @@ public class UserController {
     @Resource
     private EmailUtil emailUtil;
 
-//    @ApiOperation("发送验证码")
-//    @ApiOperationSupport(order = 0)
+    @ApiOperation("发送验证码")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/verifyCode")
     public Result<Void> verifyCode(@RequestBody @NotBlank String account, HttpServletRequest request) {
         log.info("发送验证码：{}", account);
@@ -79,6 +83,8 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("用户注册")
+    @ApiOperationSupport(order = 5)
     @PostMapping("/register")
     public Result<User> register(@RequestBody @Validated(ValidationRules.register.class) UserRegisterDTO rp, BindingResult errors, HttpServletRequest request) {
         log.info("用户注册: {}", rp);
@@ -96,6 +102,8 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("用户登录")
+    @ApiOperationSupport(order = 10)
     @PostMapping("/login")
     public Result<User> login(@RequestBody @Validated(ValidationRules.login.class) User user, BindingResult errors, HttpServletRequest request) {
         log.info("用户登录 ： {}", user);
@@ -103,12 +111,16 @@ public class UserController {
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
         }
-        User getUser = userService.login(user);
+        String ip = IPUtil.getIP(request);
+        log.info(ip);
+        User getUser = userService.login(user, ip);
         request.getSession().setAttribute(USER_INFO_SESSION, getUser);
         result.setSuccess(getUser);
         return result;
     }
 
+    @ApiOperation("修改用户密码")
+    @ApiOperationSupport(order = 15)
     @PostMapping("/updatePwd")
     public Result<User> updatePwd(@RequestBody @Validated UpdatePwdDTO up, BindingResult errors, HttpServletRequest request) {
         log.info("修改密码 ： {}", up);
@@ -126,6 +138,8 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("判断用户是否登录")
+    @ApiOperationSupport(order = 13)
     @GetMapping("/isLogin")
     public Result<User> isLogin(HttpServletRequest request) {
         User getUser = userService.isLogin(request.getSession());
@@ -134,6 +148,8 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("退出登录")
+    @ApiOperationSupport(order = 30)
     @GetMapping("/logout")
     public Result<Void> logout(HttpServletRequest request) {
         Result<Void> result = new Result<>();
@@ -142,6 +158,8 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("判断验证码")
+    @ApiOperationSupport(order = 1)
     @PostMapping("/verify")
     public Result<Void> verify(@RequestBody @NotBlank String code, HttpServletRequest request) {
         log.info("验证 ： {}", code);
@@ -157,14 +175,17 @@ public class UserController {
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/update")
+    @ApiOperation("更新用户信息")
+    @ApiOperationSupport(order = 16)
+    @PostMapping("/update")
     public Result<User> update(@RequestBody User user, HttpServletRequest request) {
+        if (userService.isLogin(request.getSession()) == null) {
+            throw new UserNotLoginException("用户未登录");
+        }
+        log.info("修改信息：{}", user);
         Result<User> result = new Result<>();
         User sessionUser = (User) request.getSession().getAttribute(USER_INFO_SESSION);
-        if (!sessionUser.getId().equals(user.getId())) {
-            throw new IllegalOperationException("系统繁忙，请稍后重试");
-        }
-        User getUser = userService.update(user);
+        User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;
     }

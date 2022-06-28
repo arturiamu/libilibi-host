@@ -56,4 +56,5 @@ public class Result<T> implements Serializable {
     public boolean isSuccess() {
         return this.state == State.OK.getValve();
     }
+
 }

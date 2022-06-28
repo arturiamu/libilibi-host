@@ -1,4 +1,4 @@
-package com.am.adastra.util;
+package com.am.adastra.app;
 
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.Video;
@@ -47,7 +47,7 @@ public class VideoPool implements ApplicationRunner {
 
     @PostConstruct
     public void init() {
-        log.error("init video pool");
+        log.warn("init video pool");
         that = this;
         that.itemMapper = this.itemMapper;
         that.userMapper = this.userMapper;
@@ -77,8 +77,8 @@ public class VideoPool implements ApplicationRunner {
 
     public static List<Video> getRandom(int ps) {
         List<Video> list = new ArrayList<>();
+        Random random = new Random();
         while (ps-- > 0) {
-            Random random = new Random();
             int idx = random.nextInt(items.size());
             int cnt = random.nextInt(VIDEO_POOL.get(idx).size());
             list.add(VIDEO_POOL.get(idx).get(cnt));
@@ -88,22 +88,23 @@ public class VideoPool implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        log.error("start load videos...");
+        log.warn("start load videos...");
         long st = System.currentTimeMillis();
         items.addAll(that.itemMapper.getAll());
         for (int i = 0; i < items.size(); i++) {
             PID_INDEX.put(items.get(i).getPid(), i);
         }
+        log.warn("total items:{}",items.size());
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoService.getByPId(item.getPid());
-            log.error("{} size {}", item, videoList.size());
+            log.warn("{} size {}", item, videoList.size());
             total += videoList.size();
             VIDEO_POOL.add(videoList);
         }
-        log.error("total time:{}", (System.currentTimeMillis() - st) / 1000);
-        log.error("total videos:{}", total);
-        log.error("end load videos...");
+        log.warn("total time:{}", (System.currentTimeMillis() - st) / 1000);
+        log.warn("total videos:{}", total);
+        log.warn("end load videos...");
         List<String> allDefault = avatarMapper.getAllDefault();
         DEFAULT_AVATAR.addAll(allDefault);
     }

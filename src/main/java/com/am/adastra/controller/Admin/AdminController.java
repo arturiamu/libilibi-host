@@ -14,6 +14,9 @@ import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/admin")
 @Slf4j
+@Api(tags = "管理员模块")
 public class AdminController {
     public static final String USER_INFO_SESSION = "userInfoSession";
 //    public static final String SESSION_NAME = "userInfo";
@@ -47,6 +51,8 @@ public class AdminController {
     /*
      * 管理员登录
      * */
+    @ApiOperation("管理员登录")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/login")
     public Result<AdminVO> login(@RequestBody @Valid Admin admin, BindingResult errors, HttpServletRequest request) {
         log.info("管理员的登录信息 : {}", admin);
@@ -70,6 +76,8 @@ public class AdminController {
     /*
     * 判断当前管理员是否登录
     * */
+    @ApiOperation("判断管理员是否登录")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/isLogin")
     public Result<Admin> isLogin(HttpServletRequest request) {
         log.info("判断用户是否登录 --->  ");
@@ -82,6 +90,8 @@ public class AdminController {
     /*
     * 退出登录
     * */
+    @ApiOperation("退出登录")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/logout")
     public Result<Void> logout(HttpServletRequest request) {
         log.info("用户退出登录");
@@ -96,6 +106,8 @@ public class AdminController {
      * @param request
      * @return
      */
+    @ApiOperation("更新管理员信息")
+    @ApiOperationSupport(order = 20)
     @PostMapping("/updateAdmin")
     public Result<Void> updateAdmin(@RequestBody AdminDTO adminDTO, HttpServletRequest request){
 

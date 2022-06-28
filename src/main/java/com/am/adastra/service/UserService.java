@@ -23,13 +23,15 @@ import java.util.Map;
 public interface UserService {
     User register(User user);
 
-    User login(User user);
+    User login(User user,String ip);
 
     User update(User user);
 
     User isLogin(HttpSession session);
 
     User updatePwd(String password,String account);
+
+    User updateDBO(User old,User new_);
 
     UserDBO getDBOById(Long id);
 
@@ -38,6 +40,8 @@ public interface UserService {
     List<UserLoginLogVO> loginList();
 
     List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 
     List<Map<String,Integer>> ipList();
 

@@ -66,6 +66,7 @@
             <artifactId>httpcore</artifactId>
             <version>4.4.8</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -134,6 +135,14 @@
             <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
             <version>2.0.9</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-easysdk -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-easysdk</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
 
         <!-- hutool  操作文件，写出到excel中-->
         <dependency>

@@ -4,14 +4,15 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
-import com.am.adastra.entity.vo.MessageVO;
 import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.AdminService;
-import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "管理员操作用户")
 @RestController
 @RequestMapping("/admin")
 @Slf4j
@@ -33,8 +35,6 @@ public class AdminUserController {
     UserService userService;
     @Autowired
     AdminService adminService;
-    @Autowired
-    UserMessageService userMessageService;
     @Autowired
     UserMapper userMapper;
 
@@ -49,6 +49,8 @@ public class AdminUserController {
      * @param request
      * @return
      */
+    @ApiOperation("选择用户")
+    @ApiOperationSupport(order = 0)
     @GetMapping("/selectUser/{cur}/{pageSize}")
     public Result<Map<String,Object>> selectUser(@RequestBody @PathVariable int cur, @PathVariable int pageSize, String username, HttpServletRequest request){
         log.info("分页查询");
@@ -74,6 +76,8 @@ public class AdminUserController {
      * @param userDBO
      * @return
      */
+    @ApiOperation("更新用户信息")
+    @ApiOperationSupport(order = 5)
     @PostMapping("/updateUser")
     public Result<User> updateUser(@RequestBody UserDBO userDBO) {
         Result<User> result = new Result<>();
@@ -97,6 +101,8 @@ public class AdminUserController {
      * @param uid
      * @return
      */
+    @ApiOperation("修改用户状态")
+    @ApiOperationSupport(order = 10)
     @GetMapping("/changeState/{uid}")
     public Result<Void> changeState(@PathVariable Long uid){
         Result<Void> result = new Result<>();
@@ -112,6 +118,8 @@ public class AdminUserController {
      * @return
      * @throws Exception
      */
+    @ApiOperation("获取所有用户信息")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/export")
     public Result<Void> export(HttpServletResponse response) throws Exception{
         Result<Void> result = new Result<>();
@@ -144,6 +152,8 @@ public class AdminUserController {
     /**
      * 获取所有用户的登录日志
      */
+    @ApiOperation("获取所有用户的登录日志")
+    @ApiOperationSupport(order = 20)
     @GetMapping("/allUserLog")
     public Result<List<UserLoginLogVO>> allUserLog(){
         log.info("获取所有用户登录信息");
@@ -158,6 +168,8 @@ public class AdminUserController {
      * 获取指定uid用户的登录日志
      *
      */
+    @ApiOperation("获取指定uid用户的登录日志")
+    @ApiOperationSupport(order = 25)
     @GetMapping("/UserLog/{uid}")
     public Result<List<UserLoginLogVO>> UserLog(@PathVariable Long uid){
         Result<List<UserLoginLogVO>> result = new Result<>();
@@ -167,49 +179,6 @@ public class AdminUserController {
         result.setSuccess(userLoginLogVOList);
         return result;
     }
-
-    /**
-     * 获取所有管理员发送信息
-     */
-    @GetMapping("/getMessage")
-    public Result<List<MessageVO>> getMessage(Integer isAdmin){
-        Result<List<MessageVO>> result = new Result<>();
-        //1.从数据库中获取信息
-        List<MessageVO> messageList = userMessageService.getAllMessage(isAdmin);
-        result.setSuccess(messageList);
-        return result;
-    }
-
-    /**
-     * 通过用户id得到用户的完整信息
-     * @param uid
-     * @return
-     */
-    @GetMapping("/getDBOById/{uid}")
-    public Result<UserDBO> getDBOById(@PathVariable Long uid){
-        Result<UserDBO> result = new Result<>();
-        UserDBO dboById = userService.getDBOById(uid);
-        result.setSuccess(dboById);
-        return result;
-    }
-
-    /**
-     * 获取用户最新一次的ip
-     */
-    @GetMapping("/getNewestIp")
-    public Result<List<Map<String,Integer>>> getNewestIp(){
-        Result<List<Map<String,Integer>>> result = new Result<>();
-        List<Map<String,Integer>> ipList = userService.ipList();
-        result.setSuccess(ipList);
-        return result;
-    }
-    /**
-     * 发送通知给全体成员
-     */
-
-    /**
-     * 发送消息给部分成员
-     */
 
 
 }

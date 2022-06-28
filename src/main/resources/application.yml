@@ -15,13 +15,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: adastra
-    password: mlb20000102
+    username: teacher
+    password: teacher
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: localhost
     port: 6379
-#    password: 123
+    password:
     database: 0
     timeout: 1800000
     lettuce:
@@ -71,10 +71,16 @@ aliyun:
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.am.adastra.entity
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
     com:
       am:
-        adastra: info
+        adastra: warn
 knife4j:
   enable: true
+
+

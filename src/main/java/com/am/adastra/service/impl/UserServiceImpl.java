@@ -16,9 +16,9 @@ import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.GetIpInfo;
 import com.am.adastra.util.POJOUtils;
+import com.am.adastra.app.VideoPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -41,6 +41,9 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    VideoPool videoPool;
 
     @Resource
     private UserCategoryService userCategoryService;
@@ -72,19 +75,22 @@ public class UserServiceImpl implements UserService {
             userCategoryService.add(userCategoryAddDTO);
             log.info("新用户注册：{}", userDBO);
 
+            int idx = new Random().nextInt(VideoPool.DEFAULT_AVATAR.size());
+            userAvatarService.addAvatar(userDBO.getId(), VideoPool.DEFAULT_AVATAR.get(idx));
             MessageDTO messageDTO = new MessageDTO();
             messageDTO.setSendUserName(UserController.AD_ASTRA);
             messageDTO.setText(UserController.WELCOME);
             messageDTO.setTargetUserId(userDBO.getId());
             messageDTO.setSendUserId(0L);
             userMessageService.sendMessage(messageDTO);
+
             return POJOUtils.DBToUser(userDBO);
         }
         throw new SystemException("系统繁忙，请稍后重试");
     }
 
     @Override
-    public User login(User user) {
+    public User login(User user, String ip) {
         UserDBO getUser = userMapper.getDBOByAccount(user.getAccount());
         if (getUser == null) {
             throw new LoginException("该账号不存在");
@@ -92,7 +98,11 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
+        UserLoginLogVO userLoginLogVO = new UserLoginLogVO();
+        userLoginLogVO.setUid(getUser.getId());
+        userLoginLogVO.setIp(ip);
 
+        this.addLoginLog(userLoginLogVO);
         return POJOUtils.DBToUser(getUser);
     }
 
@@ -132,9 +142,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateDBO(User old, User new_) {
+        log.info("new:{}", new_);
+        log.info("old:{}", old);
+        old.setUsername(new_.getUsername());
+        old.setItems(new_.getItems());
+        int i = userMapper.updateDBO(POJOUtils.userToDB(old));
+        if (i == 1) {
+            return old;
+        }
+        throw new SystemException("系统繁忙，请稍后再试");
+    }
+
+    @Override
     public UserDBO getDBOById(Long id) {
-        UserDBO dboById = userMapper.getDBOById(id);
-        return dboById;
+        return userMapper.getDBOById(id);
     }
 
     @Override
@@ -152,6 +174,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.loginListByUid(uid);
     }
 
+    @Override
+    public int addLoginLog(UserLoginLogVO userLoginLogVO) {
+        return userMapper.addLoginLog(userLoginLogVO);
+    }
     @Override
     public List<Map<String,Integer>> ipList() {
         List<UserVO> userVOList = userMapper.list();

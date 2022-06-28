@@ -22,7 +22,7 @@ public interface UserMapper {
 
     int addDBO(UserDBO user);
 
-    int updateDBO(User user);
+    int updateDBO(UserDBO user);
 
     int updatePwd(String password,Long id);
 
@@ -68,6 +68,8 @@ public interface UserMapper {
      * @return
      */
     List<UserLoginLogVO> loginListByUid(Long uid);
+
+    int addLoginLog(UserLoginLogVO userLoginLogVO);
 
     /**
      * 获取uid最新一次登录ip
