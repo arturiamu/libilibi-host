@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,9 +153,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Integer> ipList() {
+    public List<Map<String,Integer>> ipList() {
         List<UserVO> userVOList = userMapper.list();
-        Map<String,Integer> map = new HashMap<>();
+        List<Map<String,Integer>> litMap = new ArrayList<>();
         for(UserVO user : userVOList){
             log.info(user.getUsername());
             Long userId = user.getId();
@@ -163,17 +164,23 @@ public class UserServiceImpl implements UserService {
 //            https://www.ip138.com/iplookup.asp?ip=116.249.112.73&action=2
             String ip = userLoginLogVOList.getIp();
             String city = GetIpInfo.getCity(ip);
-            if (!map.containsKey(city)){
-                map.put(city,1);
-            }else {
-                map.put(city,map.get(city)+1);
-            }
+
             Integer city1 = city.indexOf("市");
             Integer city2 = city.indexOf("省");
             String cityMunicipal = city.substring(city2+1,city1);
             log.info(cityMunicipal);
+
+            Map<String,Object> map = new HashMap<>();
+            //判断城市是否已存在list集合中
+            if (!map.containsKey(cityMunicipal)){
+                map.put("name",cityMunicipal);
+                map.put("value",1);
+            }else {
+//                map.put(cityMunicipal,map.get(cityMunicipal)+1);
+            }
+//            litMap.add(map);
         }
-        return map;
+        return null;
     }
 
 }

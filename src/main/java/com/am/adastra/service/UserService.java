@@ -39,6 +39,6 @@ public interface UserService {
 
     List<UserLoginLogVO> loginListByUid(Long uid);
 
-    Map<String,Integer> ipList();
+    List<Map<String,Integer>> ipList();
 
 }

@@ -197,9 +197,9 @@ public class AdminUserController {
      * 获取用户最新一次的ip
      */
     @GetMapping("/getNewestIp")
-    public Result<Map<String,Integer>> getNewestIp(){
-        Result<Map<String,Integer>> result = new Result<>();
-        Map<String,Integer> ipList = userService.ipList();
+    public Result<List<Map<String,Integer>>> getNewestIp(){
+        Result<List<Map<String,Integer>>> result = new Result<>();
+        List<Map<String,Integer>> ipList = userService.ipList();
         result.setSuccess(ipList);
         return result;
     }
