@@ -22,6 +22,7 @@ public class GetIpInfo {
 
 
     public static String getCity(String userIp) {
+        if ("127.0.0.1".equals(userIp))return null;
         try {
             Document document = Jsoup.connect("https://www.ip138.com/iplookup.asp?ip="+userIp+"&action=2").get();
 //            System.out.println(document.toString());

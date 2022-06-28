@@ -195,7 +195,9 @@ public class UserServiceImpl implements UserService {
 //            https://www.ip138.com/iplookup.asp?ip=116.249.112.73&action=2
             String ip = userLoginLogVOList.getIp();
             String city = GetIpInfo.getCity(ip);
+            if (city == null) continue;
 
+            System.out.println(city);
             Integer city1 = city.indexOf("市");
             Integer city2 = city.indexOf("省");
             String cityMunicipal = city.substring(city2+1,city1);
