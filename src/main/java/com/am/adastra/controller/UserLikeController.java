@@ -28,7 +28,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@Api("点赞模块")
+@Api(tags = "点赞模块")
 @RequestMapping("/like")
 public class UserLikeController {
     @Autowired

@@ -26,7 +26,7 @@ import java.util.List;
  * */
 @Slf4j
 @RestController
-@Api("个性化推荐模块")
+@Api(tags = "个性化推荐模块")
 @RequestMapping("/interest")
 public class UserInterestRecommendController {
     @Autowired

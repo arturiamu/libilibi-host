@@ -32,7 +32,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/message")
-@Api("消息模块")
+@Api(tags = "消息模块")
 public class UserMessageController {
 
     @Resource

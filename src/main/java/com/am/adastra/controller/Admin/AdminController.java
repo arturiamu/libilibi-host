@@ -39,7 +39,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/admin")
 @Slf4j
-@Api("管理员模块")
+@Api(tags = "管理员模块")
 public class AdminController {
     public static final String USER_INFO_SESSION = "userInfoSession";
 //    public static final String SESSION_NAME = "userInfo";

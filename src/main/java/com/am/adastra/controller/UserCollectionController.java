@@ -29,7 +29,7 @@ import java.util.Map;
  * */
 @Slf4j
 @RestController
-@Api("收藏模块")
+@Api(tags = "收藏模块")
 @RequestMapping("/collection")
 public class UserCollectionController {
     @Resource

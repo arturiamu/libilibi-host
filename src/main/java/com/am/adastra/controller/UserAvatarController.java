@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Return :
  * @Description ：
  */
-@Api("头像模块")
+@Api(tags = "头像模块")
 @RestController
 @RequestMapping("/avatar")
 @CrossOrigin

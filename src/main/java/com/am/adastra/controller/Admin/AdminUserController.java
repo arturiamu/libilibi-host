@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api("管理员操作用户")
+@Api(tags = "管理员操作用户")
 @RestController
 @RequestMapping("/admin")
 @Slf4j

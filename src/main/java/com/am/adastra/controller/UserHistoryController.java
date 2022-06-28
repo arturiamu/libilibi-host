@@ -33,7 +33,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/history")
-@Api("历史记录模块")
+@Api(tags = "历史记录模块")
 public class UserHistoryController {
     @Resource
     UserHistoryService userHistoryService;

@@ -26,7 +26,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/category")
-@Api("收藏夹模块")
+@Api(tags = "收藏夹模块")
 public class UserCategoryController {
     @Autowired(required = false)
     private UserCategoryService userCategoryService;

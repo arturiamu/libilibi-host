@@ -24,7 +24,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @CrossOrigin
-@Api("支付模块")
+@Api(tags = "支付模块")
 @RequestMapping("/pay")
 public class AlipayController {
 

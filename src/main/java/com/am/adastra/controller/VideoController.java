@@ -28,7 +28,7 @@ import java.util.List;
 @Slf4j
 @RestController()
 @RequestMapping("/video")
-@Api("视频模块")
+@Api(tags = "视频模块")
 public class VideoController {
 
     @Resource

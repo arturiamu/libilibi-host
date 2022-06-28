@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/item")
-@Api("视频分类模块")
+@Api(tags = "视频分类模块")
 public class ItemController {
 
     public static final List<Item> defaultItems = new ArrayList<Item>() {{
