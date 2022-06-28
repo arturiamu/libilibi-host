@@ -2,7 +2,7 @@
 
 # [ad-astra 视频网站V1.0（项目汇报版）](http://adastra.isamumu.cn/#/)
 
- 项目持续维护中.......
+项目持续维护中.......
 
 [前端地址](https://gitee.com/arturiamu/libilibi-web) | [后端地址](https://gitee.com/arturiamu/libilibi-host.git)
 
@@ -36,7 +36,7 @@
 - 使用`alipay`沙箱支付实现模拟交易
 - 使用`hutool`实现excel操作数据
 - 使用`knife4j`在线文档协调前后端数据交互
-- 使用`Collaborative Filtering`利用协同过滤算法，实现兴趣推荐
+- 使用`Collaborative Filtering`协同过滤算法，实现兴趣推荐
 
 ## 项目规模
 
@@ -78,6 +78,7 @@ password: teacher
 
 若使用远程默认`MySQL`，由于网络原因加载大量视频数据需要较长时间，可通过修改`resources -> mapper -> VideoMapper`文件下的
 `getById`方法添加`limite`来查询部分视频，以加快项目启动速度
+
 ```yml
 server:
   port: 9000
@@ -200,7 +201,8 @@ knife4j:
 
 #### 前端注意事项
 
-前端项目所有`http`请求调用由`http.js`封装的`httpGet`和`httpPost`方法，所有请求默认访问`localhost:9000`若后端修改了运行端口，需要同时修改`https.js`文件中的`requestUrl`属性值为`http://localhost:`+`端口号`
+前端项目所有`http`请求调用由`http.js`封装的`httpGet`和`httpPost`方法，所有请求默认访问`localhost:9000`若后端修改了运行端口，需要同时修改`https.js`文件中的`requestUrl`
+属性值为`http://localhost:`+`端口号`
 
 ## todo list
 
