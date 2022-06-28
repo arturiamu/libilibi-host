@@ -6,6 +6,9 @@ import com.am.adastra.service.UserInterestRecommendService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import com.am.adastra.app.VideoPool;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +26,7 @@ import java.util.List;
  * */
 @Slf4j
 @RestController
+@Api("个性化推荐模块")
 @RequestMapping("/interest")
 public class UserInterestRecommendController {
     @Autowired
@@ -31,6 +35,8 @@ public class UserInterestRecommendController {
     @Autowired(required = false)
     private UserInterestRecommendService interestService;
 
+    @ApiOperation("获取个性化推荐")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/{ps}")
     public Result<List<Video>> interest(@PathVariable int ps, HttpServletRequest request, HttpServletResponse response) {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);

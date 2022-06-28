@@ -9,6 +9,9 @@ import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserHistoryService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +33,15 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/history")
+@Api("历史记录模块")
 public class UserHistoryController {
     @Resource
     UserHistoryService userHistoryService;
     @Resource
     UserService userService;
 
+    @ApiOperation("添加历史记录")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> addHistory(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         log.info("add history {}", videoOperateDTO);
@@ -55,6 +61,8 @@ public class UserHistoryController {
         return result;
     }
 
+    @ApiOperation("获取用户历史记录")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/get/{ps}")
     public Result<List<UserHistorySimpleVO>> getAll(@PathVariable Integer ps, HttpServletRequest request) {
         log.info("get history: {}", ps);
@@ -70,6 +78,8 @@ public class UserHistoryController {
         return result;
     }
 
+    @ApiOperation("删除历史记录")
+    @ApiOperationSupport(order = 10)
     @GetMapping("/del/{id}")
     public Result<Void> del(@PathVariable @NotBlank Long id, HttpServletRequest request) {
         log.info("del history: {}", id);
@@ -87,6 +97,8 @@ public class UserHistoryController {
         return result;
     }
 
+    @ApiOperation("清空历史记录")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/del/all")
     public Result<Void> delAll(HttpServletRequest request) {
         log.info("clear history");

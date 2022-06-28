@@ -7,6 +7,9 @@ import com.am.adastra.service.AdviseService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
 import com.am.adastra.util.State;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -27,6 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
+@Api(tags = "用户建议模块")
 @RequestMapping("/advise")
 public class AdviseController {
 
@@ -35,7 +39,8 @@ public class AdviseController {
     @Resource
     private UserService userService;
 
-    //添加用户的建议
+    @ApiOperation("用户反馈建议")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> addAdvise(@RequestBody @Valid AdviseDTO advise, BindingResult errors, HttpServletRequest request) {
         log.info("用户建议:{}", advise);
@@ -55,7 +60,8 @@ public class AdviseController {
         return result;
     }
 
-    //通过id来查询
+    @ApiOperation("获取用户的建议")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/select")
     public Result<List<AdviseDTO>> select(HttpServletRequest request) {
         //  获取当前用户的用户 id

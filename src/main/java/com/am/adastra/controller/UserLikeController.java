@@ -7,6 +7,9 @@ import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserLikeService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
+@Api("点赞模块")
 @RequestMapping("/like")
 public class UserLikeController {
     @Autowired
@@ -33,6 +37,8 @@ public class UserLikeController {
     @Autowired
     UserService userService;
 
+    @ApiOperation("添加点赞记录")
+    @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> addLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         log.info("add like {}",videoOperateDTO);
@@ -50,6 +56,8 @@ public class UserLikeController {
         return result;
     }
 
+    @ApiOperation("取消点赞记录")
+    @ApiOperationSupport(order = 5)
     @PostMapping("/cancel")
     public Result<Void> cancelLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         log.info("unlike {}",videoOperateDTO);
@@ -67,6 +75,8 @@ public class UserLikeController {
         return result;
     }
 
+    @ApiOperation("判断是否点赞视频")
+    @ApiOperationSupport(order = 10)
     @PostMapping("/isLike")
     public Result<Void> isLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
         log.info("isLike {}",videoOperateDTO);

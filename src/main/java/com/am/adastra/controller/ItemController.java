@@ -3,6 +3,9 @@ package com.am.adastra.controller;
 import com.am.adastra.entity.Item;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/item")
+@Api("视频分类模块")
 public class ItemController {
 
     public static final List<Item> defaultItems = new ArrayList<Item>() {{
@@ -34,6 +38,8 @@ public class ItemController {
     @Autowired
     ItemMapper itemMapper;
 
+    @ApiOperation("获取所有分类")
+    @ApiOperationSupport(order = 0)
     @GetMapping("/all")
     public Result<List<Item>> itemList() {
         log.info("获取所有分区信息");
@@ -44,6 +50,8 @@ public class ItemController {
         return result;
     }
 
+    @ApiOperation("获取默认分类")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/default")
     public Result<List<Item>> itemDefault() {
         log.info("获取默认分区信息");

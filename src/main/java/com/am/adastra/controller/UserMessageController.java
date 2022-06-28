@@ -9,6 +9,9 @@ import com.am.adastra.service.AdminService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.Result;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +32,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/message")
+@Api("消息模块")
 public class UserMessageController {
 
     @Resource
@@ -40,6 +44,8 @@ public class UserMessageController {
     @Resource
     private UserMessageService userMessageService;
 
+    @ApiOperation("获取用户所有消息")
+    @ApiOperationSupport(order = 0)
     @GetMapping("/getAll")
     public Result<List<MessageDTO>> getAll(HttpServletRequest request) {
         log.info("获取消息");
@@ -53,6 +59,8 @@ public class UserMessageController {
         return result;
     }
 
+    @ApiOperation("删除一条消息")
+    @ApiOperationSupport(order = 5)
     @GetMapping("/del/{id}")
     public Result<Void> del(HttpServletRequest request, @PathVariable Long id) {
         log.info("删除消息：");
@@ -66,6 +74,8 @@ public class UserMessageController {
         return result;
     }
 
+    @ApiOperation("删除全部消息")
+    @ApiOperationSupport(order = 15)
     @GetMapping("/delAll")
     public Result<Void> del(HttpServletRequest request) {
         log.info("删除全部消息：");
@@ -79,6 +89,8 @@ public class UserMessageController {
         return result;
     }
 
+    @ApiOperation("标记已读一条消息")
+    @ApiOperationSupport(order = 20)
     @GetMapping("/read/{id}")
     public Result<Void> read(HttpServletRequest request, @PathVariable Long id) {
         log.info("已读消息：");
@@ -92,6 +104,8 @@ public class UserMessageController {
         return result;
     }
 
+    @ApiOperation("已读全部消息")
+    @ApiOperationSupport(order = 25)
     @GetMapping("/readAll")
     public Result<Void> readAll(HttpServletRequest request) {
         log.info("已读全部消息：");
@@ -106,6 +120,8 @@ public class UserMessageController {
     }
 
 
+    @ApiOperation("发送消息")
+    @ApiOperationSupport(order = 25)
     @PostMapping("/send")
     public Result<Void> send(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
         log.info("发送消息：");

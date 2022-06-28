@@ -5,6 +5,9 @@ import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserVip;
 import com.am.adastra.service.UserService;
 import com.am.adastra.service.AlipayService;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @CrossOrigin
+@Api("支付模块")
 @RequestMapping("/pay")
 public class AlipayController {
 
@@ -32,6 +36,8 @@ public class AlipayController {
 
     @GetMapping("/topay")
     @ResponseBody
+    @ApiOperation("支付")
+    @ApiOperationSupport(order = 0)
     public String toPay(String subject, BigDecimal money,HttpServletRequest request) throws Exception {
         User user = userService.isLogin(request.getSession());
         long id = user.getId();
@@ -42,6 +48,8 @@ public class AlipayController {
 
     @PostMapping("/callback")
     @ResponseBody
+    @ApiOperation("支付回调")
+    @ApiOperationSupport(order = 5)
     public String notifyCallback(HttpServletRequest request) throws Exception {
         System.out.println("进入异步");
         String success = "success";
@@ -115,6 +123,8 @@ public class AlipayController {
 
     @GetMapping("/query")
     @ResponseBody
+    @ApiOperation("查询支付状态")
+    @ApiOperationSupport(order = 10)
     public Object queryTradeStatus(String outTradeNo) throws Exception {
         Object result = alipayService.queryTradeStatus(outTradeNo);
         return result;
