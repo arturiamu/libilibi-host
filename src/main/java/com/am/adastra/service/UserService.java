@@ -43,6 +43,6 @@ public interface UserService {
 
     int addLoginLog(UserLoginLogVO userLoginLogVO);
 
-    List<Map<String,Integer>> ipList();
+    List<Map<String,Object>> ipList();
 
 }
