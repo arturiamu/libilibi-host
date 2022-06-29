@@ -1,6 +1,7 @@
 package com.am.adastra.service;
 
 import com.am.adastra.entity.dto.MessageDTO;
+import com.am.adastra.entity.vo.MessageVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,4 +27,8 @@ public interface UserMessageService {
     int fakeRead(Long id);
 
     int fakeReadAll(Long aid);
+
+    List<MessageVO> getAllMessage(Integer isAdmin);
+
+    void sendAllMessage(MessageDTO messageDTO);
 }

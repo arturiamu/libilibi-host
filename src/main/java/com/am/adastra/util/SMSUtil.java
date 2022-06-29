@@ -1,6 +1,7 @@
 package com.am.adastra.util;
 
 import com.am.adastra.controller.UserController;
+import com.am.adastra.ex.SystemException;
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
 import com.github.qcloudsms.httpclient.HTTPException;
@@ -40,15 +41,14 @@ public class SMSUtil {
         SmsSingleSenderResult result = null;
         try {
             result = sender.sendWithParam("86", phoneNumber, TEMPLATE_ID, params, SMS_SIGN, "", "");
-        } catch (HTTPException e) {  // HTTP响应码错误
-            e.printStackTrace();
-        } catch (IOException e) {  // 网络IO错误
-            e.printStackTrace();
-        }
+        } catch (HTTPException | IOException e) {  // HTTP响应码错误
+            throw new SystemException("操作频繁，请稍后重试");
+        } // 网络IO错误
+
         if (result.result != 0) {
             return false;
         }
-        log.info(code);
+        log.warn(code);
         if (request != null) {
             request.getSession().setMaxInactiveInterval(5 * 60);
             request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);

@@ -40,25 +40,22 @@ public class AlipayServiceImpl implements AlipayService {
     public String toPay(String subject, BigDecimal money, long id) throws Exception {
         String outTradeNo = this.generateTradeNo();
         AlipayTradePagePayResponse pay = Factory.Payment.Page().pay(subject, outTradeNo,
-                String.valueOf(money), "http://10.1.188.92:8080/");
+                String.valueOf(money), "http://adastra.isamumu.cn/");
         String payForm = null;
         if (ResponseChecker.success(pay)) {
             payForm = pay.getBody();
         }
 
-        LocalDate startVipTime = null;
-        LocalDate endVipTime = null;
-
         UserVip userVip = new UserVip();
         userVip.setOutTradeNo(outTradeNo);
-            log.info("存在用户id为:"+id);
-            log.info("订单号:"+outTradeNo);
-            log.info("购买的vip类型为:"+subject);
-            userVip.setOutTradeNo(outTradeNo);
-            userVip.setId(id);
-            userVip.setVipType(subject);
-            userVip.setIsPaySuccess("false");
-            alipayService.insertVipInfo(userVip);
+        log.info("存在用户id为:" + id);
+        log.info("订单号:" + outTradeNo);
+        log.info("购买的vip类型为:" + subject);
+        userVip.setOutTradeNo(outTradeNo);
+        userVip.setId(id);
+        userVip.setVipType(subject);
+        userVip.setIsPaySuccess("false");
+        alipayService.insertVipInfo(userVip);
 
         return payForm;
     }
@@ -72,17 +69,19 @@ public class AlipayServiceImpl implements AlipayService {
 
     /**
      * 通过时间生成外部订单号 out_trade_no
+     *
      * @return
      */
     private String generateTradeNo() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         String tradeNo = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
-        System.out.println(tradeNo);
+        log.info("外部订单号:{}", tradeNo);
         return tradeNo;
     }
 
     /**
      * 查询交易状态
+     *
      * @param outTradeNo 生成的外部订单号 out_trade_no
      * @return
      * @throws Exception
@@ -101,17 +100,12 @@ public class AlipayServiceImpl implements AlipayService {
         return map.get("alipay_trade_query_response");
     }
 
-
-
-    //    @Override
-//    public void updataVipInfo(UserVip userVip) {
-//        vipMapper.updataVipInfo(userVip);
-//    }
     @Override
-    public boolean insertVipInfo(UserVip userVip){
+    public boolean insertVipInfo(UserVip userVip) {
         alipayMapper.insertVipInfo(userVip);
         return false;
     }
+
     @Override
     public void updataVipInfo(UserVip userVip) {
 

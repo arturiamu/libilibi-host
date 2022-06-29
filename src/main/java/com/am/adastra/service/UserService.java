@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -41,5 +42,7 @@ public interface UserService {
     List<UserLoginLogVO> loginListByUid(Long uid);
 
     int addLoginLog(UserLoginLogVO userLoginLogVO);
+
+    List<Map<String,Object>> ipList();
 
 }

@@ -21,4 +21,7 @@ public class UserCategoryAddDTO implements Serializable {
     @NotNull(message = "收藏夹名字不能为空！")
     private String categoryName;//收藏夹名字
 
+    @ApiModelProperty(value = "收藏夹描述", name = "remarks", example = "精品资源")
+    private String remarks;
+
 }

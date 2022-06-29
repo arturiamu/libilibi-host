@@ -15,8 +15,8 @@ public enum State {
     REPEAT_EX_CODE(203),
     SYS_EX_CODE(204),
     USER_NOT_LOGIN_EX_CODE(205),
-    ILLEGAL_EX_CODE(205),
-    VALID_EX_CODE(205);
+    ILLEGAL_EX_CODE(206),
+    VALID_EX_CODE(207);
 
     private final Integer valve;
 

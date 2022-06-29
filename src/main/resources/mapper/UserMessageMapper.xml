@@ -23,8 +23,8 @@
     </select>
 
     <insert id="sendMessage">
-        insert into message(send_user_id, target_user_id, text, send_user_name)
-        VALUES (#{sendUserId},#{targetUserId},#{text},#{sendUserName})
+        insert into message(send_user_id, target_user_id, text, send_user_name, is_admin)
+        VALUES (#{sendUserId},#{targetUserId},#{text},#{sendUserName},#{isAdmin})
     </insert>
 
     <update id="fakeDel">
@@ -49,5 +49,13 @@
         set `read`=1
         where target_user_id = #{aid}
     </update>
+    
+    <!--List<MessageVO> getAllMessage(Integer isAdmin);-->
+    <select id="getAllMessage" resultType="com.am.adastra.entity.vo.MessageVO">
+        SELECT id, send_user_id, target_user_id, text, time, `read`, del, send_user_name, is_admin
+        FROM message
+        WHERE is_admin = 1
+        ORDER BY TIME DESC
+    </select>
 
 </mapper>

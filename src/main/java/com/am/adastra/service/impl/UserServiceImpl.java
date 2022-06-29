@@ -15,16 +15,17 @@ import com.am.adastra.service.UserAvatarService;
 import com.am.adastra.service.UserCategoryService;
 import com.am.adastra.service.UserMessageService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.GetIpInfo;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.app.VideoPool;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @Author : ArturiaMu KMUST-Stu
@@ -44,13 +45,13 @@ public class UserServiceImpl implements UserService {
     VideoPool videoPool;
 
     @Resource
+    UserAvatarService userAvatarService;
+
+    @Resource
     private UserCategoryService userCategoryService;
 
     @Resource
     private UserMessageService userMessageService;
-
-    @Resource
-    private UserAvatarService userAvatarService;
 
     @Override
     public User register(User user) {
@@ -98,6 +99,9 @@ public class UserServiceImpl implements UserService {
         }
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
+        }
+        if ( ! "normal".equals(getUser.getState())){
+            throw new LoginException("该账户已冻结，请联系管理员");
         }
         UserLoginLogVO userLoginLogVO = new UserLoginLogVO();
         userLoginLogVO.setUid(getUser.getId());
@@ -178,6 +182,46 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addLoginLog(UserLoginLogVO userLoginLogVO) {
         return userMapper.addLoginLog(userLoginLogVO);
+    }
+    @Override
+    public List<Map<String,Object>> ipList() {
+        List<UserVO> userVOList = userMapper.list();
+        List<Map<String,Object>> litMap = new ArrayList<>();
+        for(UserVO user : userVOList){
+            log.info(user.getUsername());
+            Long userId = user.getId();
+            UserLoginLogVO userLoginLogVOList = userMapper.ipList(userId);
+            if (userLoginLogVOList == null) continue;
+//            https://www.ip138.com/iplookup.asp?ip=116.249.112.73&action=2
+            String ip = userLoginLogVOList.getIp();
+            String city = GetIpInfo.getCity(ip);
+            if (city == null) continue;
+
+            System.out.println(city);
+            Integer city1 = city.indexOf("市");
+            Integer city2 = city.indexOf("省");
+            String cityMunicipal = city.substring(city2+1,city1);
+            log.info(cityMunicipal);
+
+            /*
+            * 先将所有城市的人员信息放到map中，然后再遍历一遍，将他们放入list<Map<String,Integer>>中
+            * */
+            Map<String,Integer> map = new HashMap<>();
+            if (!map.containsKey(cityMunicipal)){
+                map.put(cityMunicipal,1);
+            }else {
+                map.put(cityMunicipal,map.get(cityMunicipal)+1);
+            }
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                String mapKey = entry.getKey();
+                Integer mapValue = entry.getValue();
+                Map<String,Object> cityMap = new HashMap<>();
+                cityMap.put("name",mapKey);
+                cityMap.put("value",mapValue);
+                litMap.add(cityMap);
+            }
+        }
+        return litMap;
     }
 
 }

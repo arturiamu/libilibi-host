@@ -181,4 +181,16 @@ public class AdminUserController {
     }
 
 
+    /**
+     * 获取用户最新一次的ip
+     */
+    @GetMapping("/getNewestIp")
+    public Result<List<Map<String, Object>>> getNewestIp(){
+        Result<List<Map<String, Object>>> result = new Result<>();
+        List<Map<String, Object>> ipList = userService.ipList();
+        result.setSuccess(ipList);
+        return result;
+    }
+
+
 }

@@ -70,4 +70,11 @@ public interface UserMapper {
     List<UserLoginLogVO> loginListByUid(Long uid);
 
     int addLoginLog(UserLoginLogVO userLoginLogVO);
+
+    /**
+     * 获取uid最新一次登录ip
+     * @param uid
+     * @return
+     */
+    UserLoginLogVO ipList(Long uid);
 }

@@ -32,7 +32,7 @@ public class AlipayConfig {
         config.alipayPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmNHH3/fDgnlpIm+phzaiN/IWnbqz8fQfms8qOrg1mOhPRC2gFDm/hqs47nfzki/vmvxCfigqp0XlOEyIKP5gxwqMfNSCMqdeLNBMO9RZJcP/r4oN1t7VK20GVQ9+yPu96wcVgH+o1HDEDvlFRVHLtg6hlxUFBf3lv+aqN32zW+ezDTJhZ4aXtVMB+e+AjprBJz99n3/9rTaSfDnjO9enB7bP7BYHhjxQEBzViHFAW6RBulWBMS5VLlE+FjtRuelj0GCfCleSSY7TdXhk2IPCqtPAeLgvtQRl3mWbi4Xzd4savEChBBVS8Qdln+bJk0x5pY9figwgpnap7R/MMyo6TwIDAQAB";
 
         //可设置异步通知接收服务地址（可选）
-        config.notifyUrl = "http://r9yczt.natappfree.cc/pay/callback";
+        config.notifyUrl = "http://adastra.isamumu.cn:9000/pay/callback";
 
         return config;
     }

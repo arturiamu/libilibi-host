@@ -32,7 +32,9 @@ public class LivePool implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.warn("init live pool");
-        new Thread(new Task()).start();
+        Thread thread = new Thread(new Task());
+        thread.setDaemon(true);
+        thread.start();
         log.warn("end live pool");
     }
 
@@ -102,7 +104,8 @@ public class LivePool implements ApplicationRunner {
             }
         }
     }
-    public int getSize(){
+
+    public int getSize() {
         return LIVE_POOL.size();
     }
 }

@@ -1,6 +1,7 @@
 package com.am.adastra.util;
 
 import com.am.adastra.controller.UserController;
+import com.am.adastra.ex.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,10 +56,10 @@ public class EmailUtil {
                 request.getSession().setMaxInactiveInterval(5 * 60);
                 request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);
             }
-            log.info(code);
+            log.warn(code);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new SystemException("操作频繁，请稍后重试");
         }
     }
 }

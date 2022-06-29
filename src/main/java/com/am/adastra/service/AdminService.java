@@ -31,4 +31,8 @@ public interface AdminService {
     Map<String, Object> videoHeat();
 
     void updateAdmin(AdminDTO adminDTO);
+
+    Map<String, Object> viewingPeriod();
+
+    Map<String, Object> numberPersons();
 }

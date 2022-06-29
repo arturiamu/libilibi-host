@@ -131,17 +131,18 @@ public class UserMessageController {
         }
 
         if (messageDTO.getIsAdmin() != null){
+            log.info("管理员发布消息");
             Admin adminServiceLogin = adminService.isLogin(request.getSession());
             if (adminServiceLogin == null) {
                 throw new UserNotLoginException("请先登录");
             }
-
             messageDTO.setSendUserId(adminServiceLogin.getId());
             messageDTO.setSendUserName(adminServiceLogin.getUsername());
             userMessageService.sendMessage(messageDTO);
             result.setSuccess();
             return result;
         }else {
+            log.info("用户间互相发布消息");
             User userServiceLogin = userService.isLogin(request.getSession());
             if (userServiceLogin == null) {
                 throw new UserNotLoginException("请先登录");
@@ -152,7 +153,28 @@ public class UserMessageController {
             result.setSuccess();
             return result;
         }
+    }
 
+    @PostMapping("/sendAll")
+    public Result<Void> sendAll(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
+        log.info("管理员给所有用户发送消息：");
+        Result<Void> result = new Result<>();
+        if (errors.hasErrors()) {
+            throw new ValidException(errors.getFieldError().getDefaultMessage());
+        }
+
+            log.info("管理员发布消息");
+            Admin adminServiceLogin = adminService.isLogin(request.getSession());
+            if (adminServiceLogin == null) {
+                throw new UserNotLoginException("请先登录");
+            }
+            messageDTO.setSendUserId(adminServiceLogin.getId());
+            messageDTO.setSendUserName(adminServiceLogin.getUsername());
+            userMessageService.sendAllMessage(messageDTO);
+            result.setSuccess();
+            return result;
 
     }
+
+
 }

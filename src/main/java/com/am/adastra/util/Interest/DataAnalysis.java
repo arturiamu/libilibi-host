@@ -71,7 +71,6 @@ public class DataAnalysis {
         double[] num = new double[list.size()];
         for (int i = 0; i < num.length; i++) {
             num[i] = cosineSimilarity.check(USER, list.get(i));
-//            System.out.println(num[i]);
         }
 
 //        5.对用户相似度排序，找到相似度排行榜的前5名，并且相似度大于0.5
@@ -91,15 +90,12 @@ public class DataAnalysis {
             P.add(n);
             copyNum[n] = 0;
         }
-        System.out.println("前几名的用户id" + P);
-
 //        6.计算出推荐给用户的视频id
         double[] recommend = new double[USER.length];
         for (int i = 0; i < USER.length; i++) {
             for (int j = 0; j < P.size(); j++) {
                 recommend[i] += (list.get(P.get(j))[i] * num[P.get(j)]);
             }
-            System.out.println(recommend[i]);
         }
 
         //7.将视频排序，推荐前几名的视频id给他
