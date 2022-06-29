@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
             UserDBO userDBO = userMapper.getDBOByUsername(user.getUsername());
             UserCategoryAddDTO userCategoryAddDTO = new UserCategoryAddDTO();
             userCategoryAddDTO.setCategoryName("默认收藏夹");
+            userCategoryAddDTO.setRemarks(null);
             userCategoryAddDTO.setUid(userDBO.getId());
             userCategoryService.add(userCategoryAddDTO);
             log.info("新用户注册：{}", userDBO);

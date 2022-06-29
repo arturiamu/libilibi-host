@@ -31,6 +31,9 @@ public class UserCategoryServiceImpl implements UserCategoryService {
             log.info("重复添加" + userCategory.getCategoryName());
             throw new RepeatException("收藏夹已经存在,重复添加");
         }
+        if (userCategoryAddDTO.getRemarks().isEmpty()) {
+            userCategoryAddDTO.setRemarks(null);
+        }
         return userCategoryMapper.add(userCategoryAddDTO) == 1;
     }
 

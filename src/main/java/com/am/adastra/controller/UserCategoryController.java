@@ -51,7 +51,6 @@ public class UserCategoryController {
         Long userId = user.getId();
         log.info("用户id:" + userId);
         userCategory.setUid(userId);
-
         if (userCategoryService.add(userCategory)) {
             result.setSuccess();
         }
