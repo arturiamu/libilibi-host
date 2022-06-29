@@ -1,10 +1,11 @@
 package com.am.adastra.util;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-
+@Slf4j
 public class GetIpInfo {
 
     public void getIpInfo() {
@@ -13,8 +14,8 @@ public class GetIpInfo {
             String ip = document.selectXpath("/html/body/p[1]/a[1]").get(0).text(); // 通过 Xpath 直接获取了网页里面的内容
             String ipInfo = document.selectXpath("/html/body/p[1]").get(0).text();
             String city = ipInfo.substring(ipInfo.lastIndexOf("来自：") + 3);
-            System.out.println(ip);
-            System.out.println(city);
+            log.info("ip:{}",ip);
+            log.info("city:{}",city);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,8 +29,7 @@ public class GetIpInfo {
             String s = document.toString();
             int ASN = s.indexOf("ASN归属地");
             String substring = s.substring(ASN+9, ASN + 19);
-            System.out.println(userIp + "       "+substring);
-
+            log.info("userIp:{}",substring);
             return substring;
         } catch (IOException e) {
             e.printStackTrace();

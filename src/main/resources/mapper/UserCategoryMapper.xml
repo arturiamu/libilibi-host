@@ -23,8 +23,8 @@
         在数据库中添加新的收藏夹分类
         void add(UserCategoryAddDTO userCategoryAddDTO);-->
     <insert id="add">
-        insert into category(category_name, uid)
-        values (#{categoryName}, #{uid})
+        insert into category(category_name, uid, remarks)
+        values (#{categoryName}, #{uid}, #{remarks})
     </insert>
 
     <update id="clear">
@@ -45,7 +45,7 @@
         通过用户id查询出该用户所有的收藏夹分类
         List<UserCategorySimpleVO> selectById(Integer userId);-->
     <select id="selectById" resultMap="selectByIdMap">
-        select category_name
+        select category_name, remarks
         from category
         where uid = #{uid}
           and state = 'normal'

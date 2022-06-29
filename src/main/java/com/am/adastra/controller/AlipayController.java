@@ -86,11 +86,20 @@ public class AlipayController {
         subject = params.get("subject");
         if (trade_status.equals(tradeStatus)) {
             switch (subject) {
-                case "mouthvip":
+                case "mouthsVip":
                     endVipTime = startVipTime.plusMonths(1); // 目前时间加1个月
                     break;
-                case "halfYearVip":
-                    endVipTime = startVipTime.plusMonths(6);//目前时间加6个月
+                case "quartersVip":
+                    endVipTime = startVipTime.plusMonths(3);//目前时间加6个月
+                    break;
+                case "yearsVip":
+                    endVipTime = startVipTime.plusYears(1);//目前时间加1年
+                    break;
+                case "mouthVip":
+                    endVipTime = startVipTime.plusMonths(1);//目前时间加1年
+                    break;
+                case "quarterVip":
+                    endVipTime = startVipTime.plusMonths(6);//目前时间加1年
                     break;
                 case "yearVip":
                     endVipTime = startVipTime.plusYears(1);//目前时间加1年
@@ -105,8 +114,7 @@ public class AlipayController {
 
         }
 
-
-        System.out.println(params);
+        log.info("请求参数：{}", params);
         // 新版 SDK 不用移除 sign_type
         // params.remove("sign_type");
 
@@ -114,7 +122,7 @@ public class AlipayController {
         boolean signVerified = Factory.Payment.Common().verifyNotify(params);
 
         if (signVerified) { // 验签通过
-            System.out.println("通过验签");
+            log.info("通过验签");
             return success;
         } else { // 验签失败
             return failure;

@@ -1,6 +1,7 @@
 package com.am.adastra.util;
 
 import com.am.adastra.controller.UserController;
+import com.am.adastra.ex.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +59,7 @@ public class EmailUtil {
             log.warn(code);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new SystemException("操作频繁，请稍后重试");
         }
     }
 }

@@ -39,6 +39,7 @@ public class UserCategoryController {
     @PostMapping("/add")
     public Result<Void> add(@RequestBody @Valid UserCategoryAddDTO userCategory, BindingResult errors, HttpServletRequest request) {
         log.info("收藏夹名称---------->{}", userCategory.getCategoryName());
+        log.info("收藏夹描述---------->{}", userCategory.getRemarks());
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             result.setSuccess(Objects.requireNonNull(errors.getFieldError()).getDefaultMessage(), null);
