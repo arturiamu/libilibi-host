@@ -37,11 +37,6 @@ public class InterestRecommendation {
                                         List<UserCollectionSimpleVO> userCollection ,
                                         List<List<Video>> allUserHistory ,
                                         List<List<UserCollectionSimpleVO>> allUserCollection) {
-        log.info("当前用户的历史记录 --> " + userHistory.size());
-        log.info("当前用户的收藏记录 --> " + userCollection.size());
-        log.info("所有用户的历史记录 --> " + allUserHistory.size());
-        log.info("所有用户的收藏记录 --> " + allUserCollection.size());
-
 
 //        1.得到所有的视频大分类id,将所有的视频pid作为键，数组下标作为值，映射到哈希表中
         List<Item> allItem = itemMapper.getAll();
@@ -53,7 +48,6 @@ public class InterestRecommendation {
 
 //        2.得到推荐的大分类pid
         List<Integer> re = dataAnalysis.recommend(pidMap,userHistory, userCollection, allUserHistory, allUserCollection);
-        log.info("分析得到的视频推荐大分类pid" + re.toString());
 
 //        3.将得到的视频大分类id转化为具体的视频pid
         List<Integer> ans = new ArrayList<>();
@@ -65,12 +59,4 @@ public class InterestRecommendation {
         return ans;
 
     }
-
-
-
-
-
-
-
-
 }

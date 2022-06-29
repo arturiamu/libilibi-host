@@ -55,7 +55,7 @@ public class EmailUtil {
                 request.getSession().setMaxInactiveInterval(5 * 60);
                 request.getSession().setAttribute(UserController.VERIFICATION_CODE_SESSION, code);
             }
-            log.info(code);
+            log.warn(code);
             return true;
         } catch (Exception e) {
             return false;

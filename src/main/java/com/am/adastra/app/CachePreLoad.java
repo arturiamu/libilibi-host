@@ -36,13 +36,10 @@ public class CachePreLoad implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-
-        System.out.println("CachePreLoad.run() 缓存预热启动");
-
-
-        new Thread(new Cate()).start();
-
-
+        log.info("CachePreLoad.run() 缓存预热启动");
+        Thread thread = new Thread(new Cate());
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -53,22 +50,18 @@ public class CachePreLoad implements ApplicationRunner {
         @Override
         public void run() {
             while (true) {
-
                 log.info("准备执行收藏夹缓存预热....");
                 that.userCollectionService.preloadCache();
                 log.info("收藏夹缓存预热执行完成....");
-
                 log.info("准备执行历史记录缓存预热....");
                 that.userHistoryService.preloadCache();
                 log.info("历史记录缓存预热执行完成....");
-
                 //线程睡眠10分钟然后重新获取用户的爱好内容
                 try {
                     Thread.sleep(1 * 1000 * 60 * 10);
                 } catch (InterruptedException ignored) {
 
                 }
-
             }
         }
     }

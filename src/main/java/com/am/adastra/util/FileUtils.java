@@ -17,8 +17,6 @@ public class FileUtils {
             while ((len = bufferedReader.read(buf)) != -1) {
                 sb.append(new String(buf, 0, len));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

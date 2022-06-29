@@ -38,11 +38,11 @@ public class AlipayController {
     @ResponseBody
     @ApiOperation("支付")
     @ApiOperationSupport(order = 0)
-    public String toPay(String subject, BigDecimal money,HttpServletRequest request) throws Exception {
+    public String toPay(String subject, BigDecimal money, HttpServletRequest request) throws Exception {
         User user = userService.isLogin(request.getSession());
         long id = user.getId();
-        log.info("登录的用户id为:"+id);
-        String form = alipayService.toPay(subject, money,id);
+        log.info("登录的用户id为:" + id);
+        String form = alipayService.toPay(subject, money, id);
         return form;
     }
 
@@ -59,7 +59,7 @@ public class AlipayController {
         LocalDate startVipTime = LocalDate.now();
         LocalDate endVipTime = null;
 
-        String trade_status ="";
+        String trade_status = "";
         String out_trade_no = "";
         String subject = "";
         String tradeStatus = "TRADE_SUCCESS";
@@ -68,7 +68,7 @@ public class AlipayController {
         // 获取支付宝异步回调信息, 将其转为 Map<String, String>
         Map<String, String> params = new HashMap<>();
         Map<String, String[]> requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = (String) iter.next();
             String[] values = (String[]) requestParams.get(name);
             String valueStr = "";
@@ -84,8 +84,8 @@ public class AlipayController {
         trade_status = params.get("trade_status");
         out_trade_no = params.get("out_trade_no");
         subject = params.get("subject");
-        if (trade_status.equals(tradeStatus)){
-            switch (subject){
+        if (trade_status.equals(tradeStatus)) {
+            switch (subject) {
                 case "mouthvip":
                     endVipTime = startVipTime.plusMonths(1); // 目前时间加1个月
                     break;
@@ -113,10 +113,10 @@ public class AlipayController {
         // 验签
         boolean signVerified = Factory.Payment.Common().verifyNotify(params);
 
-        if(signVerified){ // 验签通过
+        if (signVerified) { // 验签通过
             System.out.println("通过验签");
             return success;
-        }else{ // 验签失败
+        } else { // 验签失败
             return failure;
         }
     }
