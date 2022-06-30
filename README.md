@@ -36,7 +36,7 @@
 - 使用`alipay`沙箱支付实现模拟交易
 - 使用`hutool`实现excel操作数据
 - 使用`knife4j`在线文档协调前后端数据交互
-- 使用`Collaborative Filtering`协同过滤算法，实现兴趣推荐
+- 使用`Collaborative Filtering`使用协同过滤算法，实现兴趣推荐
 
 ## 项目规模
 

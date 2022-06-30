@@ -199,8 +199,10 @@ public class UserServiceImpl implements UserService {
             String city = GetIpInfo.getCity(ip);
             if (city == null) continue;
 
-            Integer city1 = city.indexOf("市");
-            Integer city2 = city.indexOf("省");
+            System.out.println(city);
+
+            Integer city1 = city.indexOf("省");
+            Integer city2 = city.indexOf("国");
             String cityMunicipal = city.substring(city2+2,city1);
             log.info(cityMunicipal);
 
