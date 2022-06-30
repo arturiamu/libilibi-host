@@ -59,9 +59,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdminVO login(Admin admin) {
         AdminVO adminUser = null;
-        try{//当数据库查出多条数据的时候，就捕获异常抛出
+        try {//当数据库查出多条数据的时候，就捕获异常抛出
             adminUser = adminMapper.getByUsername(admin.getUsername());
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new SystemException("用户名重复，请联系管理员");
         }
 
@@ -72,42 +72,44 @@ public class AdminServiceImpl implements AdminService {
         } else {
             if (admin.getPassword().equals(adminUser.getPassword())) {
                 return adminUser;
-            }else {
+            } else {
                 throw new LoginException("密码错误");
             }
         }
     }
 
     /*
-    * 判断用户是否登录
-    * */
+     * 判断用户是否登录
+     * */
     @Override
     public Admin isLogin(HttpSession session) {
-        Admin sessionUser = (Admin) session.getAttribute(AdminController.USER_INFO_SESSION);
-        if (sessionUser == null) {
+        Admin sessionUser = null;
+        try {
+            sessionUser = (Admin) session.getAttribute(AdminController.USER_INFO_SESSION);
+        } catch (Exception e) {
             throw new UserNotLoginException("用户未登录");
         }
         return sessionUser;
     }
 
 
-
     /**
      * 分页查询用户信息
-     * @param cur  第几页
-     * @param pageSize  每页有多少条信息
+     *
+     * @param cur      第几页
+     * @param pageSize 每页有多少条信息
      * @param username
      * @return
      */
     @Override
     public List<UserVO> selectUser(int cur, int pageSize, String username) {
         log.info("分页查询用户信息  selectUser() ---> ");
-        log.info("第几页"+cur);
-        log.info("每页有多少"+pageSize);
+        log.info("第几页" + cur);
+        log.info("每页有多少" + pageSize);
 
-        cur = cur <=1 ? 0 : cur-1;
+        cur = cur <= 1 ? 0 : cur - 1;
         //调用userMapper层查询数据
-        List<UserVO> userList = userMapper.selectPage(cur*pageSize,pageSize,username);
+        List<UserVO> userList = userMapper.selectPage(cur * pageSize, pageSize, username);
 
         log.info("分页查询到的数据 -->" + userList);
         return userList;
@@ -129,12 +131,13 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 改变用户状态
+     *
      * @param uid
      */
     @Override
     public void changeState(Long uid) {
         int ans = userMapper.changeState(uid);
-        if (ans != 1){
+        if (ans != 1) {
             //说明修改失败
             throw new SystemException("修改失败,请稍后再试");
         }
@@ -147,37 +150,38 @@ public class AdminServiceImpl implements AdminService {
         //年（获取当前时间，取到当前的年份）
         Date date = new Date();
         int year = DateUtil.year(date);
-        for (UserVO user : userList){
+        for (UserVO user : userList) {
             Date createTime = user.getCreateTime();
             //如果不是当前年就跳出本次循环
             if (DateUtil.year(createTime) != year) continue;
             //得到月份
             int month = DateUtil.month(createTime);
 
-            if (month>=0 && month<13){
-                q[month] ++ ;
+            if (month >= 0 && month < 13) {
+                q[month]++;
             }
         }
         //纵坐标
-        Map<String , Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("Y", Arrays.asList(q));
         //横坐标
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
-            list.add((1+i)+"月");
+            list.add((1 + i) + "月");
         }
-        map.put("X",list);
+        map.put("X", list);
         //标题
-        map.put("title",year+"年");
+        map.put("title", year + "年");
 
         //用户总人数
-        map.put("totalUsers",userList.size());
+        map.put("totalUsers", userList.size());
 
         return map;
     }
 
     /**
      * 获取21个视频大分类的观看次数，返回给前端
+     *
      * @return
      */
     @Override
@@ -189,9 +193,9 @@ public class AdminServiceImpl implements AdminService {
         //2.找到所有的视频大分类
         List<Item> itemMapper = this.itemMapper.getAll();
         //将视频大分类id（pid）与1，2，3...对应起来
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < itemMapper.size(); i++) {
-            map.put(itemMapper.get(i).getPid(),i);
+            map.put(itemMapper.get(i).getPid(), i);
             itemName.add(itemMapper.get(i).getName());
         }
         int[] items = new int[itemMapper.size()];
@@ -206,7 +210,7 @@ public class AdminServiceImpl implements AdminService {
             for (int j = 0; j < userHistoryVideo.size(); j++) {
                 dailyActivity++;
                 //将对应的观看数据添加到视频大分类pid上
-                items[map.get(userHistoryVideo.get(j).getVideo().getPid())] ++;
+                items[map.get(userHistoryVideo.get(j).getVideo().getPid())]++;
             }
         }
 
@@ -214,17 +218,17 @@ public class AdminServiceImpl implements AdminService {
         String hotVideo = ""; //今日热点视频
         int maxHotVideo = -1;
         for (int i = 0; i < items.length; i++) {
-            if (items[i] > maxHotVideo){
+            if (items[i] > maxHotVideo) {
                 maxHotVideo = items[i];
                 hotVideo = itemName.get(i);
             }
         }
 
 
-        resultMap.put("itemName",itemName);
-        resultMap.put("data",items);
-        resultMap.put("dailyActivity",dailyActivity);
-        resultMap.put("hotVideo",hotVideo);
+        resultMap.put("itemName", itemName);
+        resultMap.put("data", items);
+        resultMap.put("dailyActivity", dailyActivity);
+        resultMap.put("hotVideo", hotVideo);
 
 
         return resultMap;
@@ -233,6 +237,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 修改管理员的个人信息
+     *
      * @param adminDTO
      */
     @Override
@@ -245,6 +250,7 @@ public class AdminServiceImpl implements AdminService {
      * 从00：00 到 23：59
      * 每一个小时作为一个分隔
      * 数据分为3组，今天  一天前  七天前
+     *
      * @return
      */
     @Override
@@ -267,7 +273,7 @@ public class AdminServiceImpl implements AdminService {
                 //得到当前时间
                 LocalDateTime nowTime = LocalDateTime.now();
                 //获取时间差
-                Duration duration = Duration.between(createTime,nowTime);
+                Duration duration = Duration.between(createTime, nowTime);
                 long hours = duration.toHours();//相差的小时数
 //
 //                log.info("历史时间为："+createTime);
@@ -277,40 +283,40 @@ public class AdminServiceImpl implements AdminService {
 //
 //                log.info("----------------------------");
 //
-                if (hours < 24){//说明是今天
+                if (hours < 24) {//说明是今天
                     today[historyHour]++;
                 }
-                if (hours > 24){//说明是一天前
+                if (hours > 24) {//说明是一天前
                     dayBefore[historyHour]++;
                 }
-                if (hours > 24*7){//说明是七天前
+                if (hours > 24 * 7) {//说明是七天前
                     sevenDaysAgo[historyHour]++;
                 }
             }
         }
 
-        map.put("today",today);
-        map.put("dayBefore",dayBefore);
-        map.put("sevenDaysAgo",sevenDaysAgo);
-        map.put("nowTime",LocalDateTime.now());//当前时间
+        map.put("today", today);
+        map.put("dayBefore", dayBefore);
+        map.put("sevenDaysAgo", sevenDaysAgo);
+        map.put("nowTime", LocalDateTime.now());//当前时间
         String[] XTitle = new String[24];//X轴的标题
         for (int i = 0; i < XTitle.length; i++) {
-            if (i<10){
-                XTitle[i] = "0"+i+":00";
-            }else {
-                XTitle[i] = i+":00";
+            if (i < 10) {
+                XTitle[i] = "0" + i + ":00";
+            } else {
+                XTitle[i] = i + ":00";
             }
 
         }
-        map.put("XTitle",XTitle);
+        map.put("XTitle", XTitle);
 
         return map;
     }
 
 
-
     /**
      * 获取各个时间段的访问人数
+     *
      * @return
      */
     @Override
@@ -322,10 +328,10 @@ public class AdminServiceImpl implements AdminService {
 
         //1.获取所有用户的登录信息
         List<UserLoginLogVO> userLoginLogList = userMapper.loginList();
-        for (UserLoginLogVO loginLog : userLoginLogList){
+        for (UserLoginLogVO loginLog : userLoginLogList) {
             //2.遍历所有的登录日志，记录每个时间段的观看人数
             Date logTime = loginLog.getTime();
-            if (logTime == null)continue;
+            if (logTime == null) continue;
 
             Date dateNow = new Date();//得到当前时间
             //计算相差多少个小时
@@ -336,31 +342,31 @@ public class AdminServiceImpl implements AdminService {
             calendarLogTime.setTime(logTime);
             int hourLog = calendarLogTime.get(Calendar.HOUR_OF_DAY);
 
-            if (datePoor < 24){//说明是今天
+            if (datePoor < 24) {//说明是今天
                 today[hourLog]++;
             }
-            if (datePoor > 24){//说明是一天前
+            if (datePoor > 24) {//说明是一天前
                 dayBefore[hourLog]++;
             }
-            if (datePoor > 24*7){//说明是七天前
+            if (datePoor > 24 * 7) {//说明是七天前
                 sevenDaysAgo[hourLog]++;
             }
         }
 
-        map.put("today",today);
-        map.put("dayBefore",dayBefore);
-        map.put("sevenDaysAgo",sevenDaysAgo);
-        map.put("nowTime",LocalDateTime.now());//当前时间
+        map.put("today", today);
+        map.put("dayBefore", dayBefore);
+        map.put("sevenDaysAgo", sevenDaysAgo);
+        map.put("nowTime", LocalDateTime.now());//当前时间
         String[] XTitle = new String[24];//X轴的标题
         for (int i = 0; i < XTitle.length; i++) {
-            if (i<10){
-                XTitle[i] = "0"+i+":00";
-            }else {
-                XTitle[i] = i+":00";
+            if (i < 10) {
+                XTitle[i] = "0" + i + ":00";
+            } else {
+                XTitle[i] = i + ":00";
             }
 
         }
-        map.put("XTitle",XTitle);
+        map.put("XTitle", XTitle);
 
         return map;
     }
