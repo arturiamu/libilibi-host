@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         if (!getUser.getPassword().equals(DigestUtils.md5Hex(user.getPassword()))) {
             throw new LoginException("密码错误");
         }
-        if ( ! "normal".equals(getUser.getState())){
+        if (!"normal".equals(getUser.getState())) {
             throw new LoginException("该账户已冻结，请联系管理员");
         }
         UserLoginLogVO userLoginLogVO = new UserLoginLogVO();
@@ -184,12 +184,13 @@ public class UserServiceImpl implements UserService {
     public int addLoginLog(UserLoginLogVO userLoginLogVO) {
         return userMapper.addLoginLog(userLoginLogVO);
     }
+
     @Override
-    public List<Map<String,Object>> ipList() {
+    public List<Map<String, Object>> ipList() {
         List<UserVO> userVOList = userMapper.list();
-        List<Map<String,Object>> litMap = new ArrayList<>();
-        Map<String,Integer> map = new HashMap<>();
-        for(UserVO user : userVOList){
+        List<Map<String, Object>> litMap = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for (UserVO user : userVOList) {
             log.info(user.getUsername());
             Long userId = user.getId();
             UserLoginLogVO userLoginLogVOList = userMapper.ipList(userId);
@@ -200,26 +201,26 @@ public class UserServiceImpl implements UserService {
             if (city == null) continue;
             Integer city1 = city.indexOf("省");
             Integer city2 = city.indexOf("国");
-            if (city1 == -1 || city2==-1)continue;
-            String cityMunicipal = city.substring(city2+2,city1);
+            if (city1 == -1 || city2 == -1) continue;
+            String cityMunicipal = city.substring(city2 + 2, city1);
             log.info(cityMunicipal);
 
             /*
-            * 先将所有城市的人员信息放到map中，然后再遍历一遍，将他们放入list<Map<String,Integer>>中
-            * */
-            if (!map.containsKey(cityMunicipal)){
-                map.put(cityMunicipal,1);
-            }else {
-                map.put(cityMunicipal,map.get(cityMunicipal)+1);
+             * 先将所有城市的人员信息放到map中，然后再遍历一遍，将他们放入list<Map<String,Integer>>中
+             * */
+            if (!map.containsKey(cityMunicipal)) {
+                map.put(cityMunicipal, 1);
+            } else {
+                map.put(cityMunicipal, map.get(cityMunicipal) + 1);
             }
 
         }
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             String mapKey = entry.getKey();
             Integer mapValue = entry.getValue();
-            Map<String,Object> cityMap = new HashMap<>();
-            cityMap.put("name",mapKey);
-            cityMap.put("value",mapValue);
+            Map<String, Object> cityMap = new HashMap<>();
+            cityMap.put("name", mapKey);
+            cityMap.put("value", mapValue);
             litMap.add(cityMap);
         }
 
