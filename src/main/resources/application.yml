@@ -78,7 +78,7 @@ logging:
   level:
     com:
       am:
-        adastra: warn
+        adastra: info
 knife4j:
   enable: true
 

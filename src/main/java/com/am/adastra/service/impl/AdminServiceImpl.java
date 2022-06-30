@@ -85,7 +85,7 @@ public class AdminServiceImpl implements AdminService {
     public Admin isLogin(HttpSession session) {
         Admin sessionUser = (Admin) session.getAttribute(AdminController.USER_INFO_SESSION);
         if (sessionUser == null) {
-            throw new UserNotLoginException("用户未登录");
+            throw new UserNotLoginException("管理员未登录");
         }
         return sessionUser;
     }
