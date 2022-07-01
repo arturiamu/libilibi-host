@@ -178,6 +178,61 @@ public class AdminServiceImpl implements AdminService {
         return map;
     }
 
+
+    /**
+     * 获取某个用户21个视频大分类的观看次数，返回给前端
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Object> videoHeatUser(Long uid) {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<String> itemName = new ArrayList<>();
+
+        //2.找到所有的视频大分类
+        List<Item> itemMapper = this.itemMapper.getAll();
+        //将视频大分类id（pid）与1，2，3...对应起来
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < itemMapper.size(); i++) {
+            map.put(itemMapper.get(i).getPid(), i);
+            itemName.add(itemMapper.get(i).getName());
+        }
+        int[] items = new int[itemMapper.size()];
+        Long dailyActivity = 0L;//日活跃量  今日所有用户观看的视频数量
+
+        //3.查询这些用户观看的视频数据，将对应的观看数据添加到视频大分类pid上
+
+        Long id = uid;
+        //得到当前用户所有的历史记录
+        List<UserHistorySimpleVO> userHistoryVideo = userHistoryMapper.getLimit(id, 1000);
+//            List<Video> userHistoryServiceAll = userHistoryService.getAll(id);
+        for (int j = 0; j < userHistoryVideo.size(); j++) {
+            dailyActivity++;
+            //将对应的观看数据添加到视频大分类pid上
+            items[map.get(userHistoryVideo.get(j).getVideo().getPid())]++;
+        }
+
+
+        //4.获取今日热点视频大分类的名字
+        String hotVideo = ""; //今日热点视频
+        int maxHotVideo = -1;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] > maxHotVideo) {
+                maxHotVideo = items[i];
+                hotVideo = itemName.get(i);
+            }
+        }
+
+
+        resultMap.put("itemName", itemName);
+        resultMap.put("data", items);
+        resultMap.put("dailyActivity", dailyActivity);
+        resultMap.put("hotVideo", hotVideo);
+
+
+        return resultMap;
+    }
+
     /**
      * 获取21个视频大分类的观看次数，返回给前端
      *

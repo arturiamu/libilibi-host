@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,6 +74,25 @@ public class EchartsController {
         Result<Map<String,Object>> result = new Result<>();
 
         Map<String,Object> map = adminService.videoHeat();
+
+        result.setSuccess(map);
+
+        return result;
+    }
+
+    /**
+     * 获取21个视频大分类的观看次数，返回给前端
+     */
+    @ApiOperation("获取21个视频大分类的观看次数")
+    @ApiOperationSupport(order = 5)
+    @GetMapping("/videoHeatUser")
+    public Result<Map<String,Object>> videoHeatUser(HttpServletRequest request){
+        Result<Map<String,Object>> result = new Result<>();
+
+        //  获取当前用户的用户 id
+        User user = userService.isLogin(request.getSession());
+        Long uid = user.getId();
+        Map<String,Object> map = adminService.videoHeatUser(uid);
 
         result.setSuccess(map);
 

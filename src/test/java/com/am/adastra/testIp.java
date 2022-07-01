@@ -14,7 +14,7 @@ public class testIp {
     UserService userService;
 
     public static void main(String[] args) {
-        String ip = "106.61.26.157";
+        String ip = "112.6.117.135";
         String city = GetIpInfo.getCity(ip);
 
         System.out.println(city);
