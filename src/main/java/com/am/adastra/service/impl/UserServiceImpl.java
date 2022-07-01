@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
             UserDBO userDBO = userMapper.getDBOByUsername(user.getUsername());
             UserCategoryAddDTO userCategoryAddDTO = new UserCategoryAddDTO();
             userCategoryAddDTO.setCategoryName("默认收藏夹");
+            userCategoryAddDTO.setRemarks(null);
             userCategoryAddDTO.setUid(userDBO.getId());
             userCategoryService.add(userCategoryAddDTO);
             log.info("新用户注册：{}", userDBO);
@@ -187,6 +188,7 @@ public class UserServiceImpl implements UserService {
     public List<Map<String,Object>> ipList() {
         List<UserVO> userVOList = userMapper.list();
         List<Map<String,Object>> litMap = new ArrayList<>();
+        Map<String,Integer> map = new HashMap<>();
         for(UserVO user : userVOList){
             log.info(user.getUsername());
             Long userId = user.getId();
@@ -197,30 +199,30 @@ public class UserServiceImpl implements UserService {
             String city = GetIpInfo.getCity(ip);
             if (city == null) continue;
 
-            System.out.println(city);
-            Integer city1 = city.indexOf("市");
-            Integer city2 = city.indexOf("省");
-            String cityMunicipal = city.substring(city2+1,city1);
+            Integer city1 = city.indexOf("省");
+            Integer city2 = city.indexOf("国");
+            String cityMunicipal = city.substring(city2+2,city1);
             log.info(cityMunicipal);
 
             /*
             * 先将所有城市的人员信息放到map中，然后再遍历一遍，将他们放入list<Map<String,Integer>>中
             * */
-            Map<String,Integer> map = new HashMap<>();
             if (!map.containsKey(cityMunicipal)){
                 map.put(cityMunicipal,1);
             }else {
                 map.put(cityMunicipal,map.get(cityMunicipal)+1);
             }
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                String mapKey = entry.getKey();
-                Integer mapValue = entry.getValue();
-                Map<String,Object> cityMap = new HashMap<>();
-                cityMap.put("name",mapKey);
-                cityMap.put("value",mapValue);
-                litMap.add(cityMap);
-            }
+
         }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String mapKey = entry.getKey();
+            Integer mapValue = entry.getValue();
+            Map<String,Object> cityMap = new HashMap<>();
+            cityMap.put("name",mapKey);
+            cityMap.put("value",mapValue);
+            litMap.add(cityMap);
+        }
+
         return litMap;
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 public class UserInterestRecommendServiceImpl implements UserInterestRecommendService {
     @Autowired
     UserMapper userMapper;
-//    @Autowired
+    //    @Autowired
 //    UserHistoryMapper historyMapper;
 //    @Autowired(required = false)
 //    UserCollectionMapper collectionMapper;
@@ -37,7 +37,7 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
 
 
     @Override
-    public Result<List<Video>> list(Long uid,int number) {
+    public Result<List<Video>> list(Long uid, int number) {
         Result<List<Video>> result = new Result<>();
 
 //        1.找到该用户的历史记录和收藏记录的大分类pid
@@ -67,15 +67,19 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
         log.info("获取到的视频大分类id为" + integers.toString());
 
 //        5.从获取到的视频大分类pid中随机取出具体的视频aid，并查询该条视频的详细信息
-        int avg = number / integers.size();//平均每个视频分类中取多少条数据
+        int idx = integers.size();
+        if (idx == 0) {
+            idx++;
+        }
+        int avg = number / idx;//平均每个视频分类中取多少条数据
         List<Video> videoList = new ArrayList<>();
-        for (int i =integers.size()-1 ; i >= 0; i--) {
-            List<Video> voides ;
-            if (i == 0){
-                    voides = videoPool.getPidVideo(integers.get(i),number - videoList.size());
+        for (int i = integers.size() - 1; i >= 0; i--) {
+            List<Video> voides;
+            if (i == 0) {
+                voides = videoPool.getPidVideo(integers.get(i), number - videoList.size());
 //                videoList .addAll(videoPool.getPidVideo(integers.get(i),number - videoList.size()));
-            }else {
-                    voides = videoPool.getPidVideo(integers.get(i),avg);
+            } else {
+                voides = videoPool.getPidVideo(integers.get(i), avg);
 //                videoList .addAll(videoPool.getPidVideo(integers.get(i),avg));
             }
             log.info("当前获取的视频" + voides.size());

@@ -25,10 +25,13 @@ public class GetIpInfo {
     public static String getCity(String userIp) {
         if ("127.0.0.1".equals(userIp))return null;
         try {
-            Document document = Jsoup.connect("https://www.ip138.com/iplookup.asp?ip="+userIp+"&action=2").get();
+            Document document = Jsoup.connect("https://www.ip.cn/ip/"+userIp+".html").get();
             String s = document.toString();
-            int ASN = s.indexOf("ASN归属地");
-            String substring = s.substring(ASN+9, ASN + 19);
+
+//            System.out.println("HTML" + s);
+
+            int ASN = s.indexOf("tab0_address");
+            String substring = s.substring(ASN+15, ASN + 40);
             log.info("userIp:{}",substring);
             return substring;
         } catch (IOException e) {

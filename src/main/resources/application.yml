@@ -13,7 +13,6 @@ spring:
     deserialization:
       fail_on_unknown_properties: false
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: teacher
     password: teacher
