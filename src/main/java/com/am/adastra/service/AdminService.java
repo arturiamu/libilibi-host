@@ -30,6 +30,8 @@ public interface AdminService {
 
     Map<String, Object> videoHeat();
 
+    Map<String, Object> videoHeatUser(Long uid);
+
     void updateAdmin(AdminDTO adminDTO);
 
     Map<String, Object> viewingPeriod();
