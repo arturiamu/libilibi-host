@@ -28,8 +28,6 @@ public class GetIpInfo {
             Document document = Jsoup.connect("https://www.ip.cn/ip/"+userIp+".html").get();
             String s = document.toString();
 
-//            System.out.println("HTML" + s);
-
             int ASN = s.indexOf("tab0_address");
             String substring = s.substring(ASN+15, ASN + 40);
             log.info("userIp:{}",substring);

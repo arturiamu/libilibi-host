@@ -5,7 +5,6 @@ import com.am.adastra.controller.Admin.AdminController;
 import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.UserDBO;
-import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
 import com.am.adastra.entity.vo.UserHistorySimpleVO;
@@ -85,7 +84,7 @@ public class AdminServiceImpl implements AdminService {
     public Admin isLogin(HttpSession session) {
         Admin sessionUser = null;
         try {
-            sessionUser = (Admin) session.getAttribute(AdminController.USER_INFO_SESSION);
+            sessionUser = (Admin) session.getAttribute(AdminController.ADMIN_INFO_SESSION);
         } catch (Exception e) {
             throw new UserNotLoginException("用户未登录");
         }
