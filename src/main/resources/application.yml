@@ -81,7 +81,10 @@ logging:
   level:
     com:
       am:
-        adastra: info
+        adastra: warn
+auto_update:
+  cache: 10
+  live: 60
 knife4j:
   enable: true
 

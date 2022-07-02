@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.util.HttpClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.http.HttpMethod;
@@ -26,6 +27,8 @@ public class LivePool implements ApplicationRunner {
 
     private static final String JSON_BIRD_V1 = "https://bird.ioliu.cn/v1";
     private static final String JSON_BIRD_V2 = "https://bird.ioliu.cn/v2";
+    @Value("${auto_update.cache}")
+    private static int live_update;
     private static final String BL_URL = "https://api.live.bilibili.com/xlive/web-interface/v1/webMain/getMoreRecList?platform=web";
     private static final List<String> LIVE_POOL = new ArrayList<>();
 
@@ -96,8 +99,7 @@ public class LivePool implements ApplicationRunner {
                     }
                 }
                 try {
-                    int i = new Random().nextInt(80) + 10;
-                    Thread.sleep(i * 60 * 1000);
+                    Thread.sleep((long) live_update * 60 * 1000);
                 } catch (InterruptedException ignored) {
 
                 }

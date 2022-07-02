@@ -4,6 +4,7 @@ import com.am.adastra.service.UserCollectionService;
 import com.am.adastra.service.UserHistoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,8 @@ import java.util.Random;
 @Component
 @Slf4j
 public class CachePreLoad implements ApplicationRunner {
+    @Value("${auto_update.cache}")
+    private static int cache_update;
     @Autowired
     UserCollectionService userCollectionService;
     @Autowired
@@ -61,7 +64,7 @@ public class CachePreLoad implements ApplicationRunner {
                 VideoPool.CACHE = true;
                 //线程睡眠10分钟然后重新获取用户的爱好内容
                 try {
-                    Thread.sleep(1 * 1000 * 60 * 10);
+                    Thread.sleep(1 * 1000 * 60 * cache_update);
                 } catch (InterruptedException ignored) {
 
                 }
