@@ -13,12 +13,12 @@ spring:
     deserialization:
       fail_on_unknown_properties: false
   datasource:
-#    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-#    username: teacher
-#    password: teacher
-    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: rootmlb
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: teacher
+    password: teacher
+#    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: localhost
@@ -81,7 +81,7 @@ logging:
   level:
     com:
       am:
-        adastra: warn
+        adastra: info
 knife4j:
   enable: true
 

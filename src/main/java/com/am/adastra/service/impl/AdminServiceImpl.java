@@ -255,6 +255,8 @@ public class AdminServiceImpl implements AdminService {
         int[] items = new int[itemMapper.size()];
         Long dailyActivity = 0L;//日活跃量  今日所有用户观看的视频数量
 
+        log.info("所有用户" + allUser.toString());
+
         //3.查询这些用户观看的视频数据，将对应的观看数据添加到视频大分类pid上
         for (int i = 0; i < allUser.size(); i++) {
             Long id = allUser.get(i).getId();
@@ -265,6 +267,9 @@ public class AdminServiceImpl implements AdminService {
                 dailyActivity++;
                 //将对应的观看数据添加到视频大分类pid上
                 items[map.get(userHistoryVideo.get(j).getVideo().getPid())]++;
+
+                log.info("当前用户ID ： " + id);
+                log.info(userHistoryVideo.get(j).getVideo().getTname() + "的数量为： " + items[map.get(userHistoryVideo.get(j).getVideo().getPid())]);
             }
         }
 

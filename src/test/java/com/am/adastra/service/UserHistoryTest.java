@@ -16,7 +16,7 @@ public class UserHistoryTest {
 
     @Test
     public void getAllTest(){
-        long uid = 11;
+        long uid = 2;
         List<Video> videoList = userHistoryService.getAll(uid);
         for (int i = 0; i < videoList.size(); i++) {
             log.info(videoList.get(i).toString());

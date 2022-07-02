@@ -37,9 +37,9 @@ public class CachePreLoad implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         log.info("CachePreLoad.run() 缓存预热启动");
-        Thread thread = new Thread(new Cate());
-        thread.setDaemon(true);
-        thread.start();
+//        Thread thread = new Thread(new Cate());
+//        thread.setDaemon(true);
+//        thread.start();
     }
 
     /**
@@ -58,12 +58,15 @@ public class CachePreLoad implements ApplicationRunner {
                 that.userHistoryService.preloadCache();
                 log.info("历史记录缓存预热执行完成....");
                 log.warn("end load cache");
-                //线程睡眠10分钟然后重新获取用户的爱好内容
-                try {
-                    Thread.sleep(1 * 1000 * 60 * 10);
-                } catch (InterruptedException ignored) {
 
-                }
+
+                log.error("11111111111111111111111111111111111111111111111111111111111111111111");
+                //线程睡眠10分钟然后重新获取用户的爱好内容
+//                try {
+//                    Thread.sleep(1 * 1000 * 60 * 10);
+//                } catch (InterruptedException ignored) {
+//
+//                }
             }
         }
     }
