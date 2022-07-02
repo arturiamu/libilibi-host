@@ -26,7 +26,7 @@ public interface AdminService {
 
     void changeState(Long uid);
 
-    Map<String ,Object> members();
+    Map<String, Object> members();
 
     Map<String, Object> videoHeat();
 

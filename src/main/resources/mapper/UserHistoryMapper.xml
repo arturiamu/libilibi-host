@@ -47,6 +47,18 @@
         where uid = #{uid}
     </update>
 
+
+    <select id="getLimitAdmin" resultMap="getLimitMap">
+        SELECT
+        <include refid="getLimitFields"/>
+        FROM history
+        JOIN videos ON history.aid = videos.aid
+        WHERE uid = #{uid}
+        order by create_time desc
+        limit 0,#{ps}
+    </select>
+
+
     <select id="getLimit" resultMap="getLimitMap">
         SELECT
         <include refid="getLimitFields"/>

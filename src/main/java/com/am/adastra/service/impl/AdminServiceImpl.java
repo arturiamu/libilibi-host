@@ -261,7 +261,7 @@ public class AdminServiceImpl implements AdminService {
         for (int i = 0; i < allUser.size(); i++) {
             Long id = allUser.get(i).getId();
             //得到当前用户所有的历史记录
-            List<UserHistorySimpleVO> userHistoryVideo = userHistoryMapper.getLimit(id, 1000);
+            List<UserHistorySimpleVO> userHistoryVideo = userHistoryMapper.getLimitAdmin(id, 1000);
 //            List<Video> userHistoryServiceAll = userHistoryService.getAll(id);
             for (int j = 0; j < userHistoryVideo.size(); j++) {
                 dailyActivity++;

@@ -38,7 +38,7 @@ public class CachePreLoad implements ApplicationRunner {
 
         log.info("CachePreLoad.run() 缓存预热启动");
         Thread thread = new Thread(new Cate());
-        thread.setDaemon(true);
+        thread.setDaemon(true);//设置为守护线程
         thread.start();
     }
 

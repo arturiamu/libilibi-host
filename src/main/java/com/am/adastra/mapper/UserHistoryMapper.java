@@ -24,6 +24,8 @@ public interface UserHistoryMapper {
 
     List<UserHistorySimpleVO> getLimit(Long uid, Integer ps);
 
+    List<UserHistorySimpleVO> getLimitAdmin(Long uid, Integer ps);
+
     int add(VideoOperateDTO videoOperateDTO);
 
     int del(Long id);  // 真实删除
@@ -33,4 +35,6 @@ public interface UserHistoryMapper {
     int fakeDel(Long id);  // 真实删除
 
     int fakeClear(Long uid);  //   真实清空
+
+
 }
