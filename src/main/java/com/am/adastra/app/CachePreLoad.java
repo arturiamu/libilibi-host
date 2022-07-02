@@ -37,9 +37,9 @@ public class CachePreLoad implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         log.info("CachePreLoad.run() 缓存预热启动");
-//        Thread thread = new Thread(new Cate());
-//        thread.setDaemon(true);
-//        thread.start();
+        Thread thread = new Thread(new Cate());
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -51,22 +51,20 @@ public class CachePreLoad implements ApplicationRunner {
         public void run() {
             while (true) {
                 log.warn("start load cache");
-                log.info("准备执行收藏夹缓存预热....");
+                log.warn("准备执行收藏夹缓存预热....");
                 that.userCollectionService.preloadCache();
-                log.info("收藏夹缓存预热执行完成....");
-                log.info("准备执行历史记录缓存预热....");
+                log.warn("收藏夹缓存预热执行完成....");
+                log.warn("准备执行历史记录缓存预热....");
                 that.userHistoryService.preloadCache();
-                log.info("历史记录缓存预热执行完成....");
+                log.warn("历史记录缓存预热执行完成....");
                 log.warn("end load cache");
-
-
-                log.error("11111111111111111111111111111111111111111111111111111111111111111111");
+                VideoPool.CACHE = true;
                 //线程睡眠10分钟然后重新获取用户的爱好内容
-//                try {
-//                    Thread.sleep(1 * 1000 * 60 * 10);
-//                } catch (InterruptedException ignored) {
-//
-//                }
+                try {
+                    Thread.sleep(1 * 1000 * 60 * 10);
+                } catch (InterruptedException ignored) {
+
+                }
             }
         }
     }

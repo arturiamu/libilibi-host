@@ -37,13 +37,14 @@ public class UserHistoryServiceImpl implements UserHistoryService {
 
     /**
      * 通过用户id获取该用户所有的历史记录
+     *
      * @param uid
      * @return
      */
     public List<Video> getAll(Long uid) {
         //1.先判断该用户的历史记录是否在缓存中
         Boolean exists = userHistoryRedisRepository.exists(uid);
-        if (exists){
+        if (exists) {
             //用户的历史在缓存中
             //查询用户的历史记录，然后返回
             List<Video> videoList = userHistoryRedisRepository.getHistoryByUid(uid);
@@ -51,7 +52,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         }
         //2.历史记录不在缓存中，我们直接从mapper中调用方法获取，然后添加到缓存中
         List<Video> userHistory = userHistoryMapper.getAll(uid);
-        userHistoryRedisRepository.save(uid,userHistory);
+        userHistoryRedisRepository.save(uid, userHistory);
         return userHistory;
     }
 
@@ -109,8 +110,9 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         //2.2通过所有用户的uid将他们的收藏记录写入到缓存中
         for (UserVO user : userList) {
             Long uid = user.getId();
+            log.info("当前用户id:{}", uid);
             List<Video> userHistory = userHistoryMapper.getAll(uid);
-            userHistoryRedisRepository.save(user.getId(),userHistory);
+            userHistoryRedisRepository.save(user.getId(), userHistory);
         }
         log.info("添加用户历史到缓存完成");
     }

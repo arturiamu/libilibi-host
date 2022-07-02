@@ -40,7 +40,7 @@ public class UserInterestRecommendController {
     @GetMapping("/{ps}")
     public Result<List<Video>> interest(@PathVariable int ps, HttpServletRequest request, HttpServletResponse response) {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
-        if (sessionUser == null) {
+        if (sessionUser == null || !VideoPool.CACHE) {
             log.info("用户未登录");
             List<Video> videoList = VideoPool.getRandom(ps);
             Result<List<Video>> result = new Result<>();

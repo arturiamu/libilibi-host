@@ -44,6 +44,7 @@ public class VideoPool implements ApplicationRunner {
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
     public static final List<Item> items = new ArrayList<>();
     public static final List<String> DEFAULT_AVATAR = new ArrayList<>();
+    public static boolean CACHE = false;
 
     @PostConstruct
     public void init() {

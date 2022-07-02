@@ -19,7 +19,7 @@ public class UserHistoryTest {
         long uid = 2;
         List<Video> videoList = userHistoryService.getAll(uid);
         for (int i = 0; i < videoList.size(); i++) {
-            log.info(videoList.get(i).toString());
+            log.warn(videoList.get(i).toString());
         }
 
     }
