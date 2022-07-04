@@ -3,6 +3,7 @@ package com.am.adastra.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.dto.UpdatePwdDTO;
 import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.param.ValidationRules;
@@ -12,10 +13,8 @@ import com.am.adastra.ex.ValidException;
 import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
-import com.am.adastra.util.EmailUtil;
-import com.am.adastra.util.IPUtil;
-import com.am.adastra.util.Result;
-import com.am.adastra.util.SMSUtil;
+import com.am.adastra.util.*;
+import com.am.adastra.util.wx.JwtUtils;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -205,5 +204,21 @@ public class UserController {
         User getUser = userService.updateDBO(sessionUser, user);
         result.setSuccess(getUser);
         return result;
+    }
+
+
+    @ApiOperation(value = "根据token获取登录信息")
+    @GetMapping("/auth/getLoginInfo")
+    public Result<User> getLoginInfo(HttpServletRequest request){
+        try {
+            String memberId = JwtUtils.getMemberIdByJwtToken(request);
+            UserDBO loginInfoVo = userMapper.getDBOByAccount(memberId);
+            Result<User> result = new Result<>();
+            request.getSession().setAttribute(USER_INFO_SESSION, POJOUtils.DBToUser(loginInfoVo));
+            result.setSuccess(POJOUtils.DBToUser(loginInfoVo));
+            return result;
+        }catch (Exception e){
+            throw new ValidException("微信登录错误");
+        }
     }
 }

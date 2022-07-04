@@ -9,6 +9,7 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.util.wx.ConstantPropertiesUtil;
 import com.am.adastra.util.wx.HttpClientUtils;
+import com.am.adastra.util.wx.JwtUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import io.swagger.annotations.Api;
@@ -55,7 +56,7 @@ public class WXController {
 
     @ApiOperation("微信登录回调")
     @GetMapping("callback")
-    public String callback(String code, String state,HttpServletRequest request) {
+    public String callback(String code, String state) {
 
         //得到授权临时票据code
         log.info(code);
@@ -88,6 +89,7 @@ public class WXController {
         HashMap map = gson.fromJson(result, HashMap.class);
         String accessToken = (String) map.get("access_token");
         String openid = (String) map.get("openid");
+        String jwtToken= null;
         try {
             //查询数据库当前用用户是否曾经使用过微信登录
             UserDBO userDBO = userMapper.getDBOByAccount(openid);
@@ -119,9 +121,11 @@ public class WXController {
                 User wxuser = userService.register(user);
                 avatarMapper.addAvatar(wxuser.getId(), headimgurl);
             }
+            //TODO 登录  使用jwt进行生成token字符串
             UserDBO user = userMapper.getDBOByAccount(openid);
-            request.getSession().setAttribute(UserController.USER_INFO_SESSION, POJOUtils.DBToUser(user));
-            return "redirect:" + CALL_BACK;
+            jwtToken = JwtUtils.getJwtToken(user.getAccount(),user.getUsername());
+//            request.getSession().setAttribute(UserController.USER_INFO_SESSION, POJOUtils.DBToUser(user));
+            return "redirect:" + CALL_BACK+"?token="+jwtToken;
         } catch (JsonSyntaxException e) {
             throw new SystemException("系统繁忙，请稍后重试");
         }
