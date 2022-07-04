@@ -41,8 +41,8 @@ import java.util.HashMap;
 public class WXController {
 
 //    private static final String CALL_BACK = "http://10.1.188.121:8080";
-//    private static final String CALL_BACK = "redirect:http://localhost:8080";
-    private static final String CALL_BACK = "redirect:http://adastra.isamumu.cn:8080";
+    private static final String CALL_BACK = "http://adastra.isamumu.cn:8080";
+//    private static final String CALL_BACK = "http://localhost:8080";
 
     @Resource
     private AvatarMapper avatarMapper;
@@ -165,6 +165,8 @@ public class WXController {
                 ConstantPropertiesUtil.WX_OPEN_APP_ID,
                 redirectUrl,
                 state);
+
+        System.out.println(qrcodeUrl);
 
         return "redirect:" + qrcodeUrl;
 //        return qrcodeUrl;

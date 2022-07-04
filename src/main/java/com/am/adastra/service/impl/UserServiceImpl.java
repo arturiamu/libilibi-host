@@ -18,7 +18,6 @@ import com.am.adastra.service.UserService;
 import com.am.adastra.util.GetIpInfo;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.app.VideoPool;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;

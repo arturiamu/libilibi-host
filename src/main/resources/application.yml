@@ -62,7 +62,7 @@ sms:
     sign: isamumu
   size: 6
 alipay:
-  call_back: http://adastra.isamumu.cn:9000/pay/callback
+  call_back: http://adastra.isamumu.cn:8160/pay/callback
 aliyun:
   oss:
     file:
@@ -90,6 +90,7 @@ wx:
   open:
     app_id: wxed9954c01bb89b47
     app_secret: a7482517235173ddb4083788de60b90e
-    redirect_url: http://localhost:8160/api/ucenter/wx/callback
+    redirect_url: http://adastra.isamumu.cn:8160/api/ucenter/wx/callback
+#    redirect_url: http://localhost:8160/api/ucenter/wx/callback
 
 
