@@ -1,11 +1,14 @@
 package com.am.adastra.controller;
 
+import com.am.adastra.app.VideoPool;
 import com.am.adastra.entity.User;
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.service.UserLikeService;
 import com.am.adastra.service.UserService;
+import com.am.adastra.util.BinarySearch;
 import com.am.adastra.util.Result;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
@@ -41,7 +44,7 @@ public class UserLikeController {
     @ApiOperationSupport(order = 0)
     @PostMapping("/add")
     public Result<Void> addLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info("add like {}",videoOperateDTO);
+        log.info("add like {}", videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
@@ -52,6 +55,9 @@ public class UserLikeController {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         videoOperateDTO.setUid(sessionUser.getId());
         userLikeService.addLike(videoOperateDTO);
+        int indexPid = VideoPool.indexPid(videoOperateDTO.getPid());
+        Video video = BinarySearch.GetVideo(indexPid, Long.valueOf(videoOperateDTO.getAid()));
+        video.setLike(video.getLike() + 1);
         result.setSuccess("添加成功", null);
         return result;
     }
@@ -60,7 +66,7 @@ public class UserLikeController {
     @ApiOperationSupport(order = 5)
     @PostMapping("/cancel")
     public Result<Void> cancelLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info("unlike {}",videoOperateDTO);
+        log.info("unlike {}", videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());
@@ -71,6 +77,9 @@ public class UserLikeController {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
         videoOperateDTO.setUid(sessionUser.getId());
         userLikeService.cancelLike(videoOperateDTO);
+        int indexPid = VideoPool.indexPid(videoOperateDTO.getPid());
+        Video video = BinarySearch.GetVideo(indexPid, Long.valueOf(videoOperateDTO.getAid()));
+        video.setLike(video.getLike() - 1);
         result.setSuccess("取消成功", null);
         return result;
     }
@@ -79,7 +88,7 @@ public class UserLikeController {
     @ApiOperationSupport(order = 10)
     @PostMapping("/isLike")
     public Result<Void> isLike(@RequestBody @Valid VideoOperateDTO videoOperateDTO, BindingResult errors, HttpServletRequest request) {
-        log.info("isLike {}",videoOperateDTO);
+        log.info("isLike {}", videoOperateDTO);
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {
             throw new ValidException(errors.getFieldError().getDefaultMessage());

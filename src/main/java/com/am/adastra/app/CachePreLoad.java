@@ -20,8 +20,7 @@ import java.util.Random;
 @Component
 @Slf4j
 public class CachePreLoad implements ApplicationRunner {
-    @Value("${auto_update.cache}")
-    private static int cache_update;
+    private static final int cache_update = 10;
     @Autowired
     UserCollectionService userCollectionService;
     @Autowired
@@ -52,6 +51,7 @@ public class CachePreLoad implements ApplicationRunner {
 
         @Override
         public void run() {
+            log.warn("thread sleep:{}",cache_update);
             while (true) {
                 log.warn("start load cache");
                 log.warn("准备执行收藏夹缓存预热....");
@@ -62,9 +62,9 @@ public class CachePreLoad implements ApplicationRunner {
                 log.warn("历史记录缓存预热执行完成....");
                 log.warn("end load cache");
                 VideoPool.CACHE = true;
-                //线程睡眠10分钟然后重新获取用户的爱好内容
                 try {
-                    Thread.sleep(1 * 1000 * 60 * cache_update);
+                    Thread.sleep(1000L * 60 * cache_update);
+                    log.warn("thread sleep:{}",1000L * 60 * cache_update);
                 } catch (InterruptedException ignored) {
 
                 }

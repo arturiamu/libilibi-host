@@ -1,5 +1,7 @@
 package com.am.adastra.service.impl;
 
+import com.am.adastra.app.VideoPool;
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.entity.vo.UserCategorySimpleVO;
 import com.am.adastra.entity.vo.UserCollectionSimpleVO;
@@ -11,6 +13,7 @@ import com.am.adastra.mapper.UserCollectionMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.repository.UserCollectionRedisRepository;
 import com.am.adastra.service.UserCollectionService;
+import com.am.adastra.util.BinarySearch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,6 +61,9 @@ public class UserCollectionServiceImpl implements UserCollectionService {
             //2.收藏夹中不存在此视频  调用mapper中的方法添加进入
             int raw = userCollectionMapper.add(videoOperateDTO);
             if (raw == 1) {
+                int indexPid = VideoPool.indexPid(videoOperateDTO.getPid());
+                Video video = BinarySearch.GetVideo(indexPid, Long.valueOf(videoOperateDTO.getAid()));
+                video.setFavorite(video.getFavorite() + 1);
                 log.info("添加成功");
             } else {
                 log.info("添加失败");
@@ -162,6 +168,4 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         }
         log.info("用户收藏记录写入缓存完成");
     }
-
-
 }
