@@ -4,6 +4,7 @@ import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.dto.AdminDTO;
 import com.am.adastra.entity.vo.AdminVO;
+import com.am.adastra.entity.vo.AdviseVO;
 import com.am.adastra.entity.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +38,6 @@ public interface AdminService {
     Map<String, Object> viewingPeriod();
 
     Map<String, Object> numberPersons();
+
+    List<AdviseVO> getAllAdvise();
 }
