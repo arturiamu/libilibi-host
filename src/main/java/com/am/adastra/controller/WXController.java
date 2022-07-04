@@ -108,12 +108,14 @@ public class WXController {
                  User user = new User();
                 user.setUsername(nickname);
                 user.setPassword(DigestUtils.md5Hex("12345678"));
-                user.setAccount("微信");
+                user.setAccount(openid);
                 user.setState("normal");
                 System.out.println(user.toString());
                 User wxuser = userService.register(user);
                 avatarMapper.addAvatar(wxuser.getId(),headimgurl);
             }
+
+
 
             return "redirect:http://localhost:8080";
         } catch ( JsonSyntaxException e) {
