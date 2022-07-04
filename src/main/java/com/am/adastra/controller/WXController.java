@@ -4,6 +4,7 @@ import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.mapper.AvatarMapper;
+import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
 import com.am.adastra.util.wx.ConstantPropertiesUtil;
@@ -15,11 +16,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -33,7 +36,12 @@ import java.util.HashMap;
 @Api(tags = "微信登录模块")
 @Controller
 @RequestMapping("/api/ucenter/wx")
+@CrossOrigin
 public class WXController {
+
+    private static final String CALL_BACK = "http://10.1.188.121:8080/";
+//    private static final String CALL_BACK = "redirect:http://localhost:8080";
+//    private static final String CALL_BACK = "redirect:http://adastra.isamumu.cn:8080";
 
     @Resource
     private AvatarMapper avatarMapper;
@@ -41,10 +49,13 @@ public class WXController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private UserMapper userMapper;
+
 
     @ApiOperation("微信登录回调")
     @GetMapping("callback")
-    public String callback(String code, String state) {
+    public String callback(String code, String state,HttpServletRequest request) {
 
         //得到授权临时票据code
         log.info(code);
@@ -67,7 +78,7 @@ public class WXController {
         String result = null;
         try {
             result = HttpClientUtils.get(accessTokenUrl);
-            log.info("accessToken:{}",result);
+            log.info("accessToken:{}", result);
         } catch (Exception e) {
             throw new SystemException("系统繁忙，请稍后重试");
         }
@@ -75,13 +86,12 @@ public class WXController {
         //解析json字符串
         Gson gson = new Gson();
         HashMap map = gson.fromJson(result, HashMap.class);
-        String accessToken = (String)map.get("access_token");
-        String openid = (String)map.get("openid");
+        String accessToken = (String) map.get("access_token");
+        String openid = (String) map.get("openid");
         try {
             //查询数据库当前用用户是否曾经使用过微信登录
-            Long userId = userService.getUserDaoByID(openid);
-            UserDBO member = userService.getDBOById(userId);
-            if(member == null){
+            UserDBO userDBO = userMapper.getDBOByAccount(openid);
+            if (userDBO == null) {
                 log.info("wx 新用户注册");
                 //访问微信的资源服务器，获取用户信息
                 String baseUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo" +
@@ -91,27 +101,28 @@ public class WXController {
                 String resultUserInfo = null;
                 try {
                     resultUserInfo = HttpClientUtils.get(userInfoUrl);
-                    log.info("resultUserInfo:{}",resultUserInfo);
+                    log.info("resultUserInfo:{}", resultUserInfo);
                 } catch (Exception e) {
                     throw new SystemException("系统繁忙，请稍后重试");
                 }
                 //解析json
                 HashMap<String, Object> mapUserInfo = gson.fromJson(resultUserInfo, HashMap.class);
-                String nickname = (String)mapUserInfo.get("nickname");  //昵称
-                String headimgurl = (String)mapUserInfo.get("headimgurl"); //对象
+                String nickname = (String) mapUserInfo.get("nickname");  //昵称
+                String headimgurl = (String) mapUserInfo.get("headimgurl"); //对象
                 //向数据库中插入一条记录
-                 User user = new User();
+                User user = new User();
                 user.setUsername(nickname);
                 user.setPassword(DigestUtils.md5Hex("12345678"));
                 user.setAccount(openid);
                 user.setState("normal");
-                log.info("wx user:{}",user);
+                log.info("wx user:{}", user);
                 User wxuser = userService.register(user);
-                avatarMapper.addAvatar(wxuser.getId(),headimgurl);
+                avatarMapper.addAvatar(wxuser.getId(), headimgurl);
             }
-
-            return "redirect:http://localhost:8080";
-        } catch ( JsonSyntaxException e) {
+            UserDBO user = userMapper.getDBOByAccount(openid);
+            request.getSession().setAttribute(UserController.USER_INFO_SESSION, POJOUtils.DBToUser(user));
+            return "redirect:" + CALL_BACK;
+        } catch (JsonSyntaxException e) {
             throw new SystemException("系统繁忙，请稍后重试");
         }
     }
@@ -152,6 +163,7 @@ public class WXController {
                 state);
 
         return "redirect:" + qrcodeUrl;
+//        return qrcodeUrl;
     }
 
 }
