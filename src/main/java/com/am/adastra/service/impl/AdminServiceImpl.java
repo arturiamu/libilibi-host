@@ -6,10 +6,7 @@ import com.am.adastra.entity.Admin;
 import com.am.adastra.entity.Item;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.dto.AdminDTO;
-import com.am.adastra.entity.vo.AdminVO;
-import com.am.adastra.entity.vo.UserHistorySimpleVO;
-import com.am.adastra.entity.vo.UserLoginLogVO;
-import com.am.adastra.entity.vo.UserVO;
+import com.am.adastra.entity.vo.*;
 import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.ex.UserNotLoginException;
@@ -428,6 +425,27 @@ public class AdminServiceImpl implements AdminService {
         map.put("XTitle", XTitle);
 
         return map;
+    }
+
+    /**
+     * 获取所有的用户反馈
+     * @return
+     */
+    @Override
+    public List<AdviseVO> getAllAdvise() {
+        //1.得到所有的用户反馈
+        List<AdviseVO> adviseVOList = adminMapper.getAllAdvise();
+        //2.遍历所有的用户反馈的用户id，得到他们的用户名
+        Map<Integer,String> map = new HashMap<>();
+        for (AdviseVO adviseVO :adviseVOList) {
+            if (map.containsKey(adviseVO.getUid())){
+                adviseVO.setUsername(map.get(adviseVO.getUid()));
+            }else {
+                UserDBO dboById = userMapper.getDBOById(adviseVO.getUid());
+                adviseVO.setUsername(dboById.getUsername());
+            }
+        }
+        return adviseVOList;
     }
 
 

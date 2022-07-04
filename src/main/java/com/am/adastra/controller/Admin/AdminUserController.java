@@ -4,6 +4,7 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.entity.vo.AdviseVO;
 import com.am.adastra.entity.vo.MessageVO;
 import com.am.adastra.entity.vo.UserLoginLogVO;
 import com.am.adastra.entity.vo.UserVO;
@@ -209,12 +210,20 @@ public class AdminUserController {
     }
 
     /**
-     * 获取用户所有的用户反馈
+     * 获取所有的用户反馈
      * @return
      */
-//    public Result<Advise> getAllAdvise(){
-//
-//    }
+    @GetMapping("/getAllAdvise")
+    public Result<List<AdviseVO>> getAllAdvise(){
+        Result<List<AdviseVO>> result = new Result<>();
+
+        List<AdviseVO> adviseVOList = adminService.getAllAdvise();
+
+        result.setSuccess(adviseVOList);
+
+        return result;
+
+    }
 
 
 }
