@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8160
   address: 0.0.0.0
   servlet:
     encoding:
@@ -16,9 +16,9 @@ spring:
     url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: teacher
     password: teacher
-#    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: root
+    #    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    #    username: root
+    #    password: root
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: localhost
@@ -61,7 +61,8 @@ sms:
       universal: 1419186
     sign: isamumu
   size: 6
-
+alipay:
+  call_back: http://adastra.isamumu.cn:9000/pay/callback
 aliyun:
   oss:
     file:

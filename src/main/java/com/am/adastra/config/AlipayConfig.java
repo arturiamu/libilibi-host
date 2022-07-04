@@ -2,11 +2,15 @@ package com.am.adastra.config;
 
 import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class AlipayConfig {
+
+    @Value("${alipay.call_back}")
+    private static String notifyUrl;
 
     // 1. 设置参数（全局只需设置一次）
     static {
@@ -32,7 +36,7 @@ public class AlipayConfig {
         config.alipayPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmNHH3/fDgnlpIm+phzaiN/IWnbqz8fQfms8qOrg1mOhPRC2gFDm/hqs47nfzki/vmvxCfigqp0XlOEyIKP5gxwqMfNSCMqdeLNBMO9RZJcP/r4oN1t7VK20GVQ9+yPu96wcVgH+o1HDEDvlFRVHLtg6hlxUFBf3lv+aqN32zW+ezDTJhZ4aXtVMB+e+AjprBJz99n3/9rTaSfDnjO9enB7bP7BYHhjxQEBzViHFAW6RBulWBMS5VLlE+FjtRuelj0GCfCleSSY7TdXhk2IPCqtPAeLgvtQRl3mWbi4Xzd4savEChBBVS8Qdln+bJk0x5pY9figwgpnap7R/MMyo6TwIDAQAB";
 
         //可设置异步通知接收服务地址（可选）
-        config.notifyUrl = "http://adastra.isamumu.cn:9000/pay/callback";
+        config.notifyUrl = notifyUrl;
 
         return config;
     }
