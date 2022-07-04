@@ -74,10 +74,9 @@ public class JwtUtils {
     /**
      * 根据token获取会员id （信息）
      */
-    public static String getMemberIdByJwtToken(HttpServletRequest request) {
-        String jwtToken = request.getHeader("token");
-        if(StringUtils.isEmpty(jwtToken)) return "";
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
+    public static String getMemberIdByJwtToken(String token) {
+        if(StringUtils.isEmpty(token)) return "";
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         return (String)claims.get("id");
     }

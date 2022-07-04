@@ -208,16 +208,28 @@ public class UserController {
 
 
     @ApiOperation(value = "根据token获取登录信息")
-    @GetMapping("/auth/getLoginInfo")
-    public Result<User> getLoginInfo(HttpServletRequest request){
+    @PostMapping("/auth/getLoginInfo")
+    public Result<User> getLoginInfo(@RequestBody String token, HttpServletRequest request) {
+        if (token.isEmpty()) {
+            throw new ValidException("token 无效");
+        }
         try {
-            String memberId = JwtUtils.getMemberIdByJwtToken(request);
+            log.info("token：{}", token);
+            JSONObject jsonObject = JSON.parseObject(token);
+            String jsToken = jsonObject.getString("token");
+            log.info("jsToken：{}", jsToken);
+            String  tk = jsToken.substring(6);
+            log.info("tk：{}", tk);
+            String memberId = JwtUtils.getMemberIdByJwtToken(tk);
+            log.info("微信用户jwt id：{}", memberId);
             UserDBO loginInfoVo = userMapper.getDBOByAccount(memberId);
+            log.info("微信用户：{}", loginInfoVo);
             Result<User> result = new Result<>();
             request.getSession().setAttribute(USER_INFO_SESSION, POJOUtils.DBToUser(loginInfoVo));
             result.setSuccess(POJOUtils.DBToUser(loginInfoVo));
             return result;
-        }catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new ValidException("微信登录错误");
         }
     }
