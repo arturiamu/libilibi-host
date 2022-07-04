@@ -124,7 +124,8 @@ public class UserMessageController {
     @ApiOperationSupport(order = 25)
     @PostMapping("/send")
     public Result<Void> send(HttpServletRequest request, @RequestBody @Validated MessageDTO messageDTO, BindingResult errors) {
-//        log.warn(request.getSession().getId());
+        log.warn(request.getSession().getId());
+        log.warn("MessageDTO:{}", messageDTO);
         log.info("发送消息：");
         Result<Void> result = new Result<>();
         if (errors.hasErrors()) {

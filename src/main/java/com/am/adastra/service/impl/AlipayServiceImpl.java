@@ -40,7 +40,8 @@ public class AlipayServiceImpl implements AlipayService {
     public String toPay(String subject, BigDecimal money, long id) throws Exception {
         String outTradeNo = this.generateTradeNo();
         AlipayTradePagePayResponse pay = Factory.Payment.Page().pay(subject, outTradeNo,
-                String.valueOf(money), "http://adastra.isamumu.cn/");
+//                String.valueOf(money), "http://adastra.isamumu.cn/");
+                String.valueOf(money), "http://10.1.188.121:8080");
         String payForm = null;
         if (ResponseChecker.success(pay)) {
             payForm = pay.getBody();

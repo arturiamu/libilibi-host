@@ -13,12 +13,12 @@ spring:
     deserialization:
       fail_on_unknown_properties: false
   datasource:
-    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: teacher
-    password: teacher
-    #    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    #    username: root
-    #    password: root
+    #    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    #    username: teacher
+    #    password: teacher
+    url: jdbc:mysql://10.1.188.121:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: rootmlb
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
     host: localhost
@@ -62,7 +62,9 @@ sms:
     sign: isamumu
   size: 6
 alipay:
-  call_back: http://adastra.isamumu.cn:8160/pay/callback
+  #  call_back: http://adastra.isamumu.cn:8160/pay/callback
+  #  call_back: http://localhost:8160/pay/callback
+  call_back: http://10.1.188.121:8160/pay/callback
 aliyun:
   oss:
     file:
@@ -90,7 +92,8 @@ wx:
   open:
     app_id: wxed9954c01bb89b47
     app_secret: a7482517235173ddb4083788de60b90e
-    redirect_url: http://adastra.isamumu.cn:8160/api/ucenter/wx/callback
-#    redirect_url: http://localhost:8160/api/ucenter/wx/callback
+    #    redirect_url: http://adastra.isamumu.cn:8160/api/ucenter/wx/callback
+    #    redirect_url: http://localhost:8160/api/ucenter/wx/callback
+    redirect_url: http://10.1.188.121:8160/api/ucenter/wx/callback
 
 
