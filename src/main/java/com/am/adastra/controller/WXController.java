@@ -115,6 +115,7 @@ public class WXController {
                 avatarMapper.addAvatar(wxuser.getId(),headimgurl);
             }
 
+
             return "redirect:http://localhost:8080";
         } catch ( JsonSyntaxException e) {
             e.printStackTrace();
