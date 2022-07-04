@@ -2,22 +2,27 @@ package com.am.adastra.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.am.adastra.entity.UserDBO;
 import com.am.adastra.entity.dto.UpdatePwdDTO;
 import com.am.adastra.entity.param.ValidationRules;
 import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
+import com.am.adastra.ex.LoginException;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
+import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.service.UserService;
-import com.am.adastra.util.EmailUtil;
-import com.am.adastra.util.IPUtil;
-import com.am.adastra.util.Result;
-import com.am.adastra.util.SMSUtil;
+import com.am.adastra.util.*;
+import com.am.adastra.util.wx.ConstantPropertiesUtil;
+import com.am.adastra.util.wx.HttpClientUtils;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +30,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -46,6 +54,9 @@ public class UserController {
     public static final Pattern patternPhone = Pattern.compile("^1[3|4|5|8|9][0-9]\\d{8}$");
     public static final String AD_ASTRA = "ad-astra 官方团队";
     public static final String WELCOME = "hi，欢迎加入ad astra，让我们开始愉快的探索之旅吧~";
+
+    @Resource
+    private AvatarMapper avatarMapper;
 
     @Resource
     private UserService userService;
@@ -101,6 +112,8 @@ public class UserController {
         }
         return result;
     }
+
+
 
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 10)
@@ -189,5 +202,6 @@ public class UserController {
         result.setSuccess(getUser);
         return result;
     }
+
 
 }

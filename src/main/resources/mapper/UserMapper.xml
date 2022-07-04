@@ -122,4 +122,9 @@
         insert into user_login_log(uid, ip)
         values (#{uid}, #{ip})
     </insert>
+
+    <!--查询user的id-->
+    <select id="getUserDaoByID" parameterType="string" resultType="long">
+        select id from wxUser where openid=#{openid}
+    </select>
 </mapper>

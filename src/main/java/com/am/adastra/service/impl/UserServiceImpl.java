@@ -227,4 +227,10 @@ public class UserServiceImpl implements UserService {
         return litMap;
     }
 
+    @Override
+    public Long getUserDaoByID(String ID) {
+        Long userDaoID = userMapper.getUserDaoByID(ID);
+        return userDaoID;
+    }
+
 }
