@@ -208,5 +208,13 @@ public class AdminUserController {
         return result;
     }
 
+    /**
+     * 获取用户所有的用户反馈
+     * @return
+     */
+//    public Result<Advise> getAllAdvise(){
+//
+//    }
+
 
 }
