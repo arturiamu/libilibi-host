@@ -2,27 +2,24 @@ package com.am.adastra.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.am.adastra.entity.UserDBO;
-import com.am.adastra.entity.dto.UpdatePwdDTO;
-import com.am.adastra.entity.param.ValidationRules;
-import com.am.adastra.entity.dto.UserRegisterDTO;
 import com.am.adastra.entity.User;
-import com.am.adastra.ex.LoginException;
+import com.am.adastra.entity.dto.UpdatePwdDTO;
+import com.am.adastra.entity.dto.UserRegisterDTO;
+import com.am.adastra.entity.param.ValidationRules;
 import com.am.adastra.ex.SystemException;
 import com.am.adastra.ex.UserNotLoginException;
 import com.am.adastra.ex.ValidException;
 import com.am.adastra.mapper.AvatarMapper;
+import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.UserService;
-import com.am.adastra.util.*;
-import com.am.adastra.util.wx.ConstantPropertiesUtil;
-import com.am.adastra.util.wx.HttpClientUtils;
+import com.am.adastra.util.EmailUtil;
+import com.am.adastra.util.IPUtil;
+import com.am.adastra.util.Result;
+import com.am.adastra.util.SMSUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
@@ -60,6 +54,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private SMSUtil smsUtil;
     @Resource
@@ -114,7 +110,6 @@ public class UserController {
     }
 
 
-
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 10)
     @PostMapping("/login")
@@ -161,6 +156,16 @@ public class UserController {
         return result;
     }
 
+    @ApiOperation("判断用户是否vip")
+    @ApiOperationSupport(order = 13)
+    @GetMapping("/isVip")
+    public Result<Boolean> isVip(HttpServletRequest request) {
+        User getUser = userService.isLogin(request.getSession());
+        Result<Boolean> result = new Result<>();
+        result.setSuccess(userMapper.isVip(getUser.getId()) > 0);
+        return result;
+    }
+
     @ApiOperation("退出登录")
     @ApiOperationSupport(order = 30)
     @GetMapping("/logout")
@@ -187,7 +192,6 @@ public class UserController {
         return result;
     }
 
-
     @ApiOperation("更新用户信息")
     @ApiOperationSupport(order = 16)
     @PostMapping("/update")
@@ -202,6 +206,4 @@ public class UserController {
         result.setSuccess(getUser);
         return result;
     }
-
-
 }
