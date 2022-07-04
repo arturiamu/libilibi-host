@@ -40,9 +40,9 @@ import java.util.HashMap;
 @CrossOrigin
 public class WXController {
 
-    private static final String CALL_BACK = "http://10.1.188.121:8080";
+//    private static final String CALL_BACK = "http://10.1.188.121:8080";
 //    private static final String CALL_BACK = "redirect:http://localhost:8080";
-//    private static final String CALL_BACK = "redirect:http://adastra.isamumu.cn:8080";
+    private static final String CALL_BACK = "redirect:http://adastra.isamumu.cn:8080";
 
     @Resource
     private AvatarMapper avatarMapper;
