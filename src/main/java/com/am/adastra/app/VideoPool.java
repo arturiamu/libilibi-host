@@ -6,6 +6,7 @@ import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.mapper.ItemMapper;
 import com.am.adastra.mapper.UserMapper;
 import com.am.adastra.service.VideoService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,6 +26,7 @@ import java.util.*;
  */
 @Slf4j
 @Component
+@Data
 public class VideoPool implements ApplicationRunner {
     public static VideoPool that;
 
@@ -40,7 +42,7 @@ public class VideoPool implements ApplicationRunner {
     @Resource
     public AvatarMapper avatarMapper;
 
-    private static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
+    public static final List<List<Video>> VIDEO_POOL = new ArrayList<>();
     private static final Map<Integer, Integer> PID_INDEX = new HashMap<>();
     public static final List<Item> items = new ArrayList<>();
     public static final List<String> DEFAULT_AVATAR = new ArrayList<>();
