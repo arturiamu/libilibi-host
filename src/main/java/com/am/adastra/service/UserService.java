@@ -45,4 +45,5 @@ public interface UserService {
 
     List<Map<String,Object>> ipList();
 
+    Long getUserDaoByID(String openid);
 }

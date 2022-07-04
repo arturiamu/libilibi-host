@@ -36,7 +36,7 @@
         from videos
         where pid = #{pid}
         order by aid
-#         limit 0,100
+        limit 0,100
     </select>
 
     <update id="like">

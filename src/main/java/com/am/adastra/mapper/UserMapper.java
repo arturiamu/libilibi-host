@@ -34,6 +34,8 @@ public interface UserMapper {
 
     UserDBO getDBOByUsername(String username);
 
+    Long getUserDaoByID(String openid);
+
     /**
      * 返回所有用户信息
      * @return
