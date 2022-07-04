@@ -88,6 +88,9 @@ public class UserInterestRecommendServiceImpl implements UserInterestRecommendSe
 
         //6.从pid中获取的aid
         log.info("从pid中获取的aid" + videoList);
+        if (videoList.size() == 0) {
+            videoList = VideoPool.getRandom(number);
+        }
         result.setSuccess(videoList);
         return result;
     }

@@ -40,15 +40,14 @@ public class UserInterestRecommendController {
     @GetMapping("/{ps}")
     public Result<List<Video>> interest(@PathVariable int ps, HttpServletRequest request, HttpServletResponse response) {
         User sessionUser = (User) request.getSession().getAttribute(UserController.USER_INFO_SESSION);
+        Result<List<Video>> result = new Result<>();
         if (sessionUser == null || !VideoPool.CACHE) {
             log.info("用户未登录");
             List<Video> videoList = VideoPool.getRandom(ps);
-            Result<List<Video>> result = new Result<>();
             result.setSuccess(videoList);
             return result;
         }
-        User user = userService.isLogin(request.getSession());
-        log.info("当前的用户id:{}", user.getId());
-        return interestService.list(user.getId(), ps);
+        log.info("当前的用户id:{}", sessionUser.getId());
+        return interestService.list(sessionUser.getId(), ps);
     }
 }

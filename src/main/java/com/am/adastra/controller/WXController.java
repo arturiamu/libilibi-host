@@ -2,6 +2,7 @@ package com.am.adastra.controller;
 
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
+import com.am.adastra.ex.SystemException;
 import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.service.UserService;
 import com.am.adastra.util.POJOUtils;
@@ -46,9 +47,8 @@ public class WXController {
     public String callback(String code, String state) {
 
         //得到授权临时票据code
-        System.out.println(code);
-        System.out.println(state);
-
+        log.info(code);
+        log.info(state);
         //从redis中将state获取出来，和当前传入的state作比较
         //如果一致则放行，如果不一致则抛出异常：非法访问
 
@@ -67,10 +67,9 @@ public class WXController {
         String result = null;
         try {
             result = HttpClientUtils.get(accessTokenUrl);
-            System.out.println("accessToken=============" + result);
+            log.info("accessToken:{}",result);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("获取token失败");
+            throw new SystemException("系统繁忙，请稍后重试");
         }
 
         //解析json字符串
@@ -83,8 +82,7 @@ public class WXController {
             Long userId = userService.getUserDaoByID(openid);
             UserDBO member = userService.getDBOById(userId);
             if(member == null){
-                System.out.println("新用户注册");
-
+                log.info("wx 新用户注册");
                 //访问微信的资源服务器，获取用户信息
                 String baseUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo" +
                         "?access_token=%s" +
@@ -93,35 +91,28 @@ public class WXController {
                 String resultUserInfo = null;
                 try {
                     resultUserInfo = HttpClientUtils.get(userInfoUrl);
-                    System.out.println("resultUserInfo==========" + resultUserInfo);
+                    log.info("resultUserInfo:{}",resultUserInfo);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("获取用户信息错误");
+                    throw new SystemException("系统繁忙，请稍后重试");
                 }
-
                 //解析json
                 HashMap<String, Object> mapUserInfo = gson.fromJson(resultUserInfo, HashMap.class);
                 String nickname = (String)mapUserInfo.get("nickname");  //昵称
                 String headimgurl = (String)mapUserInfo.get("headimgurl"); //对象
-
                 //向数据库中插入一条记录
                  User user = new User();
                 user.setUsername(nickname);
                 user.setPassword(DigestUtils.md5Hex("12345678"));
                 user.setAccount("微信");
                 user.setState("normal");
-                System.out.println(user.toString());
+                log.info("wx user:{}",user);
                 User wxuser = userService.register(user);
                 avatarMapper.addAvatar(wxuser.getId(),headimgurl);
             }
-
-
             return "redirect:http://localhost:8080";
         } catch ( JsonSyntaxException e) {
-            e.printStackTrace();
-            System.out.println("登陆失败");
+            throw new SystemException("系统繁忙，请稍后重试");
         }
-        return "错误";
     }
 
     @ApiOperation("微信登录")
@@ -140,14 +131,12 @@ public class WXController {
         try {
             redirectUrl = URLEncoder.encode(redirectUrl, "UTF-8"); //url编码
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            System.out.println("登陆错误");
+            throw new SystemException("系统繁忙，请稍后重试");
         }
 
         // 防止csrf攻击（跨站请求伪造攻击）
         //String state = UUID.randomUUID().toString().replaceAll("-", "");//一般情况下会使用一个随机数
         String state = "imhelen";//为了让大家能够使用我搭建的外网的微信回调跳转服务器，这里填写你在ngrok的前置域名
-        System.out.println("state = " + state);
 
         // 采用redis等进行缓存state 使用sessionId为key 30分钟后过期，可配置
         //键："wechar-open-state-" + httpServletRequest.getSession().getId()
