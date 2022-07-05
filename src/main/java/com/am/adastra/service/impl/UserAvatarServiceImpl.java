@@ -2,6 +2,8 @@ package com.am.adastra.service.impl;
 
 import com.am.adastra.mapper.AvatarMapper;
 import com.am.adastra.service.UserAvatarService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import java.util.List;
  * @Return :
  * @Description ：
  */
+@Slf4j
 @Component
 public class UserAvatarServiceImpl implements UserAvatarService {
     @Resource

@@ -12,15 +12,12 @@ spring:
     defaultPropertyInclusion: non_null
     deserialization:
       fail_on_unknown_properties: false
-  datasource:
-    #    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    #    username: teacher
-    #    password: teacher
-    url: jdbc:mysql://10.1.188.121:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+  datasource: # mysql配置
+    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: rootmlb
     type: com.alibaba.druid.pool.DruidDataSource
-  redis:
+  redis: # redis配置
     host: localhost
     port: 6379
     password:
@@ -36,7 +33,7 @@ spring:
         max-wait: -1
         max-idle: 5
         min-idle: 1
-  mail:
+  mail: # 邮件配置
     host: smtp.qq.com
     username: 2762404119@qq.com
     password: wopenrzwqnfhdhdh
@@ -53,7 +50,7 @@ spring:
     servlet:
       content-type: text/html
     cache: false
-sms:
+sms: # 腾讯云短信接口配置
   app:
     id: 1400683116
     key: 95f32e5cdb35bbc88dbcedb41b6934e4
@@ -61,11 +58,14 @@ sms:
       universal: 1419186
     sign: isamumu
   size: 6
-alipay:
-  #  call_back: http://adastra.isamumu.cn:8160/pay/callback
-  #  call_back: http://localhost:8160/pay/callback
+wx: # 微信开放平台接口配置
+  open:
+    app_id: wxed9954c01bb89b47
+    app_secret: a7482517235173ddb4083788de60b90e
+    redirect_url: http://localhost:8160/api/ucenter/wx/callback
+alipay: # 支付宝回调api
   call_back: http://10.1.188.121:8160/pay/callback
-aliyun:
+aliyun: # 阿里云对象存储配置
   oss:
     file:
       endpoint: oss-cn-hangzhou.aliyuncs.com
@@ -79,7 +79,6 @@ mybatis:
   configuration:
     cache-enabled: true
     map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 logging:
   level:
     com:
@@ -87,13 +86,3 @@ logging:
         adastra: warn
 knife4j:
   enable: true
-
-wx:
-  open:
-    app_id: wxed9954c01bb89b47
-    app_secret: a7482517235173ddb4083788de60b90e
-    #    redirect_url: http://adastra.isamumu.cn:8160/api/ucenter/wx/callback
-    #    redirect_url: http://localhost:8160/api/ucenter/wx/callback
-    redirect_url: http://10.1.188.121:8160/api/ucenter/wx/callback
-
-

@@ -97,7 +97,7 @@ public class VideoPool implements ApplicationRunner {
         for (int i = 0; i < items.size(); i++) {
             PID_INDEX.put(items.get(i).getPid(), i);
         }
-        log.warn("total items:{}",items.size());
+        log.warn("total items:{} s",items.size());
         int total = 0;
         for (Item item : items) {
             List<Video> videoList = that.videoService.getByPId(item.getPid());

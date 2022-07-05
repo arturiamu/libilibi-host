@@ -51,7 +51,6 @@ public class AlipayController {
     @ApiOperation("支付回调")
     @ApiOperationSupport(order = 5)
     public String notifyCallback(HttpServletRequest request) throws Exception {
-        System.out.println("进入异步");
         String success = "success";
         String failure = "failure";
 
@@ -109,9 +108,7 @@ public class AlipayController {
             userVip.setStartVipTime(startVipTime);
             userVip.setEndVipTime(endVipTime);
             userVip.setIsPaySuccess(trade_status);
-            System.out.println(userVip);
             alipayService.updataInfo(userVip);
-
         }
 
         log.info("请求参数：{}", params);

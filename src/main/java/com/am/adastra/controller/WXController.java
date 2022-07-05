@@ -1,5 +1,6 @@
 package com.am.adastra.controller;
 
+import com.am.adastra.app.ConstValue;
 import com.am.adastra.entity.User;
 import com.am.adastra.entity.UserDBO;
 import com.am.adastra.ex.SystemException;
@@ -16,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,10 +41,6 @@ import java.util.HashMap;
 @RequestMapping("/api/ucenter/wx")
 @CrossOrigin
 public class WXController {
-
-    private static final String CALL_BACK = "http://10.1.188.121:8080";
-//    private static final String CALL_BACK = "http://adastra.isamumu.cn:8080";
-//    private static final String CALL_BACK = "http://localhost:8080";
 
     @Resource
     private AvatarMapper avatarMapper;
@@ -89,7 +87,7 @@ public class WXController {
         HashMap map = gson.fromJson(result, HashMap.class);
         String accessToken = (String) map.get("access_token");
         String openid = (String) map.get("openid");
-        String jwtToken= null;
+        String jwtToken = null;
         try {
             //查询数据库当前用用户是否曾经使用过微信登录
             UserDBO userDBO = userMapper.getDBOByAccount(openid);
@@ -123,9 +121,9 @@ public class WXController {
             }
             //TODO 登录  使用jwt进行生成token字符串
             UserDBO user = userMapper.getDBOByAccount(openid);
-            jwtToken = JwtUtils.getJwtToken(user.getAccount(),user.getUsername());
+            jwtToken = JwtUtils.getJwtToken(user.getAccount(), user.getUsername());
 //            request.getSession().setAttribute(UserController.USER_INFO_SESSION, POJOUtils.DBToUser(user));
-            return "redirect:" + CALL_BACK+"?token="+jwtToken;
+            return "redirect:" + ConstValue.WX_CALLBACK + "?token=" + jwtToken;
         } catch (JsonSyntaxException e) {
             throw new SystemException("系统繁忙，请稍后重试");
         }
@@ -165,8 +163,6 @@ public class WXController {
                 ConstantPropertiesUtil.WX_OPEN_APP_ID,
                 redirectUrl,
                 state);
-
-        System.out.println(qrcodeUrl);
 
         return "redirect:" + qrcodeUrl;
 //        return qrcodeUrl;

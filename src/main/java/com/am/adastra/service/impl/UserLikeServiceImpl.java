@@ -1,10 +1,13 @@
 package com.am.adastra.service.impl;
 
+import com.am.adastra.app.VideoPool;
+import com.am.adastra.entity.Video;
 import com.am.adastra.entity.dto.VideoOperateDTO;
 import com.am.adastra.ex.RepeatException;
 import com.am.adastra.mapper.UserLikeMapper;
 import com.am.adastra.service.UserLikeService;
 import com.am.adastra.service.VideoService;
+import com.am.adastra.util.BinarySearch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,12 +40,18 @@ public class UserLikeServiceImpl implements UserLikeService {
         }
         userLikeMapper.addLike(videoOperateDTO);
         videoService.like(videoOperateDTO.getAid());
+        int indexPid = VideoPool.indexPid(videoOperateDTO.getPid());
+        Video video = BinarySearch.GetVideo(indexPid, Long.valueOf(videoOperateDTO.getAid()));
+        video.setLike(video.getLike() + 1);
     }
 
     @Override
     public void cancelLike(VideoOperateDTO videoOperateDTO) {
         userLikeMapper.cancelLike(videoOperateDTO);
         videoService.unlike(videoOperateDTO.getAid());
+        int indexPid = VideoPool.indexPid(videoOperateDTO.getPid());
+        Video video = BinarySearch.GetVideo(indexPid, Long.valueOf(videoOperateDTO.getAid()));
+        video.setLike(video.getLike() - 1);
     }
 
     @Override

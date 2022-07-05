@@ -4,12 +4,14 @@ import com.alipay.easysdk.factory.Factory;
 import com.alipay.easysdk.kernel.util.ResponseChecker;
 import com.alipay.easysdk.payment.common.models.AlipayTradeQueryResponse;
 import com.alipay.easysdk.payment.page.models.AlipayTradePagePayResponse;
+import com.am.adastra.app.ConstValue;
 import com.am.adastra.entity.UserVip;
 import com.am.adastra.mapper.AlipayMapper;
 import com.am.adastra.service.AlipayService;
 import com.am.adastra.util.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -40,8 +42,7 @@ public class AlipayServiceImpl implements AlipayService {
     public String toPay(String subject, BigDecimal money, long id) throws Exception {
         String outTradeNo = this.generateTradeNo();
         AlipayTradePagePayResponse pay = Factory.Payment.Page().pay(subject, outTradeNo,
-//                String.valueOf(money), "http://adastra.isamumu.cn/");
-                String.valueOf(money), "http://10.1.188.121:8080");
+                String.valueOf(money), ConstValue.ALIPAY_CALLBACK);
         String payForm = null;
         if (ResponseChecker.success(pay)) {
             payForm = pay.getBody();
