@@ -13,9 +13,9 @@ spring:
     deserialization:
       fail_on_unknown_properties: false
   datasource: # mysql配置
-    url: jdbc:mysql://localhost:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: rootmlb
+    url: jdbc:mysql://175.24.175.35:3306/adastra?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: teacher
+    password: teacher
     type: com.alibaba.druid.pool.DruidDataSource
   redis: # redis配置
     host: localhost

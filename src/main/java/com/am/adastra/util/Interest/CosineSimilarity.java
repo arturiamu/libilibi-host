@@ -18,7 +18,7 @@ public class CosineSimilarity {
     static double bottom = 0.2;//分数低于多少看作0
 
     /* 计算两个用户的相似性*/
-    static double check(double[] w, double[] v) {
+    public static double check(double[] w, double[] v) {
         //1.过滤无效数据（将小于等于2的位置看作0，将等于0的位置忽略）
         //同时也将原数组中的无效数据剔除
         ArrayList<Double> copyW = new ArrayList<>();

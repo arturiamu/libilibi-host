@@ -377,6 +377,9 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Map<String, Object> numberPersons() {
+
+        log.info("获取各个时间段的访问人数");
+
         Map<String, Object> map = new HashMap<>();
         long[] today = new long[24];//今天
         long[] dayBefore = new long[24];//一天前
@@ -385,26 +388,43 @@ public class AdminServiceImpl implements AdminService {
         //1.获取所有用户的登录信息
         List<UserLoginLogVO> userLoginLogList = userMapper.loginList();
         for (UserLoginLogVO loginLog : userLoginLogList) {
+
+//            log.info("当前用户的登录日志"+loginLog.toString());
+
             //2.遍历所有的登录日志，记录每个时间段的观看人数
             Date logTime = loginLog.getTime();
             if (logTime == null) continue;
 
             Date dateNow = new Date();//得到当前时间
+//            System.out.println("当前时间 ==》 " + dateNow + "   " + dateNow.getTime());
+//            System.out.println("历史时间时间 ==》 " + logTime + "   " + logTime.getTime());
+
             //计算相差多少个小时
             long datePoor = GetDatePoor.getDatePoor(dateNow, logTime);
+            long datePoor2 = GetDatePoor.getDatePoor(logTime, dateNow);
+
+            long diff = dateNow.getTime() - logTime.getTime();
+            long nd = 1000 * 24 * 60 * 60;
+            // 计算差多少天
+            long day = diff / nd;
+//            System.out.println("计算差多少天" + day);
+
+
+
+
             //得到历史时间是当天的第几个小时
             Calendar calendarLogTime = Calendar.getInstance();
             calendarLogTime.setTime(new Date());
             calendarLogTime.setTime(logTime);
             int hourLog = calendarLogTime.get(Calendar.HOUR_OF_DAY);
 
-            if (datePoor < 24) {//说明是今天
+            if (day == 0) {//说明是今天
                 today[hourLog]++;
             }
-            if (datePoor > 24) {//说明是一天前
+            if (day == 1) {//说明是一天前
                 dayBefore[hourLog]++;
             }
-            if (datePoor > 24 * 7) {//说明是七天前
+            if (day >= 7) {//说明是七天前
                 sevenDaysAgo[hourLog]++;
             }
         }

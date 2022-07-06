@@ -65,6 +65,7 @@ public class EchartsController {
     }
 
     /**
+     * 对于所有用户
      * 获取21个视频大分类的观看次数，返回给前端
      */
     @ApiOperation("获取21个视频大分类的观看次数")
@@ -81,6 +82,7 @@ public class EchartsController {
     }
 
     /**
+     * 对于单个用户
      * 获取21个视频大分类的观看次数，返回给前端
      */
     @ApiOperation("获取21个视频大分类的观看次数")
